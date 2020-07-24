@@ -74,23 +74,27 @@ public class ControllerAddOrderWindow implements DBWindow {
         checkConnect.createWindow();
     }
 
-    public void checkStatusWait() {
+    @FXML
+    private void checkStatusWait() {
         statusSplitMenuButton.setText(waitMenuItem.getText());
     }
 
-    public void checkStatusStart() {
+    @FXML
+    private void checkStatusStart() {
         statusSplitMenuButton.setText(startMenuItem.getText());
     }
 
-    public void checkStatusStop() {
+    @FXML
+    private void checkStatusStop() {
         statusSplitMenuButton.setText(stopMenuItem.getText());
     }
 
-    public void checkStatusEnd() {
+    @FXML
+    private void checkStatusEnd() {
         statusSplitMenuButton.setText(endMenuItem.getText());
     }
 
-    public void clearSelectOrder() {
+    private void clearSelectOrder() {
         statusSplitMenuButton.setText("");
         sizeOrderTextField.setText("");
         stageTextField.setText("");
