@@ -18,7 +18,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -101,15 +100,6 @@ public class ControllerAddMaterialWindow implements DBWindow {
         }
     }
 
-    private Boolean isNumber(String strNumber) {
-        try {
-            new BigInteger(strNumber);
-        } catch (NumberFormatException | NullPointerException nfe) {
-            return false;
-        }
-        return true;
-    }
-
     private Boolean checkValueText() {
         Boolean bool = true;
 
@@ -119,14 +109,14 @@ public class ControllerAddMaterialWindow implements DBWindow {
         } else {
             materialLabel.setText("");
         }
-        if (!isNumber(priceTextField.getText())) {
-            priceLabel.setText("Please enter number price");
+        if (priceTextField.getText().isEmpty()) {
+            priceLabel.setText("Please enter price");
             bool = false;
         } else {
             priceLabel.setText("");
         }
-        if (!isNumber(amountTextField.getText())) {
-            amountLabel.setText("Please enter number amount");
+        if (amountTextField.getText().isEmpty()) {
+            amountLabel.setText("Please enter amount");
             bool = false;
         } else {
             amountLabel.setText("");
@@ -137,7 +127,7 @@ public class ControllerAddMaterialWindow implements DBWindow {
         } else {
             unitLabel.setText("");
         }
-        if (!isNumber(sizeTextField.getText())) {
+        if (sizeTextField.getText().isEmpty()) {
             sizeLabel.setText("Please enter size");
             bool = false;
         } else {
