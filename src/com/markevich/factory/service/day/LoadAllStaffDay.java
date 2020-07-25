@@ -1,7 +1,7 @@
 package com.markevich.factory.service.day;
 
-import biznesObgectFactory.Day;
-import biznesObgectFactory.StaffDays;
+import businessObjectFactoryBox.Day;
+import businessObjectFactoryBox.StaffDays;
 import com.markevich.factory.Connect;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,7 +30,7 @@ public class LoadAllStaffDay {
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         List<StaffDays> listStaffDay = new ArrayList<>();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        Integer statusCode = jsonObjectHeader.getInt("status-code");
+        int statusCode = jsonObjectHeader.getInt("status-code");
         String statusMessage = jsonObjectHeader.getString("status-message");
         System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");
@@ -43,8 +43,7 @@ public class LoadAllStaffDay {
             staffDay.setStaffId(new BigInteger(object.getString("staff-id")));
             String daysString = (object.getString("days"));
             String[] daysArray = daysString.split("#");
-            for (int j = 0; j < daysArray.length; j++) {
-                String dayStr = daysArray[j];
+            for (String dayStr : daysArray) {
                 String[] dayArray = dayStr.split("/");
                 if (dayArray.length <= 1) {
                     break;

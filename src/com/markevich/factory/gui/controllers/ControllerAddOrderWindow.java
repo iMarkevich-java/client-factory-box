@@ -1,7 +1,8 @@
 package com.markevich.factory.gui.controllers;
 
-import biznesObgectFactory.Client;
-import biznesObgectFactory.Order;
+
+import businessObjectFactoryBox.Client;
+import businessObjectFactoryBox.Order;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
@@ -108,7 +109,7 @@ public class ControllerAddOrderWindow implements DBWindow {
     }
 
     private Boolean checkValueText() {
-        Boolean bool = true;
+        boolean bool = true;
 
         if (clientNameLabel.getText().isEmpty()) {
             bool = false;

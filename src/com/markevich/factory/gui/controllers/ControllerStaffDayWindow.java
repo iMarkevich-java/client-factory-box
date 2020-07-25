@@ -1,9 +1,9 @@
 package com.markevich.factory.gui.controllers;
 
-import biznesObgectFactory.Day;
-import biznesObgectFactory.Order;
-import biznesObgectFactory.Staff;
-import biznesObgectFactory.StaffDays;
+import businessObjectFactoryBox.Day;
+import businessObjectFactoryBox.Order;
+import businessObjectFactoryBox.Staff;
+import businessObjectFactoryBox.StaffDays;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
@@ -72,7 +72,9 @@ public class ControllerStaffDayWindow implements DBWindow {
                     break;
                 }
             }
-            order.deleteStage(day.getProductivity().toString());
+            if (!(order == null)) {
+                order.deleteStage(day.getProductivity().toString());
+            }
             ServiceFactory.OrderServices().update(order);
             reloadWindow();
         } else {
@@ -90,7 +92,7 @@ public class ControllerStaffDayWindow implements DBWindow {
     }
 
     private Boolean checkValueText() {
-        Boolean bool = true;
+        boolean bool = true;
 
         if (staffDayDatePicker.getValue() == null) {
             dateLabel.setText("Please select date");

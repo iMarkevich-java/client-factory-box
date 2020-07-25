@@ -1,6 +1,6 @@
 package com.markevich.factory.service.material;
 
-import biznesObgectFactory.Material;
+import businessObjectFactoryBox.Material;
 import com.markevich.factory.service.Service;
 
 import java.util.List;

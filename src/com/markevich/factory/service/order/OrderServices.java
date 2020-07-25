@@ -1,6 +1,6 @@
 package com.markevich.factory.service.order;
 
-import biznesObgectFactory.Order;
+import businessObjectFactoryBox.Order;
 import com.markevich.factory.service.Service;
 
 import java.util.List;
@@ -10,7 +10,7 @@ public class OrderServices implements Service<Order> {
     @Override
     public List<Order> loadAll() {
         LoadAllOrder loadAllOrder = new LoadAllOrder();
-        return loadAllOrder.LoadAllOrder();
+        return loadAllOrder.loadAllOrder();
     }
 
     @Override

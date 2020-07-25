@@ -1,6 +1,6 @@
 package com.markevich.factory.gui.controllers;
 
-import biznesObgectFactory.User;
+import businessObjectFactoryBox.User;
 import com.markevich.factory.ConnectDataUser;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;

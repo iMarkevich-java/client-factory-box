@@ -1,6 +1,6 @@
 package com.markevich.factory.service.user;
 
-import biznesObgectFactory.User;
+import businessObjectFactoryBox.User;
 
 public class UserServices {
     public UserServices() {

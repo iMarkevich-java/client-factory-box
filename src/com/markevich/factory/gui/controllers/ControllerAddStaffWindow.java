@@ -1,7 +1,7 @@
 package com.markevich.factory.gui.controllers;
 
 
-import biznesObgectFactory.Staff;
+import businessObjectFactoryBox.Staff;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
@@ -109,7 +109,7 @@ public class ControllerAddStaffWindow implements DBWindow {
     }
 
     private Boolean checkValueText() {
-        Boolean bool = true;
+        boolean bool = true;
 
         if (urlPhoto == null) {
             photoLabel.setText("Please select date");

@@ -1,6 +1,6 @@
 package com.markevich.factory.service.client;
 
-import biznesObgectFactory.Client;
+import businessObjectFactoryBox.Client;
 import com.markevich.factory.Connect;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,7 +24,7 @@ public class LoadClientByID {
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         Client client = new Client();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        Integer statusCode = jsonObjectHeader.getInt("status-code");
+        int statusCode = jsonObjectHeader.getInt("status-code");
         String statusMessage = jsonObjectHeader.getString("status-message");
         System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");

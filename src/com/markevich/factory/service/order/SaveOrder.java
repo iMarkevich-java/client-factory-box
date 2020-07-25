@@ -1,6 +1,6 @@
 package com.markevich.factory.service.order;
 
-import biznesObgectFactory.Order;
+import businessObjectFactoryBox.Order;
 import com.markevich.factory.Connect;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -22,7 +22,7 @@ public class SaveOrder {
         JSONTokener jsonTokener = connect.getJsonTokener();
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        Integer statusCode = jsonObjectHeader.getInt("status-code");
+        int statusCode = jsonObjectHeader.getInt("status-code");
         String statusMessage = jsonObjectHeader.getString("status-message");
         System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
         connect.closeStream();

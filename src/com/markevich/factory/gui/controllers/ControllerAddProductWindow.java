@@ -1,7 +1,7 @@
 package com.markevich.factory.gui.controllers;
 
-import biznesObgectFactory.Order;
-import biznesObgectFactory.Product;
+import businessObjectFactoryBox.Order;
+import businessObjectFactoryBox.Product;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
@@ -131,7 +131,7 @@ public class ControllerAddProductWindow implements DBWindow {
     }
 
     private Boolean checkValueText() {
-        Boolean bool = true;
+        boolean bool = true;
 
         if (colorColorPicker.getValue() == null) {
             colorLabel.setText("Please select color");

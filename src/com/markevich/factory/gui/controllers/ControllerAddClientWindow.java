@@ -1,6 +1,7 @@
 package com.markevich.factory.gui.controllers;
 
-import biznesObgectFactory.Client;
+
+import businessObjectFactoryBox.Client;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
@@ -104,7 +105,7 @@ public class ControllerAddClientWindow implements DBWindow {
     }
 
     private Boolean checkValueText() {
-        Boolean bool = true;
+        boolean bool = true;
 
         if (companyNameTextField.getText().isEmpty()) {
             companyNameLabel.setText("Please enter text");

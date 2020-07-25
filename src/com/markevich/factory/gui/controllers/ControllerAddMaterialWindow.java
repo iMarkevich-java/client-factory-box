@@ -1,6 +1,6 @@
 package com.markevich.factory.gui.controllers;
 
-import biznesObgectFactory.Material;
+import businessObjectFactoryBox.Material;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
@@ -101,7 +101,7 @@ public class ControllerAddMaterialWindow implements DBWindow {
     }
 
     private Boolean checkValueText() {
-        Boolean bool = true;
+        boolean bool = true;
 
         if (materialNameSplitMenuButton.getText().isEmpty()) {
             materialLabel.setText("Please select material");

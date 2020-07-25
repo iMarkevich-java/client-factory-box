@@ -1,6 +1,6 @@
 package com.markevich.factory.service.order;
 
-import biznesObgectFactory.Order;
+import businessObjectFactoryBox.Order;
 import com.markevich.factory.Connect;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,7 +15,7 @@ public class LoadAllOrder {
     protected LoadAllOrder() {
     }
 
-    public List<Order> LoadAllOrder() {
+    public List<Order> loadAllOrder() {
         Connect connect = new Connect();
         JSONWriter jsonWriter = connect.getJsonWriter();
         jsonWriter.object();
@@ -27,7 +27,7 @@ public class LoadAllOrder {
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         List<Order> listOrder = new ArrayList<>();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        Integer statusCode = jsonObjectHeader.getInt("status-code");
+        int statusCode = jsonObjectHeader.getInt("status-code");
         String statusMessage = jsonObjectHeader.getString("status-message");
         System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
 

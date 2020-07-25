@@ -1,7 +1,7 @@
 package com.markevich.factory.service.day;
 
-import biznesObgectFactory.Day;
-import biznesObgectFactory.StaffDays;
+import businessObjectFactoryBox.Day;
+import businessObjectFactoryBox.StaffDays;
 import com.markevich.factory.Connect;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -23,7 +23,7 @@ public class UpdateStaffDay {
         JSONTokener jsonTokener = connect.getJsonTokener();
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        Integer statusCode = jsonObjectHeader.getInt("status-code");
+        int statusCode = jsonObjectHeader.getInt("status-code");
         String statusMessage = jsonObjectHeader.getString("status-message");
         System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
         connect.closeStream();
@@ -40,12 +40,11 @@ public class UpdateStaffDay {
         jsonWriter.key("parameters");
         jsonWriter.object();
         jsonWriter.key("staff-id").value(staffDay.getStaffId().toString());
-        String days = "";
+        StringBuilder days = new StringBuilder();
         for (Day day : staffDay.getListDay()) {
-            days = days + day.getDay().toString() + "/" + day.getOrderName() + "/"
-                    + day.getProductivity().toString() + "/" + day.getStaffId().toString() + "/" + "#";
+            days.append(day.getDay().toString()).append("/").append(day.getOrderName()).append("/").append(day.getProductivity().toString()).append("/").append(day.getStaffId().toString()).append("/").append("#");
         }
-        jsonWriter.key("days").value(days);
+        jsonWriter.key("days").value(days.toString());
         jsonWriter.endObject();
     }
 }

@@ -1,8 +1,8 @@
 package com.markevich.factory.gui.controllers;
 
-import biznesObgectFactory.Client;
-import biznesObgectFactory.Order;
-import biznesObgectFactory.Product;
+import businessObjectFactoryBox.Client;
+import businessObjectFactoryBox.Order;
+import businessObjectFactoryBox.Product;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
@@ -16,7 +16,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import java.util.List;
-
 
 public class ControllerListClientWindow implements DBWindow {
     @FXML

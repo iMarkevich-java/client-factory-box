@@ -1,6 +1,6 @@
 package com.markevich.factory.service.user;
 
-import biznesObgectFactory.User;
+import businessObjectFactoryBox.User;
 import com.markevich.factory.Connect;
 import com.markevich.factory.ConnectDataUser;
 import org.json.JSONObject;
@@ -27,7 +27,7 @@ public class VerificationUser {
         JSONTokener jsonTokener = connect.getJsonTokener();
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        Integer statusCode = jsonObjectHeader.getInt("status-code");
+        int statusCode = jsonObjectHeader.getInt("status-code");
         String statusMessage = jsonObjectHeader.getString("status-message");
         System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
         connect.closeStream();

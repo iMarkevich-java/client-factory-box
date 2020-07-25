@@ -1,7 +1,7 @@
 package com.markevich.factory.service.day;
 
-import biznesObgectFactory.Day;
-import biznesObgectFactory.StaffDays;
+import businessObjectFactoryBox.Day;
+import businessObjectFactoryBox.StaffDays;
 import com.markevich.factory.service.Service;
 
 import java.util.List;
@@ -18,8 +18,7 @@ public class StaffDayServices implements Service<StaffDays> {
     @Override
     public StaffDays loadById(String id) {
         LoadStaffDayByID loadStaffDayByID = new LoadStaffDayByID();
-        StaffDays staffDay = loadStaffDayByID.loadStaffDayByID(id);
-        return staffDay;
+        return loadStaffDayByID.loadStaffDayByID(id);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.markevich.factory.service.product;
 
-import biznesObgectFactory.Product;
+import businessObjectFactoryBox.Product;
 import com.markevich.factory.Connect;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,7 +27,7 @@ public class LoadAllProduct {
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         List<Product> listProduct = new ArrayList<>();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        Integer statusCode = jsonObjectHeader.getInt("status-code");
+        int statusCode = jsonObjectHeader.getInt("status-code");
         String statusMessage = jsonObjectHeader.getString("status-message");
         System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");

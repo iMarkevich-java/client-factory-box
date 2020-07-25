@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="BiznesObgectFactory">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../BiznesObgectFactory/out/artifacts/BiznesObgectFactory_jar/BiznesObgectFactory.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../business-object-factory-box/out/artifacts/BiznesObgectFactory_jar/BiznesObgectFactory.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

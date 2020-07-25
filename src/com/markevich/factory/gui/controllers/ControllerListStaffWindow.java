@@ -1,6 +1,6 @@
 package com.markevich.factory.gui.controllers;
 
-import biznesObgectFactory.Staff;
+import businessObjectFactoryBox.Staff;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
