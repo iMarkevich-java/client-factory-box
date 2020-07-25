@@ -12,7 +12,7 @@ import java.util.List;
 
 public class LoadAllOrder {
 
-    protected LoadAllOrder() {
+    public LoadAllOrder() {
     }
 
     public List<Order> loadAllOrder() {
