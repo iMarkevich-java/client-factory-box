@@ -17,35 +17,6 @@ import java.math.BigInteger;
 import java.util.List;
 
 public class ControllerStaffDayWindow implements DBWindow {
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Button deleteButton;
-    @FXML
-    private TextField productivityTextField;
-    @FXML
-    private Label productivityLabel;
-    @FXML
-    private Label staffNameLabel;
-    @FXML
-    private Label staffLabel;
-    @FXML
-    private Label orderNameLabel;
-    @FXML
-    private Label orderLabel;
-    @FXML
-    private DatePicker staffDayDatePicker;
-    @FXML
-    private Label dateLabel;
-    private ObservableList<Day> observableListStaffDay;
-    @FXML
-    private TableView<Day> staffDayTableView;
-    private ObservableList<Staff> observableListStaff;
-    @FXML
-    private TableView<Staff> staffTableView;
-    private ObservableList<Order> observableListOrder;
-    @FXML
-    private TableView<Order> orderTableView;
 
     @FXML
     private void showMainWindow() {
@@ -60,68 +31,13 @@ public class ControllerStaffDayWindow implements DBWindow {
     }
 
     @FXML
-    private void deleteDay() {
-        if (checkValueText()) {
-            Day day = staffDayTableView.getSelectionModel().getSelectedItem();
-            ServiceFactory.StaffDayServices().deleteDay(day);
-            List<Order> orderList = ServiceFactory.OrderServices().loadAll();
-            Order order = null;
-            for (Order orderTemp : orderList) {
-                if (orderTemp.getOrderName().equals(day.getOrderName())) {
-                    order = orderTemp;
-                    break;
-                }
-            }
-            if (!(order == null)) {
-                order.deleteStage(day.getProductivity().toString());
-                ServiceFactory.OrderServices().update(order);
-            }
-            reloadWindow();
-        } else {
-            showCheckConnectWindow();
-        }
-    }
-
-    private Boolean isNumber(String strNumber) {
-        try {
-            new BigInteger(strNumber);
-        } catch (NumberFormatException | NullPointerException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    private Boolean checkValueText() {
-        boolean bool = true;
-
-        if (staffDayDatePicker.getValue() == null) {
-            dateLabel.setText("Please select date");
-            bool = false;
-        } else {
-            dateLabel.setText("");
-        }
-        if (!isNumber(productivityTextField.getText())) {
-            productivityLabel.setText("Please enter number");
-            bool = false;
-        } else {
-            productivityLabel.setText("");
-        }
-        if (staffNameLabel.getText().isEmpty()) {
-            staffLabel.setText("Check staff");
-            bool = false;
-        } else {
-            staffLabel.setText("");
-        }
-        if (orderNameLabel.getText().isEmpty()) {
-            orderLabel.setText("Check order");
-            bool = false;
-        } else {
-            orderLabel.setText("");
-        }
-
-
-        return bool;
-    }
+    private TextField productivityTextField;
+    @FXML
+    private TableView<Staff> staffTableView;
+    @FXML
+    private TableView<Order> orderTableView;
+    @FXML
+    private Label orderNameLabel;
 
     @FXML
     private void save() {
@@ -168,10 +84,20 @@ public class ControllerStaffDayWindow implements DBWindow {
     }
 
     @FXML
+    private Button saveButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Label staffNameLabel;
+    private ObservableList<Day> observableListStaffDay;
+    @FXML
+    private TableView<Day> staffDayTableView;
+
+    @FXML
     private void setStaff() {
         if (checkConnect()) {
             Staff staff = staffTableView.getSelectionModel().getSelectedItem();
-            if(!(staff == null)) {
+            if (!(staff == null)) {
                 saveButton.setDisable(false);
                 deleteButton.setDisable(true);
                 staffNameLabel.setText(staff.getFirstName() + " " + staff.getLastName());
@@ -206,9 +132,84 @@ public class ControllerStaffDayWindow implements DBWindow {
     @FXML
     private void setOrder() {
         Order order = orderTableView.getSelectionModel().getSelectedItem();
-        if(!(order == null)) {
+        if (!(order == null)) {
             orderNameLabel.setText(order.getOrderName());
         }
+    }
+
+    @FXML
+    private void deleteDay() {
+        if (checkValueText()) {
+            Day day = staffDayTableView.getSelectionModel().getSelectedItem();
+            ServiceFactory.StaffDayServices().deleteDay(day);
+            List<Order> orderList = ServiceFactory.OrderServices().loadAll();
+            Order order = null;
+            for (Order orderTemp : orderList) {
+                if (orderTemp.getOrderName().equals(day.getOrderName())) {
+                    order = orderTemp;
+                    break;
+                }
+            }
+            if (!(order == null)) {
+                order.deleteStage(day.getProductivity().toString());
+                ServiceFactory.OrderServices().update(order);
+            }
+            reloadWindow();
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    private Boolean isNumber(String strNumber) {
+        try {
+            new BigInteger(strNumber);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    @FXML
+    private Label productivityLabel;
+    @FXML
+    private Label staffLabel;
+    @FXML
+    private Label orderLabel;
+    @FXML
+    private DatePicker staffDayDatePicker;
+    @FXML
+    private Label dateLabel;
+
+    private Boolean checkValueText() {
+        boolean bool = true;
+
+        if (staffDayDatePicker.getValue() == null) {
+            dateLabel.setText("Please select date");
+            bool = false;
+        } else {
+            dateLabel.setText("");
+        }
+        if (!isNumber(productivityTextField.getText())) {
+            productivityLabel.setText("Please enter number");
+            bool = false;
+        } else {
+            productivityLabel.setText("");
+        }
+        if (staffNameLabel.getText().isEmpty()) {
+            staffLabel.setText("Check staff");
+            bool = false;
+        } else {
+            staffLabel.setText("");
+        }
+        if (orderNameLabel.getText().isEmpty()) {
+            orderLabel.setText("Check order");
+            bool = false;
+        } else {
+            orderLabel.setText("");
+        }
+
+
+        return bool;
     }
 
     private Boolean checkConnect() {
@@ -238,13 +239,19 @@ public class ControllerStaffDayWindow implements DBWindow {
                 observableListStaffDay.addAll(days.getListDay());
             }
             List<Staff> staffList = ServiceFactory.StaffServices().loadAll();
-            observableListStaff = staffTableView.getItems();
-            observableListStaff.clear();
-            observableListStaff.addAll(staffList);
+            ObservableList<Staff> observableListStaff;
+            if (!(staffList == null)) {
+                observableListStaff = staffTableView.getItems();
+                observableListStaff.clear();
+                observableListStaff.addAll(staffList);
+            }
             List<Order> orderList = ServiceFactory.OrderServices().loadAll();
-            observableListOrder = orderTableView.getItems();
-            observableListOrder.clear();
-            observableListOrder.addAll(orderList);
+            ObservableList<Order> observableListOrder;
+            if (!(orderList == null)) {
+                observableListOrder = orderTableView.getItems();
+                observableListOrder.clear();
+                observableListOrder.addAll(orderList);
+            }
         } else {
             showCheckConnectWindow();
         }

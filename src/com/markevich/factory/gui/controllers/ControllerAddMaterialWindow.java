@@ -22,36 +22,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 public class ControllerAddMaterialWindow implements DBWindow {
-    @FXML
-    public TableView<Material> tableSupplierMaterials;
-    @FXML
-    private SplitMenuButton materialNameSplitMenuButton;
-    @FXML
-    private ImageView imageImageView;
-    @FXML
-    private Label materialLabel;
-    @FXML
-    private TextField priceTextField;
-    @FXML
-    private Label priceLabel;
-    @FXML
-    private TextField amountTextField;
-    @FXML
-    private Label amountLabel;
-    @FXML
-    private TextField unitTextField;
-    @FXML
-    private Label unitLabel;
-    @FXML
-    private TextField sizeTextField;
-    @FXML
-    private Label sizeLabel;
-    @FXML
-    private Label imageLabel;
-    private ObservableList<Material> observableList;
 
-    private String supplierId;
-    private String urlImage;
     private FileChooser fileChooser;
 
     @FXML
@@ -78,27 +49,120 @@ public class ControllerAddMaterialWindow implements DBWindow {
         checkConnect.createWindow();
     }
 
-    @Override
-    public void setData(String supplierId) {
-        this.supplierId = supplierId;
+    @FXML
+    private ImageView imageImageView;
+    private String urlImage;
+
+    @FXML
+    private void findImage() {
+        if (checkConnect()) {
+            Stage stage = new Stage();
+            fileChooser = new FileChooser();
+            File file;
+            try {
+                file = fileChooser.showOpenDialog(stage).getAbsoluteFile();
+                urlImage = file.toURI().toURL().toString();
+            } catch (MalformedURLException | NullPointerException exception) {
+                return;
+            }
+            Image image = new Image(urlImage);
+            imageImageView.setImage(image);
+        } else {
+            showCheckConnectWindow();
+        }
+
     }
 
-    @Override
-    public void reloadWindow() {
+    private String supplierId;
+    @FXML
+    private TextField priceTextField;
+    @FXML
+    private TextField amountTextField;
+    @FXML
+    private TextField unitTextField;
+    @FXML
+    private TextField sizeTextField;
+    @FXML
+    private SplitMenuButton materialNameSplitMenuButton;
+
+    @FXML
+    private void save() {
         if (checkConnect()) {
-            List<Material> list = ServiceFactory.MaterialServices().loadAll();
-            observableList = tableSupplierMaterials.getItems();
-            observableList.clear();
-            for (Material material : list) {
-                if (material.getSupplierId().equals(supplierId)) {
-                    observableList.add(material);
-                }
+            if (checkValueText()) {
+                Material material = new Material();
+                material.setPathImage(urlImage);
+                material.setSize(sizeTextField.getText());
+                material.setUnit(unitTextField.getText());
+                material.setAmount(amountTextField.getText());
+                material.setPrice(priceTextField.getText());
+                material.setMaterialName(materialNameSplitMenuButton.getText());
+                material.setSupplierId(supplierId);
+                material.setId("0");
+                ServiceFactory.MaterialServices().save(material);
+                reloadWindow();
             }
-            clearSelect();
         } else {
             showCheckConnectWindow();
         }
     }
+
+    @FXML
+    private void getLeatherMaterial() {
+        if (checkConnect()) {
+            materialNameSplitMenuButton.setText("Leather");
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    @FXML
+    private void getCardboardMaterial() {
+        if (checkConnect()) {
+            materialNameSplitMenuButton.setText("Cardboard");
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    @FXML
+    private void getMetalMaterial() {
+        if (checkConnect()) {
+            materialNameSplitMenuButton.setText("Metal");
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    @FXML
+    private void getPlasticMaterial() {
+        if (checkConnect()) {
+            materialNameSplitMenuButton.setText("Plastic");
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    @FXML
+    private void getWoodMaterial() {
+        if (checkConnect()) {
+            materialNameSplitMenuButton.setText("Wood");
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    @FXML
+    private Label priceLabel;
+    @FXML
+    private Label amountLabel;
+    @FXML
+    private Label unitLabel;
+    @FXML
+    private Label sizeLabel;
+    @FXML
+    private Label imageLabel;
+    @FXML
+    private Label materialLabel;
 
     private Boolean checkValueText() {
         boolean bool = true;
@@ -142,51 +206,6 @@ public class ControllerAddMaterialWindow implements DBWindow {
         return bool;
     }
 
-    @FXML
-    private void save() {
-        if (checkConnect()) {
-            if (checkValueText()) {
-                Material material = new Material();
-                material.setPathImage(urlImage);
-                material.setSize(sizeTextField.getText());
-                material.setUnit(unitTextField.getText());
-                material.setAmount(amountTextField.getText());
-                material.setPrice(priceTextField.getText());
-                material.setMaterialName(materialNameSplitMenuButton.getText());
-                material.setSupplierId(supplierId);
-                material.setId("0");
-                ServiceFactory.MaterialServices().save(material);
-                reloadWindow();
-            }
-        } else {
-            showCheckConnectWindow();
-        }
-    }
-
-    @FXML
-    private void findImage() {
-        if (checkConnect()) {
-            Stage stage = new Stage();
-            fileChooser = new FileChooser();
-            File file;
-            try {
-                file = fileChooser.showOpenDialog(stage).getAbsoluteFile();
-                urlImage = file.toURI().toURL().toString();
-            } catch (MalformedURLException | NullPointerException exception) {
-                return;
-            }
-            Image image = new Image(urlImage);
-            imageImageView.setImage(image);
-        } else {
-            showCheckConnectWindow();
-        }
-
-    }
-
-    private Boolean checkConnect() {
-        return ServiceFactory.ConnectService().connect().equals("OK");
-    }
-
     private void clearSelect() {
         imageImageView.setImage(null);
         materialNameSplitMenuButton.setText("");
@@ -203,46 +222,31 @@ public class ControllerAddMaterialWindow implements DBWindow {
         imageLabel.setText("");
     }
 
-    @FXML
-    private void getLeatherMaterial() {
-        if (checkConnect()) {
-            materialNameSplitMenuButton.setText("Leather");
-        } else {
-            showCheckConnectWindow();
-        }
+    private Boolean checkConnect() {
+        return ServiceFactory.ConnectService().connect().equals("OK");
+    }
+
+    @Override
+    public void setData(String supplierId) {
+        this.supplierId = supplierId;
     }
 
     @FXML
-    private void getCardboardMaterial() {
-        if (checkConnect()) {
-            materialNameSplitMenuButton.setText("Cardboard");
-        } else {
-            showCheckConnectWindow();
-        }
-    }
+    public TableView<Material> tableSupplierMaterials;
 
-    @FXML
-    private void getMetalMaterial() {
+    @Override
+    public void reloadWindow() {
         if (checkConnect()) {
-            materialNameSplitMenuButton.setText("Metal");
-        } else {
-            showCheckConnectWindow();
-        }
-    }
-
-    @FXML
-    private void getPlasticMaterial() {
-        if (checkConnect()) {
-            materialNameSplitMenuButton.setText("Plastic");
-        } else {
-            showCheckConnectWindow();
-        }
-    }
-
-    @FXML
-    private void getWoodMaterial() {
-        if (checkConnect()) {
-            materialNameSplitMenuButton.setText("Wood");
+            List<Material> list = ServiceFactory.MaterialServices().loadAll();
+            ObservableList<Material> observableList;
+            observableList = tableSupplierMaterials.getItems();
+            observableList.clear();
+            for (Material material : list) {
+                if (material.getSupplierId().equals(supplierId)) {
+                    observableList.add(material);
+                }
+            }
+            clearSelect();
         } else {
             showCheckConnectWindow();
         }

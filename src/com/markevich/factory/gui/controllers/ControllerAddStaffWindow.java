@@ -18,63 +18,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerAddStaffWindow implements DBWindow {
-    @FXML
-    private ImageView photoImageView;
-    @FXML
-    private Label photoLabel;
-    @FXML
-    private TextField lastNameTextField;
-    @FXML
-    private Label lastNameLabel;
-    @FXML
-    private TextField firstNameTextField;
-    @FXML
-    private Label firstNameLabel;
-    @FXML
-    private SplitMenuButton positionSplitMenuButton;
-    @FXML
-    private MenuItem directorMenuItem;
-    @FXML
-    private MenuItem accountantMenuItem;
-    @FXML
-    private MenuItem workerMenuItem;
-    @FXML
-    private MenuItem managerMenuItem;
-    @FXML
-    private Label positionLabel;
-    @FXML
-    private DatePicker dateOfBirthDatePicker;
-    @FXML
-    private Label datePickerLabel;
-    @FXML
-    private TextField salaryTextField;
-    @FXML
-    private Label salaryLabel;
-    @FXML
-    private SplitMenuButton departmentSplitMenuButton;
-    @FXML
-    private MenuItem manufacturingMenuItem;
-    @FXML
-    private MenuItem accountingMenuItem;
-    @FXML
-    private MenuItem technicalMenuItem;
-    @FXML
-    private MenuItem marketingMenuItem;
-    @FXML
-    private Label departmentLabel;
-    @FXML
-    private TextArea addressTextField;
-    @FXML
-    private Label addressLabel;
-    @FXML
-    private TableView<Staff> tableAllStaff;
-    private ObservableList<Staff> observableList;
-    private List<Staff> list = new ArrayList<>();
-    private String urlPhoto;
 
     @FXML
     private void showMainWindow() {
@@ -99,13 +45,167 @@ public class ControllerAddStaffWindow implements DBWindow {
         checkConnect.createWindow();
     }
 
-    private Boolean isNumber(String strNumber) {
-        try {
-            new BigDecimal(strNumber);
-        } catch (NumberFormatException | NullPointerException nfe) {
-            return false;
+    @FXML
+    private ImageView photoImageView;
+    private String urlPhoto;
+
+    @FXML
+    private void findPhoto() {
+        if (checkConnect()) {
+            Stage stage = new Stage();
+            FileChooser fileChooser = new FileChooser();
+            File file;
+            try {
+                file = fileChooser.showOpenDialog(stage).getAbsoluteFile();
+                urlPhoto = file.toURI().toURL().toString();
+            } catch (MalformedURLException | NullPointerException exception) {
+                return;
+            }
+            Image image = new Image(urlPhoto);
+            photoImageView.setImage(image);
+        } else {
+            showCheckConnectWindow();
         }
-        return true;
+
+    }
+
+    @FXML
+    private TextField lastNameTextField;
+    @FXML
+    private DatePicker dateOfBirthDatePicker;
+    @FXML
+    private TextField salaryTextField;
+    @FXML
+    private SplitMenuButton departmentSplitMenuButton;
+    @FXML
+    private TextArea addressTextField;
+
+    @FXML
+    private void save() {
+        if (checkConnect()) {
+            if (checkValueText()) {
+                Staff staff = new Staff();
+                staff.setAddress(addressTextField.getText());
+                staff.setSalary(salaryTextField.getText());
+                staff.setFirstName(firstNameTextField.getText());
+                staff.setLastName(lastNameTextField.getText());
+                staff.setDateOfBirth(dateOfBirthDatePicker.getValue().toString());
+                staff.setDepartment(departmentSplitMenuButton.getText());
+                staff.setPosition(positionSplitMenuButton.getText());
+                staff.setPathPhoto(urlPhoto);
+                staff.setId("0");
+                ServiceFactory.StaffServices().save(staff);
+                reloadWindow();
+            }
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    @FXML
+    private MenuItem manufacturingMenuItem;
+
+    @FXML
+    private void setManufacturing() {
+        departmentSplitMenuButton.setText(manufacturingMenuItem.getText());
+    }
+
+    @FXML
+    private MenuItem accountingMenuItem;
+
+    @FXML
+    private void setAccounting() {
+        departmentSplitMenuButton.setText(accountingMenuItem.getText());
+    }
+
+    @FXML
+    private MenuItem technicalMenuItem;
+
+    @FXML
+    private void setTechnical() {
+        departmentSplitMenuButton.setText(technicalMenuItem.getText());
+    }
+
+    @FXML
+    private MenuItem marketingMenuItem;
+
+    @FXML
+    private void setMarketing() {
+        departmentSplitMenuButton.setText(marketingMenuItem.getText());
+    }
+
+    @FXML
+    private SplitMenuButton positionSplitMenuButton;
+
+    @FXML
+    private MenuItem directorMenuItem;
+
+    @FXML
+    private void setDirector() {
+        positionSplitMenuButton.setText(directorMenuItem.getText());
+    }
+
+    @FXML
+    private MenuItem accountantMenuItem;
+
+    @FXML
+    private void setAccountant() {
+        positionSplitMenuButton.setText(accountantMenuItem.getText());
+    }
+
+    @FXML
+    private MenuItem workerMenuItem;
+
+    @FXML
+    private void setWorker() {
+        positionSplitMenuButton.setText(workerMenuItem.getText());
+    }
+
+    @FXML
+    private MenuItem managerMenuItem;
+
+    @FXML
+    private void setManager() {
+        positionSplitMenuButton.setText(managerMenuItem.getText());
+    }
+
+    @FXML
+    private Label photoLabel;
+    @FXML
+    private Label lastNameLabel;
+    @FXML
+    private TextField firstNameTextField;
+    @FXML
+    private Label firstNameLabel;
+    @FXML
+    private Label positionLabel;
+    @FXML
+    private Label datePickerLabel;
+    @FXML
+    private Label salaryLabel;
+    @FXML
+    private Label departmentLabel;
+    @FXML
+    private Label addressLabel;
+
+
+    private void clearSelectStaff() {
+        photoImageView.setImage(null);
+        photoLabel.setText("");
+        lastNameTextField.setText("");
+        lastNameLabel.setText("");
+        firstNameTextField.setText("");
+        firstNameLabel.setText("");
+        positionSplitMenuButton.setText("");
+        positionLabel.setText("");
+        dateOfBirthDatePicker.setValue(null);
+        datePickerLabel.setText("");
+        salaryTextField.setText("");
+        salaryLabel.setText("");
+        departmentSplitMenuButton.setText("");
+        departmentLabel.setText("");
+        addressTextField.setText("");
+        addressLabel.setText("");
     }
 
     private Boolean checkValueText() {
@@ -162,109 +262,17 @@ public class ControllerAddStaffWindow implements DBWindow {
         return bool;
     }
 
-    @FXML
-    private void findPhoto() {
-        if (checkConnect()) {
-            Stage stage = new Stage();
-            FileChooser fileChooser = new FileChooser();
-            File file;
-            try {
-                file = fileChooser.showOpenDialog(stage).getAbsoluteFile();
-                urlPhoto = file.toURI().toURL().toString();
-            } catch (MalformedURLException | NullPointerException exception) {
-                return;
-            }
-            Image image = new Image(urlPhoto);
-            photoImageView.setImage(image);
-        } else {
-            showCheckConnectWindow();
+    private Boolean isNumber(String strNumber) {
+        try {
+            new BigDecimal(strNumber);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
         }
-
+        return true;
     }
 
     private Boolean checkConnect() {
         return ServiceFactory.ConnectService().connect().equals("OK");
-    }
-
-    @FXML
-    private void setManufacturing() {
-        departmentSplitMenuButton.setText(manufacturingMenuItem.getText());
-    }
-
-    @FXML
-    private void setAccounting() {
-        departmentSplitMenuButton.setText(accountingMenuItem.getText());
-    }
-
-    @FXML
-    private void setTechnical() {
-        departmentSplitMenuButton.setText(technicalMenuItem.getText());
-    }
-
-    @FXML
-    private void setMarketing() {
-        departmentSplitMenuButton.setText(marketingMenuItem.getText());
-    }
-
-    @FXML
-    private void setDirector() {
-        positionSplitMenuButton.setText(directorMenuItem.getText());
-    }
-
-    @FXML
-    private void setAccountant() {
-        positionSplitMenuButton.setText(accountantMenuItem.getText());
-    }
-
-    @FXML
-    private void setWorker() {
-        positionSplitMenuButton.setText(workerMenuItem.getText());
-    }
-
-    @FXML
-    private void setManager() {
-        positionSplitMenuButton.setText(managerMenuItem.getText());
-    }
-
-    @FXML
-    private void save() {
-        if (checkConnect()) {
-            if (checkValueText()) {
-                Staff staff = new Staff();
-                staff.setAddress(addressTextField.getText());
-                staff.setSalary(salaryTextField.getText());
-                staff.setFirstName(firstNameTextField.getText());
-                staff.setLastName(lastNameTextField.getText());
-                staff.setDateOfBirth(dateOfBirthDatePicker.getValue().toString());
-                staff.setDepartment(departmentSplitMenuButton.getText());
-                staff.setPosition(positionSplitMenuButton.getText());
-                staff.setPathPhoto(urlPhoto);
-                staff.setId("0");
-                ServiceFactory.StaffServices().save(staff);
-                reloadWindow();
-            }
-        } else {
-            showCheckConnectWindow();
-        }
-    }
-
-    private void clearSelectStaff() {
-        photoImageView.setImage(null);
-        photoLabel.setText("");
-        lastNameTextField.setText("");
-        lastNameLabel.setText("");
-        firstNameTextField.setText("");
-        firstNameLabel.setText("");
-        positionSplitMenuButton.setText("");
-        positionLabel.setText("");
-        dateOfBirthDatePicker.setValue(null);
-        datePickerLabel.setText("");
-        salaryTextField.setText("");
-        salaryLabel.setText("");
-        departmentSplitMenuButton.setText("");
-        departmentLabel.setText("");
-        addressTextField.setText("");
-        addressLabel.setText("");
     }
 
     @Override
@@ -272,14 +280,20 @@ public class ControllerAddStaffWindow implements DBWindow {
 
     }
 
+    @FXML
+    private TableView<Staff> tableAllStaff;
+
     @Override
     public void reloadWindow() {
         if (checkConnect()) {
             clearSelectStaff();
-            list = ServiceFactory.StaffServices().loadAll();
-            observableList = tableAllStaff.getItems();
-            observableList.clear();
-            observableList.addAll(list);
+            ObservableList<Staff> observableList;
+            List<Staff> list = ServiceFactory.StaffServices().loadAll();
+            if (!(list == null)) {
+                observableList = tableAllStaff.getItems();
+                observableList.clear();
+                observableList.addAll(list);
+            }
         } else {
             showCheckConnectWindow();
         }

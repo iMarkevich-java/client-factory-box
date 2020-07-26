@@ -16,40 +16,6 @@ import java.math.BigInteger;
 import java.util.List;
 
 public class ControllerAddOrderWindow implements DBWindow {
-    @FXML
-    private DatePicker dateDatePicker;
-    @FXML
-    private Label dateLabel;
-    @FXML
-    private Label clientNameLabel;
-    @FXML
-    private TextField sizeOrderTextField;
-    @FXML
-    private Label sizeOrderLabel;
-    @FXML
-    private TextField orderTermTextField;
-    @FXML
-    private Label orderTermLabel;
-    @FXML
-    private SplitMenuButton statusSplitMenuButton;
-    @FXML
-    private MenuItem waitMenuItem;
-    @FXML
-    private MenuItem startMenuItem;
-    @FXML
-    private MenuItem stopMenuItem;
-    @FXML
-    private MenuItem endMenuItem;
-    @FXML
-    private Label statusLabel;
-    @FXML
-    private TextField stageTextField;
-    @FXML
-    private Label stageLabel;
-    @FXML
-    private TableView<Order> tableAllOrder;
-    private ObservableList<Order> observableList;
-    private String data;
 
     @FXML
     private void showMainWindow() {
@@ -76,9 +42,48 @@ public class ControllerAddOrderWindow implements DBWindow {
     }
 
     @FXML
+    private DatePicker dateDatePicker;
+    @FXML
+    private Label clientNameLabel;
+    @FXML
+    private TextField sizeOrderTextField;
+    @FXML
+    private TextField orderTermTextField;
+    @FXML
+    private SplitMenuButton statusSplitMenuButton;
+    @FXML
+    private TextField stageTextField;
+
+    public void save() {
+        if (checkConnect()) {
+            Order order = new Order();
+            if (checkValueText()) {
+                order.setOrderName(clientNameLabel.getText());
+                order.setStage(stageTextField.getText());
+                order.setStatus(statusSplitMenuButton.getText());
+                order.setSizeOrder(sizeOrderTextField.getText());
+                order.setClientId(data);
+                order.setStartDate(dateDatePicker.getValue().toString());
+                order.setOrderTerm(orderTermTextField.getText());
+                order.setId("0");
+                ServiceFactory.OrderServices().save(order);
+                reloadWindow();
+            }
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    @FXML
+    private MenuItem waitMenuItem;
+
+    @FXML
     private void checkStatusWait() {
         statusSplitMenuButton.setText(waitMenuItem.getText());
     }
+
+    @FXML
+    private MenuItem startMenuItem;
 
     @FXML
     private void checkStatusStart() {
@@ -86,14 +91,44 @@ public class ControllerAddOrderWindow implements DBWindow {
     }
 
     @FXML
+    private MenuItem stopMenuItem;
+
+    @FXML
     private void checkStatusStop() {
         statusSplitMenuButton.setText(stopMenuItem.getText());
     }
 
     @FXML
+    private MenuItem endMenuItem;
+
+    @FXML
     private void checkStatusEnd() {
         statusSplitMenuButton.setText(endMenuItem.getText());
     }
+
+    private Boolean isNumber(String strNumber) {
+        try {
+            new BigInteger(strNumber);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    private Boolean checkConnect() {
+        return ServiceFactory.ConnectService().connect().equals("OK");
+    }
+
+    @FXML
+    private Label dateLabel;
+    @FXML
+    private Label sizeOrderLabel;
+    @FXML
+    private Label orderTermLabel;
+    @FXML
+    private Label statusLabel;
+    @FXML
+    private Label stageLabel;
 
     private void clearSelectOrder() {
         statusSplitMenuButton.setText("");
@@ -147,58 +182,35 @@ public class ControllerAddOrderWindow implements DBWindow {
         return bool;
     }
 
-    public void save() {
-        if (checkConnect()) {
-            Order order = new Order();
-            if (checkValueText()) {
-                order.setOrderName(clientNameLabel.getText());
-                order.setStage(stageTextField.getText());
-                order.setStatus(statusSplitMenuButton.getText());
-                order.setSizeOrder(sizeOrderTextField.getText());
-                order.setClientId(data);
-                order.setStartDate(dateDatePicker.getValue().toString());
-                order.setOrderTerm(orderTermTextField.getText());
-                order.setId("0");
-                ServiceFactory.OrderServices().save(order);
-                reloadWindow();
-            }
-        } else {
-            showCheckConnectWindow();
-        }
-    }
-
-    private Boolean isNumber(String strNumber) {
-        try {
-            new BigInteger(strNumber);
-        } catch (NumberFormatException | NullPointerException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    private Boolean checkConnect() {
-        return ServiceFactory.ConnectService().connect().equals("OK");
-    }
+    private String data;
 
     @Override
     public void setData(String data) {
         this.data = data;
     }
 
+    @FXML
+    TableView<Order> tableAllOrder;
+
     @Override
     public void reloadWindow() {
         if (checkConnect()) {
             Client client = ServiceFactory.ClientServices().loadById(data);
-            clientNameLabel.setText(client.getCompanyName());
-            List<Order> listOrder = ServiceFactory.OrderServices().loadAll();
-            observableList = tableAllOrder.getItems();
-            observableList.clear();
-            for (Order order : listOrder) {
-                if (order.getClientId().equals(data)) {
-                    observableList.add(order);
-                }
+            if (!(client == null)) {
+                clientNameLabel.setText(client.getCompanyName());
             }
-            clearSelectOrder();
+            List<Order> listOrder = ServiceFactory.OrderServices().loadAll();
+            if (!(listOrder == null)) {
+                ObservableList<Order> observableList;
+                observableList = tableAllOrder.getItems();
+                observableList.clear();
+                for (Order order : listOrder) {
+                    if (order.getClientId().equals(data)) {
+                        observableList.add(order);
+                    }
+                }
+                clearSelectOrder();
+            }
         } else {
             showCheckConnectWindow();
         }

@@ -22,61 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerListStaffWindow implements DBWindow {
-    private final List<Staff> list = new ArrayList<>();
-    @FXML
-    private Button photoButton;
-    @FXML
-    private ImageView photoImageView;
-    @FXML
-    private Label photoLabel;
-    @FXML
-    private TextField lastNameTextField;
-    @FXML
-    private Label lastNameLabel;
-    @FXML
-    private TextField firstNameTextField;
-    @FXML
-    private Label firstNameLabel;
-    @FXML
-    private SplitMenuButton positionSplitMenuButton;
-    @FXML
-    private MenuItem directorMenuItem;
-    @FXML
-    private MenuItem accountantMenuItem;
-    @FXML
-    private MenuItem workerMenuItem;
-    @FXML
-    private MenuItem managerMenuItem;
-    @FXML
-    private Label positionLabel;
-    @FXML
-    private DatePicker dateOfBirthDatePicker;
-    @FXML
-    private Label datePickerLabel;
-    @FXML
-    private TextField salaryTextField;
-    @FXML
-    private Label salaryLabel;
-    @FXML
-    private SplitMenuButton departmentSplitMenuButton;
-    @FXML
-    private MenuItem manufacturingMenuItem;
-    @FXML
-    private MenuItem accountingMenuItem;
-    @FXML
-    private MenuItem technicalMenuItem;
-    @FXML
-    private MenuItem marketingMenuItem;
-    @FXML
-    private Label departmentLabel;
-    @FXML
-    private TextArea addressTextField;
-    @FXML
-    private Label addressLabel;
-    @FXML
-    private TableView<Staff> tableAllStaff;
-    private ObservableList<Staff> observableList;
-    private String urlPhoto;
 
     @FXML
     private void showMainWindow() {
@@ -102,14 +47,84 @@ public class ControllerListStaffWindow implements DBWindow {
         checkConnect.createWindow();
     }
 
-    private Boolean isNumber(String strNumber) {
-        try {
-            new BigDecimal(strNumber);
-        } catch (NumberFormatException | NullPointerException nfe) {
-            return false;
+    @FXML
+    private void delete() {
+        if (checkConnect()) {
+            Staff staff = tableAllStaff.getSelectionModel().getSelectedItem();
+            if (!(staff == null)) {
+                ServiceFactory.StaffServices().delete(staff.getId());
+                reloadWindow();
+            }
+        } else {
+            showCheckConnectWindow();
         }
-        return true;
+
     }
+
+    @FXML
+    private Button photoButton;
+    @FXML
+    private ImageView photoImageView;
+    private String urlPhoto;
+
+    @FXML
+    private void findPhoto() {
+        if (checkConnect()) {
+            Stage stage = new Stage();
+            FileChooser fileChooser = new FileChooser();
+            File file;
+            try {
+                file = fileChooser.showOpenDialog(stage).getAbsoluteFile();
+                urlPhoto = file.toURI().toURL().toString();
+            } catch (MalformedURLException | NullPointerException exception) {
+                return;
+            }
+            Image image = new Image(urlPhoto);
+            photoImageView.setImage(image);
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    @FXML
+    private TextField lastNameTextField;
+    @FXML
+    private TextField firstNameTextField;
+    @FXML
+    private SplitMenuButton positionSplitMenuButton;
+    @FXML
+    private DatePicker dateOfBirthDatePicker;
+    @FXML
+    private TextField salaryTextField;
+    @FXML
+    private TextArea addressTextField;
+
+    @FXML
+    public void selectStaff() {
+        Staff staff = tableAllStaff.getSelectionModel().getSelectedItem();
+        if (staff != null) {
+            photoButton.setDisable(false);
+            lastNameTextField.setDisable(false);
+            firstNameTextField.setDisable(false);
+            positionSplitMenuButton.setDisable(false);
+            dateOfBirthDatePicker.setDisable(false);
+            salaryTextField.setDisable(false);
+            departmentSplitMenuButton.setDisable(false);
+            addressTextField.setDisable(false);
+
+            photoImageView.setImage(new Image(staff.getPathPhoto()));
+            lastNameTextField.setText(staff.getLastName());
+            firstNameTextField.setText(staff.getFirstName());
+            positionSplitMenuButton.setText(staff.getPosition());
+            dateOfBirthDatePicker.setValue(LocalDate.parse(staff.getDateOfBirth()));
+            salaryTextField.setText(staff.getSalary());
+            departmentSplitMenuButton.setText(staff.getDepartment());
+            addressTextField.setText(staff.getAddress());
+        }
+    }
+
+    @FXML
+    private Label salaryLabel;
 
     @FXML
     private void update() {
@@ -153,23 +168,9 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
-    private void findPhoto() {
-        if (checkConnect()) {
-            Stage stage = new Stage();
-            FileChooser fileChooser = new FileChooser();
-            File file;
-            try {
-                file = fileChooser.showOpenDialog(stage).getAbsoluteFile();
-                urlPhoto = file.toURI().toURL().toString();
-            } catch (MalformedURLException | NullPointerException exception) {
-                return;
-            }
-            Image image = new Image(urlPhoto);
-            photoImageView.setImage(image);
-        } else {
-            showCheckConnectWindow();
-        }
-    }
+    private SplitMenuButton departmentSplitMenuButton;
+    @FXML
+    private MenuItem manufacturingMenuItem;
 
     @FXML
     private void setManufacturing() {
@@ -177,9 +178,15 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
+    private MenuItem accountingMenuItem;
+
+    @FXML
     private void setAccounting() {
         departmentSplitMenuButton.setText(accountingMenuItem.getText());
     }
+
+    @FXML
+    private MenuItem technicalMenuItem;
 
     @FXML
     private void setTechnical() {
@@ -187,9 +194,15 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
+    private MenuItem marketingMenuItem;
+
+    @FXML
     private void setMarketing() {
         departmentSplitMenuButton.setText(marketingMenuItem.getText());
     }
+
+    @FXML
+    private MenuItem directorMenuItem;
 
     @FXML
     private void setDirector() {
@@ -197,9 +210,15 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
+    private MenuItem accountantMenuItem;
+
+    @FXML
     private void setAccountant() {
         positionSplitMenuButton.setText(accountantMenuItem.getText());
     }
+
+    @FXML
+    private MenuItem workerMenuItem;
 
     @FXML
     private void setWorker() {
@@ -207,9 +226,27 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
+    private MenuItem managerMenuItem;
+
+    @FXML
     private void setManager() {
         positionSplitMenuButton.setText(managerMenuItem.getText());
     }
+
+    @FXML
+    private Label photoLabel;
+    @FXML
+    private Label lastNameLabel;
+    @FXML
+    private Label firstNameLabel;
+    @FXML
+    private Label positionLabel;
+    @FXML
+    private Label datePickerLabel;
+    @FXML
+    private Label departmentLabel;
+    @FXML
+    private Label addressLabel;
 
     private void clearSelectStaff() {
         urlPhoto = null;
@@ -231,52 +268,26 @@ public class ControllerListStaffWindow implements DBWindow {
         addressLabel.setText("");
     }
 
-    @FXML
-    public void selectStaff() {
-        Staff staff = tableAllStaff.getSelectionModel().getSelectedItem();
-        if (staff != null) {
-            photoButton.setDisable(false);
-            lastNameTextField.setDisable(false);
-            firstNameTextField.setDisable(false);
-            positionSplitMenuButton.setDisable(false);
-            dateOfBirthDatePicker.setDisable(false);
-            salaryTextField.setDisable(false);
-            departmentSplitMenuButton.setDisable(false);
-            addressTextField.setDisable(false);
-
-            photoImageView.setImage(new Image(staff.getPathPhoto()));
-            lastNameTextField.setText(staff.getLastName());
-            firstNameTextField.setText(staff.getFirstName());
-            positionSplitMenuButton.setText(staff.getPosition());
-            dateOfBirthDatePicker.setValue(LocalDate.parse(staff.getDateOfBirth()));
-            salaryTextField.setText(staff.getSalary());
-            departmentSplitMenuButton.setText(staff.getDepartment());
-            addressTextField.setText(staff.getAddress());
-        }
-    }
-
-    @FXML
-    private void delete() {
-        if (checkConnect()) {
-            Staff staff = tableAllStaff.getSelectionModel().getSelectedItem();
-            if (!(staff == null)) {
-                ServiceFactory.StaffServices().delete(staff.getId());
-                reloadWindow();
-            }
-        } else {
-            showCheckConnectWindow();
-        }
-
-    }
-
     private Boolean checkConnect() {
         return ServiceFactory.ConnectService().connect().equals("OK");
+    }
+
+    private Boolean isNumber(String strNumber) {
+        try {
+            new BigDecimal(strNumber);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void setData(String data) {
 
     }
+
+    @FXML
+    private TableView<Staff> tableAllStaff;
 
     @Override
     public void reloadWindow() {
@@ -289,13 +300,14 @@ public class ControllerListStaffWindow implements DBWindow {
             salaryTextField.setDisable(true);
             departmentSplitMenuButton.setDisable(true);
             addressTextField.setDisable(true);
-
             List<Staff> listStaff = ServiceFactory.StaffServices().loadAll();
-            observableList = tableAllStaff.getItems();
-            observableList.clear();
-            clearSelectStaff();
-            observableList.addAll(listStaff);
-            tableAllStaff.refresh();
+            ObservableList<Staff> observableList;
+            if(!(listStaff == null)) {
+                observableList = tableAllStaff.getItems();
+                observableList.clear();
+                clearSelectStaff();
+                observableList.addAll(listStaff);
+            }
         } else {
             showCheckConnectWindow();
         }

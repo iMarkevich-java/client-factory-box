@@ -16,18 +16,16 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
     </rowConstraints>
-    <children>
-        <Label text="Lost connect with server!!!" GridPane.halignment="CENTER">
-            <font>
-                <Font name="Arial Bold Italic" size="18.0"/>
-            </font>
-        </Label>
-        <Label text="Check connect!!!" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-            <font>
-                <Font name="Arial Bold Italic" size="18.0"/>
-            </font>
-        </Label>
-        <Button fx:id="closeButton" onAction="#close" mnemonicParsing="false" text="OK" GridPane.halignment="CENTER"
-                GridPane.rowIndex="2"/>
-    </children>
+    <Label text="Lost connect with server!!!" GridPane.halignment="CENTER">
+        <font>
+            <Font name="Arial Bold Italic" size="18.0"/>
+        </font>
+    </Label>
+    <Label text="Check connect!!!" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+        <font>
+            <Font name="Arial Bold Italic" size="18.0"/>
+        </font>
+    </Label>
+    <Button fx:id="closeButton" onAction="#close" mnemonicParsing="false" text="OK" GridPane.halignment="CENTER"
+            GridPane.rowIndex="2"/>
 </GridPane>

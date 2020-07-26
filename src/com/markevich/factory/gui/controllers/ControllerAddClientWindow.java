@@ -1,6 +1,5 @@
 package com.markevich.factory.gui.controllers;
 
-
 import businessObjectFactoryBox.Client;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
@@ -16,27 +15,7 @@ import javafx.scene.control.TextField;
 
 import java.util.List;
 
-
 public class ControllerAddClientWindow implements DBWindow {
-    @FXML
-    private TextField companyNameTextField;
-    @FXML
-    private Label companyNameLabel;
-    @FXML
-    private TextArea legalDataTextField;
-    @FXML
-    private Label legalDataLabel;
-    @FXML
-    private TextArea addressTextField;
-    @FXML
-    private Label addressLabel;
-    @FXML
-    private TextField managerTextField;
-    @FXML
-    private Label managerLabel;
-    @FXML
-    private TableView<Client> tableAllClient;
-    private ObservableList<Client> observableList;
 
     @FXML
     private void showMainWindow() {
@@ -63,6 +42,15 @@ public class ControllerAddClientWindow implements DBWindow {
     }
 
     @FXML
+    private TextField companyNameTextField;
+    @FXML
+    private TextArea legalDataTextField;
+    @FXML
+    private TextArea addressTextField;
+    @FXML
+    private TextField managerTextField;
+
+    @FXML
     private void save() {
         if (checkConnect()) {
             Client client = new Client();
@@ -80,18 +68,14 @@ public class ControllerAddClientWindow implements DBWindow {
         }
     }
 
-    @Override
-    public void setData(String data) {
-    }
-
-    @Override
-    public void reloadWindow() {
-        List<Client> listClient = ServiceFactory.ClientServices().loadAll();
-        observableList = tableAllClient.getItems();
-        observableList.clear();
-        observableList.addAll(listClient);
-        clearSelectClient();
-    }
+    @FXML
+    private Label companyNameLabel;
+    @FXML
+    private Label legalDataLabel;
+    @FXML
+    private Label addressLabel;
+    @FXML
+    private Label managerLabel;
 
     private void clearSelectClient() {
         companyNameTextField.setText("");
@@ -136,5 +120,24 @@ public class ControllerAddClientWindow implements DBWindow {
 
     private Boolean checkConnect() {
         return ServiceFactory.ConnectService().connect().equals("OK");
+    }
+
+    @FXML
+    private TableView<Client> tableAllClient;
+
+    @Override
+    public void setData(String data) {
+    }
+
+    @Override
+    public void reloadWindow() {
+        List<Client> listClient = ServiceFactory.ClientServices().loadAll();
+        if(!(listClient == null)) {
+            ObservableList<Client> observableList;
+            observableList = tableAllClient.getItems();
+            observableList.clear();
+            observableList.addAll(listClient);
+            clearSelectClient();
+        }
     }
 }

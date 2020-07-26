@@ -17,25 +17,6 @@ import java.util.List;
 
 
 public class ControllerAddSupplierWindow implements DBWindow {
-    @FXML
-    private TextField companyNameTextField;
-    @FXML
-    private Label companyNameLabel;
-    @FXML
-    private TextArea legalDataTextField;
-    @FXML
-    private Label legalDataLabel;
-    @FXML
-    private TextArea addressTextField;
-    @FXML
-    private Label addressLabel;
-    @FXML
-    private TextField managerTextField;
-    @FXML
-    private Label managerLabel;
-    @FXML
-    private TableView<Supplier> tableAllClient;
-    private ObservableList<Supplier> observableList;
 
     @FXML
     private void showMainWindow() {
@@ -59,6 +40,46 @@ public class ControllerAddSupplierWindow implements DBWindow {
         CheckConnect checkConnect = new CheckConnect();
         checkConnect.createWindow();
     }
+
+    @FXML
+    private TextField companyNameTextField;
+    @FXML
+    private TextArea legalDataTextField;
+    @FXML
+    private TextArea addressTextField;
+    @FXML
+    private TextField managerTextField;
+
+    @FXML
+    private void save() {
+        if (checkConnect()) {
+            Supplier supplier = new Supplier();
+            supplier.setId("0");
+            if (checkValueText()) {
+                supplier.setAddress(addressTextField.getText());
+                supplier.setManager(managerTextField.getText());
+                supplier.setLegalData(legalDataTextField.getText());
+                supplier.setCompanyName(companyNameTextField.getText());
+                ServiceFactory.SupplierServices().save(supplier);
+                reloadWindow();
+            }
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    private Boolean checkConnect() {
+        return ServiceFactory.ConnectService().connect().equals("OK");
+    }
+
+    @FXML
+    private Label companyNameLabel;
+    @FXML
+    private Label legalDataLabel;
+    @FXML
+    private Label addressLabel;
+    @FXML
+    private Label managerLabel;
 
     private void clearSelectSupplier() {
         companyNameLabel.setText("");
@@ -105,40 +126,24 @@ public class ControllerAddSupplierWindow implements DBWindow {
         return bool;
     }
 
-    @FXML
-    private void save() {
-        if (checkConnect()) {
-            Supplier supplier = new Supplier();
-            supplier.setId("0");
-            if (checkValueText()) {
-                supplier.setAddress(addressTextField.getText());
-                supplier.setManager(managerTextField.getText());
-                supplier.setLegalData(legalDataTextField.getText());
-                supplier.setCompanyName(companyNameTextField.getText());
-                ServiceFactory.SupplierServices().save(supplier);
-                reloadWindow();
-            }
-        } else {
-            showCheckConnectWindow();
-        }
-    }
-
-    private Boolean checkConnect() {
-        return ServiceFactory.ConnectService().connect().equals("OK");
-    }
-
     @Override
     public void setData(String data) {
     }
 
+    @FXML
+    private TableView<Supplier> tableAllClient;
+
     @Override
     public void reloadWindow() {
         if (checkConnect()) {
+            ObservableList<Supplier> observableList;
             List<Supplier> list = ServiceFactory.SupplierServices().loadAll();
-            observableList = tableAllClient.getItems();
-            observableList.clear();
-            observableList.addAll(list);
-            clearSelectSupplier();
+            if (!(list == null)) {
+                observableList = tableAllClient.getItems();
+                observableList.clear();
+                observableList.addAll(list);
+                clearSelectSupplier();
+            }
         } else {
             showCheckConnectWindow();
         }

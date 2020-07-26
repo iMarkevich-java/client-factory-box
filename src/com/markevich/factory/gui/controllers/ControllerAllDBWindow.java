@@ -13,50 +13,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerAllDBWindow implements DBWindow {
-    @FXML
-    private TextArea clientTextArea;
-    @FXML
-    private TextArea staffTextArea;
-    @FXML
-    private TextArea orderTextArea;
-    @FXML
-    private TextArea productTextArea;
-    @FXML
-    private TextArea materialTextArea;
-    @FXML
-    private TextArea supplierTextArea;
-    @FXML
-    private ImageView imageProductImageView;
-    @FXML
-    private ImageView textureProductImageView;
-    @FXML
-    private ImageView staffPhotoImageView;
-    @FXML
-    private ImageView materialImageView;
-    @FXML
-    private TableView<Client> clientTableView;
-    @FXML
-    private TableView<Staff> staffTableView;
-    @FXML
-    private TableView<Day> staffDayTable;
-    @FXML
-    private TableView<Order> orderTableView;
-    @FXML
-    private TableView<Product> productTableView;
-    @FXML
-    private TableView<Material> materialsTableView;
-    @FXML
-    private TableView<Supplier> supplierTableView;
-    private List<Client> clientsList = new ArrayList<>();
-    private List<Order> ordersList = new ArrayList<>();
-    private List<Product> productsList = new ArrayList<>();
-    private List<Material> materialsList = new ArrayList<>();
-    private List<Supplier> supplierList = new ArrayList<>();
-
 
     @FXML
     private void showMainWindow() {
@@ -70,15 +29,23 @@ public class ControllerAllDBWindow implements DBWindow {
         checkConnect.createWindow();
     }
 
+    private List<Client> clientsList = null;
+    @FXML
+    private TextArea clientTextArea;
+    @FXML
+    private TableView<Client> clientTableView;
+
     @FXML
     private void clientChange() {
         if (checkConnect()) {
             clientTextArea.setText("");
             ObservableList<Client> observableList;
             clientsList = ServiceFactory.ClientServices().loadAll();
-            observableList = clientTableView.getItems();
-            observableList.clear();
-            observableList.addAll(clientsList);
+            if (!(clientsList == null)) {
+                observableList = clientTableView.getItems();
+                observableList.clear();
+                observableList.addAll(clientsList);
+            }
         } else {
             showCheckConnectWindow();
         }
@@ -87,8 +54,17 @@ public class ControllerAllDBWindow implements DBWindow {
     @FXML
     private void setClient() {
         Client client = clientTableView.getSelectionModel().getSelectedItem();
-        clientTextArea.setText(client.toString());
+        if (!(client == null)) {
+            clientTextArea.setText(client.toString());
+        }
     }
+
+    @FXML
+    private TextArea staffTextArea;
+    @FXML
+    private ImageView staffPhotoImageView;
+    @FXML
+    private TableView<Staff> staffTableView;
 
     @FXML
     private void staffChange() {
@@ -106,24 +82,41 @@ public class ControllerAllDBWindow implements DBWindow {
     }
 
     @FXML
+    private TableView<Day> staffDayTable;
+
+    @FXML
     private void setStaff() {
         Staff staff = staffTableView.getSelectionModel().getSelectedItem();
-        staffTextArea.setText(staff.toString());
-        staffPhotoImageView.setImage(new Image(staff.getPathPhoto()));
-        StaffDays staffDays = ServiceFactory.StaffDayServices().loadById(staff.getId());
-        ObservableList<Day> observableListDay = staffDayTable.getItems();
-        observableListDay.clear();
-        observableListDay.addAll(staffDays.getListDay());
+        if (!(staff == null)) {
+            staffTextArea.setText(staff.toString());
+            staffPhotoImageView.setImage(new Image(staff.getPathPhoto()));
+            StaffDays staffDays = ServiceFactory.StaffDayServices().loadById(staff.getId());
+            if (!(staffDays == null)) {
+                ObservableList<Day> observableListDay = staffDayTable.getItems();
+                observableListDay.clear();
+                observableListDay.addAll(staffDays.getListDay());
+            }
+        }
+
     }
+
+    private List<Order> ordersList = null;
+    @FXML
+    private TextArea orderTextArea;
+    @FXML
+    private TableView<Order> orderTableView;
 
     @FXML
     private void ordersChange() {
         if (checkConnect()) {
+            orderTextArea.setText("");
             ObservableList<Order> observableList;
             ordersList = ServiceFactory.OrderServices().loadAll();
-            observableList = orderTableView.getItems();
-            observableList.clear();
-            observableList.addAll(ordersList);
+            if (!(ordersList == null)) {
+                observableList = orderTableView.getItems();
+                observableList.clear();
+                observableList.addAll(ordersList);
+            }
         } else {
             showCheckConnectWindow();
         }
@@ -132,17 +125,31 @@ public class ControllerAllDBWindow implements DBWindow {
     @FXML
     private void setOrder() {
         Order order = orderTableView.getSelectionModel().getSelectedItem();
-        orderTextArea.setText(order.toString());
+        if (!(order == null)) {
+            orderTextArea.setText(order.toString());
+        }
     }
+
+    private List<Material> materialsList = null;
+    @FXML
+    private TextArea materialTextArea;
+    @FXML
+    private ImageView materialImageView;
+    @FXML
+    private TableView<Material> materialsTableView;
 
     @FXML
     private void materialsChange() {
         if (checkConnect()) {
+            materialTextArea.setText("");
+            materialImageView.setImage(null);
             ObservableList<Material> observableList;
             materialsList = ServiceFactory.MaterialServices().loadAll();
-            observableList = materialsTableView.getItems();
-            observableList.clear();
-            observableList.addAll(materialsList);
+            if (!(materialsList == null)) {
+                observableList = materialsTableView.getItems();
+                observableList.clear();
+                observableList.addAll(materialsList);
+            }
         } else {
             showCheckConnectWindow();
         }
@@ -151,18 +158,35 @@ public class ControllerAllDBWindow implements DBWindow {
     @FXML
     private void setMaterials() {
         Material material = materialsTableView.getSelectionModel().getSelectedItem();
-        materialTextArea.setText(material.toString());
-        materialImageView.setImage(new Image(material.getPathImage()));
+        if (!(material == null)) {
+            materialTextArea.setText(material.toString());
+            materialImageView.setImage(new Image(material.getPathImage()));
+        }
     }
+
+    private List<Product> productsList = null;
+    @FXML
+    private ImageView imageProductImageView;
+    @FXML
+    private TextArea productTextArea;
+    @FXML
+    private ImageView textureProductImageView;
+    @FXML
+    private TableView<Product> productTableView;
 
     @FXML
     private void productChange() {
         if (checkConnect()) {
+            imageProductImageView.setImage(null);
+            textureProductImageView.setImage(null);
+            productTextArea.setText("");
             ObservableList<Product> observableList;
             productsList = ServiceFactory.ProductServices().loadAll();
-            observableList = productTableView.getItems();
-            observableList.clear();
-            observableList.addAll(productsList);
+            if (!(productsList == null)) {
+                observableList = productTableView.getItems();
+                observableList.clear();
+                observableList.addAll(productsList);
+            }
         } else {
             showCheckConnectWindow();
         }
@@ -171,19 +195,30 @@ public class ControllerAllDBWindow implements DBWindow {
     @FXML
     private void setProduct() {
         Product product = productTableView.getSelectionModel().getSelectedItem();
-        productTextArea.setText(product.toString());
-        imageProductImageView.setImage(new Image(product.getImage()));
-        textureProductImageView.setImage(new Image(product.getTexture()));
+        if (!(product == null)) {
+            productTextArea.setText(product.toString());
+            imageProductImageView.setImage(new Image(product.getImage()));
+            textureProductImageView.setImage(new Image(product.getTexture()));
+        }
     }
+
+    private List<Supplier> supplierList = null;
+    @FXML
+    private TextArea supplierTextArea;
+    @FXML
+    private TableView<Supplier> supplierTableView;
 
     @FXML
     private void supplierChange() {
         if (checkConnect()) {
+            supplierTextArea.setText("");
             ObservableList<Supplier> observableList;
             supplierList = ServiceFactory.SupplierServices().loadAll();
-            observableList = supplierTableView.getItems();
-            observableList.clear();
-            observableList.addAll(supplierList);
+            if (!(supplierList == null)) {
+                observableList = supplierTableView.getItems();
+                observableList.clear();
+                observableList.addAll(supplierList);
+            }
         } else {
             showCheckConnectWindow();
         }
@@ -192,7 +227,9 @@ public class ControllerAllDBWindow implements DBWindow {
     @FXML
     private void setSupplier() {
         Supplier supplier = supplierTableView.getSelectionModel().getSelectedItem();
-        supplierTextArea.setText(supplier.toString());
+        if (!(supplier == null)) {
+            supplierTextArea.setText(supplier.toString());
+        }
     }
 
     private Boolean checkConnect() {

@@ -15,32 +15,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class ControllerMainWindow implements DBWindow {
-    @FXML
-    private CheckBox localhostCheckBox;
-    @FXML
-    private Button allDataButton;
-    @FXML
-    private Button staffButton;
-    @FXML
-    private Button supplierButton;
-    @FXML
-    private Button clientButton;
-    @FXML
-    private Button exitButton;
-    @FXML
-    private Button staffDayButton;
-    @FXML
-    private Button connectButton;
-    @FXML
-    private Button enterUserButton;
-    @FXML
-    private TextField ipTextField;
-    @FXML
-    private TextField portTextField;
-    @FXML
-    private TextField nameUserTextField;
-    @FXML
-    private PasswordField passwordField;
 
     public void showStaffDayWindow() {
         if (checkConnect()) {
@@ -98,6 +72,23 @@ public class ControllerMainWindow implements DBWindow {
     }
 
     @FXML
+    private Button allDataButton;
+    @FXML
+    private Button staffButton;
+    @FXML
+    private Button supplierButton;
+    @FXML
+    private Button clientButton;
+    @FXML
+    private Button staffDayButton;
+    @FXML
+    private Button enterUserButton;
+    @FXML
+    private TextField nameUserTextField;
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
     private void enter() {
         if (enterUserButton.getText().equals("Enter")) {
             if (!(nameUserTextField.getText().isEmpty() || passwordField.getText().isEmpty())) {
@@ -131,6 +122,13 @@ public class ControllerMainWindow implements DBWindow {
             reloadWindow();
         }
     }
+
+    @FXML
+    private Button connectButton;
+    @FXML
+    private TextField ipTextField;
+    @FXML
+    private TextField portTextField;
 
     @FXML
     private void connect() {
@@ -185,6 +183,9 @@ public class ControllerMainWindow implements DBWindow {
         }
 
     }
+
+    @FXML
+    private CheckBox localhostCheckBox;
 
     private Boolean checkConnect() {
         return ServiceFactory.ConnectService().connect().equals("OK");

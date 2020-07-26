@@ -18,24 +18,6 @@ import javafx.scene.control.TextField;
 import java.util.List;
 
 public class ControllerListClientWindow implements DBWindow {
-    @FXML
-    private Button updateButton;
-    @FXML
-    private Button ordersClientButton;
-    @FXML
-    private Button deleteButton;
-    @FXML
-    private TextField companyNameTextField;
-    @FXML
-    private TextArea legalDataTextField;
-    @FXML
-    private TextArea addressTextField;
-    @FXML
-    private TextField managerTextField;
-    @FXML
-    private TableView<Client> tableAllClient;
-    private ObservableList<Client> observableList;
-    private String data;
 
     @FXML
     private void showMainWindow() {
@@ -75,13 +57,20 @@ public class ControllerListClientWindow implements DBWindow {
         checkConnect.createWindow();
     }
 
-    private void clearSelectClient() {
-        companyNameTextField.setText("");
-        legalDataTextField.setText("");
-        addressTextField.setText("");
-        managerTextField.setText("");
-        tableAllClient.refresh();
-    }
+    @FXML
+    private Button updateButton;
+    @FXML
+    private Button ordersClientButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private TextField companyNameTextField;
+    @FXML
+    private TextArea legalDataTextField;
+    @FXML
+    private TextArea addressTextField;
+    @FXML
+    private TextField managerTextField;
 
     @FXML
     private void selectClient() {
@@ -129,6 +118,14 @@ public class ControllerListClientWindow implements DBWindow {
         }
     }
 
+    private void clearSelectClient() {
+        companyNameTextField.setText("");
+        legalDataTextField.setText("");
+        addressTextField.setText("");
+        managerTextField.setText("");
+        tableAllClient.refresh();
+    }
+
     @FXML
     private void delete() {
         if (checkConnect()) {
@@ -158,10 +155,15 @@ public class ControllerListClientWindow implements DBWindow {
         return ServiceFactory.ConnectService().connect().equals("OK");
     }
 
+    private String data;
+
     @Override
     public void setData(String data) {
         this.data = data;
     }
+
+    @FXML
+    private TableView<Client> tableAllClient;
 
     @Override
     public void reloadWindow() {
@@ -173,11 +175,14 @@ public class ControllerListClientWindow implements DBWindow {
             legalDataTextField.setDisable(true);
             addressTextField.setDisable(true);
             managerTextField.setDisable(true);
+            ObservableList<Client> observableList;
             List<Client> listClient = ServiceFactory.ClientServices().loadAll();
-            observableList = tableAllClient.getItems();
-            observableList.clear();
-            clearSelectClient();
-            observableList.addAll(listClient);
+            if(!(listClient == null)) {
+                observableList = tableAllClient.getItems();
+                observableList.clear();
+                clearSelectClient();
+                observableList.addAll(listClient);
+            }
         } else {
             showCheckConnectWindow();
         }

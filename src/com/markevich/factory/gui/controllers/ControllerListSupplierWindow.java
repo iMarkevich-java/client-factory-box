@@ -17,24 +17,6 @@ import javafx.scene.control.TextField;
 import java.util.List;
 
 public class ControllerListSupplierWindow implements DBWindow {
-    @FXML
-    private Button updateSupplierButton;
-    @FXML
-    private Button deleteSupplierButton;
-    @FXML
-    private Button supplierMaterialsButton;
-    @FXML
-    private TextField companyNameTextField;
-    @FXML
-    private TextArea legalDataTextField;
-    @FXML
-    private TextArea addressTextField;
-    @FXML
-    private TextField managerTextField;
-    @FXML
-    private TableView<Supplier> tableAllSupplier;
-    private ObservableList<Supplier> observableList;
-    private String data;
 
     @FXML
     private void showMainWindow() {
@@ -73,6 +55,21 @@ public class ControllerListSupplierWindow implements DBWindow {
         CheckConnect checkConnect = new CheckConnect();
         checkConnect.createWindow();
     }
+
+    @FXML
+    private Button updateSupplierButton;
+    @FXML
+    private Button deleteSupplierButton;
+    @FXML
+    private Button supplierMaterialsButton;
+    @FXML
+    private TextField companyNameTextField;
+    @FXML
+    private TextArea legalDataTextField;
+    @FXML
+    private TextArea addressTextField;
+    @FXML
+    private TextField managerTextField;
 
     public void selectClient() {
         Supplier supplier = tableAllSupplier.getSelectionModel().getSelectedItem();
@@ -145,10 +142,15 @@ public class ControllerListSupplierWindow implements DBWindow {
         return ServiceFactory.ConnectService().connect().equals("OK");
     }
 
+    private String data;
+
     @Override
     public void setData(String data) {
         this.data = data;
     }
+
+    @FXML
+    private TableView<Supplier> tableAllSupplier;
 
     @Override
     public void reloadWindow() {
@@ -161,10 +163,13 @@ public class ControllerListSupplierWindow implements DBWindow {
             addressTextField.setDisable(true);
             managerTextField.setDisable(true);
             List<Supplier> listSupplier = ServiceFactory.SupplierServices().loadAll();
-            observableList = tableAllSupplier.getItems();
-            observableList.clear();
-            clearSelectClient();
-            observableList.addAll(listSupplier);
+            ObservableList<Supplier> observableList;
+            if(!(listSupplier == null)) {
+                observableList = tableAllSupplier.getItems();
+                observableList.clear();
+                clearSelectClient();
+                observableList.addAll(listSupplier);
+            }
         } else {
             showCheckConnectWindow();
         }

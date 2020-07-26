@@ -25,51 +25,6 @@ import java.util.List;
 public class ControllerAddProductWindow implements DBWindow {
 
     @FXML
-    private SplitMenuButton sizeBoxSplitMenuButton;
-    @FXML
-    private SplitMenuButton materialSplitMenuButton;
-    @FXML
-    private ImageView textureImageView;
-    @FXML
-    private ImageView textureProductImageView;
-    @FXML
-    private ImageView imageImageView;
-    @FXML
-    private ImageView imageProductImageView;
-    @FXML
-    private Label orderNameLabel;
-    @FXML
-    private Label sizeBoxLabel;
-    @FXML
-    private Label imageLabel;
-    @FXML
-    private Label textureLabel;
-    @FXML
-    private Label sizeBoxProductLabel;
-    @FXML
-    private Label dimensionTextField;
-    @FXML
-    private Label productIdLabel;
-    @FXML
-    private Label colorLabel;
-    @FXML
-    private Label colorProductLabel;
-    @FXML
-    private Label materialLabel;
-    @FXML
-    private Label materialProductLabel;
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Button updateButton;
-    @FXML
-    private ColorPicker colorColorPicker;
-    private String orderId;
-    private String urlImage;
-    private String urlTexture;
-    private FileChooser fileChooser;
-
-    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -92,79 +47,16 @@ public class ControllerAddProductWindow implements DBWindow {
         checkConnect.createWindow();
     }
 
-    @Override
-    public void setData(String orderId) {
-        this.orderId = orderId;
-    }
-
-    @Override
-    public void reloadWindow() {
-        if (checkConnect()) {
-            Order order = ServiceFactory.OrderServices().loadById(orderId);
-            orderNameLabel.setText(order.getOrderName());
-            clearSelectOrder();
-            saveButton.setDisable(false);
-            updateButton.setDisable(true);
-            List<Product> list = ServiceFactory.ProductServices().loadAll();
-            for (Product product : list) {
-                if (product.getOrderId().equals(orderId)) {
-                    saveButton.setDisable(true);
-                    updateButton.setDisable(false);
-                    dimensionTextField.setText(product.getDimensions());
-                    sizeBoxProductLabel.setText(product.getSizeBox());
-                    materialProductLabel.setText(product.getMaterial());
-                    colorProductLabel.setText(product.getColor());
-                    colorProductLabel.setTextFill(Paint.valueOf(product.getColor()));
-                    productIdLabel.setText(product.getId());
-                    if (!(product.getImage() == null)) {
-                        imageProductImageView.setImage(new Image(product.getImage()));
-                    }
-                    if (!(product.getTexture() == null)) {
-                        textureProductImageView.setImage(new Image(product.getTexture()));
-                    }
-                    break;
-                }
-            }
-        } else {
-            showCheckConnectWindow();
-        }
-    }
-
-    private Boolean checkValueText() {
-        boolean bool = true;
-
-        if (colorColorPicker.getValue() == null) {
-            colorLabel.setText("Please select color");
-            bool = false;
-        } else {
-            colorLabel.setText("");
-        }
-        if (sizeBoxSplitMenuButton.getText().isEmpty()) {
-            sizeBoxLabel.setText("Please select size");
-            bool = false;
-        } else {
-            sizeBoxLabel.setText("");
-        }
-        if (materialSplitMenuButton.getText().isEmpty()) {
-            materialLabel.setText("Please select material");
-            bool = false;
-        } else {
-            materialLabel.setText("");
-        }
-        if (urlImage == null) {
-            imageLabel.setText("Please enter image");
-            bool = false;
-        } else {
-            imageLabel.setText("");
-        }
-        if (urlTexture == null) {
-            textureLabel.setText("Please select texture");
-            bool = false;
-        } else {
-            textureLabel.setText("");
-        }
-        return bool;
-    }
+    @FXML
+    private SplitMenuButton sizeBoxSplitMenuButton;
+    @FXML
+    private SplitMenuButton materialSplitMenuButton;
+    @FXML
+    private ColorPicker colorColorPicker;
+    private String orderId;
+    private String urlImage;
+    private String urlTexture;
+    private FileChooser fileChooser;
 
     @FXML
     private void save() {
@@ -185,6 +77,9 @@ public class ControllerAddProductWindow implements DBWindow {
             showCheckConnectWindow();
         }
     }
+
+    @FXML
+    private Label productIdLabel;
 
     @FXML
     private void update() {
@@ -216,6 +111,9 @@ public class ControllerAddProductWindow implements DBWindow {
     }
 
     @FXML
+    private ImageView imageImageView;
+
+    @FXML
     private void findImage() {
         if (checkConnect()) {
             Stage stage = new Stage();
@@ -235,6 +133,9 @@ public class ControllerAddProductWindow implements DBWindow {
     }
 
     @FXML
+    private ImageView textureImageView;
+
+    @FXML
     private void findTexture() {
         if (checkConnect()) {
             Stage stage = new Stage();
@@ -251,31 +152,6 @@ public class ControllerAddProductWindow implements DBWindow {
         } else {
             showCheckConnectWindow();
         }
-    }
-
-    private void clearSelectOrder() {
-        colorColorPicker.setValue(null);
-        imageImageView.setImage(null);
-        textureImageView.setImage(null);
-        materialSplitMenuButton.setText("");
-        sizeBoxSplitMenuButton.setText("");
-        saveButton.setDisable(false);
-        dimensionTextField.setText("");
-        sizeBoxProductLabel.setText("");
-        sizeBoxLabel.setText("");
-        materialProductLabel.setText("");
-        materialLabel.setText("");
-        colorProductLabel.setText("");
-        colorLabel.setText("");
-        productIdLabel.setText("");
-        textureProductImageView.setImage(null);
-        imageProductImageView.setImage(null);
-        textureLabel.setText("");
-        imageLabel.setText("");
-    }
-
-    private Boolean checkConnect() {
-        return ServiceFactory.ConnectService().connect().equals("OK");
     }
 
     @FXML
@@ -316,5 +192,134 @@ public class ControllerAddProductWindow implements DBWindow {
     @FXML
     private void getWoodMaterial() {
         materialSplitMenuButton.setText("wod");
+    }
+
+    @FXML
+    private ImageView textureProductImageView;
+    @FXML
+    private ImageView imageProductImageView;
+    @FXML
+    private Label sizeBoxLabel;
+    @FXML
+    private Label imageLabel;
+    @FXML
+    private Label textureLabel;
+    @FXML
+    private Label sizeBoxProductLabel;
+    @FXML
+    private Label dimensionTextField;
+    @FXML
+    private Label colorLabel;
+    @FXML
+    private Label colorProductLabel;
+    @FXML
+    private Label materialLabel;
+    @FXML
+    private Label materialProductLabel;
+    @FXML
+    private Button saveButton;
+
+    private void clearSelectOrder() {
+        colorColorPicker.setValue(null);
+        imageImageView.setImage(null);
+        textureImageView.setImage(null);
+        materialSplitMenuButton.setText("");
+        sizeBoxSplitMenuButton.setText("");
+        saveButton.setDisable(false);
+        dimensionTextField.setText("");
+        sizeBoxProductLabel.setText("");
+        sizeBoxLabel.setText("");
+        materialProductLabel.setText("");
+        materialLabel.setText("");
+        colorProductLabel.setText("");
+        colorLabel.setText("");
+        productIdLabel.setText("");
+        textureProductImageView.setImage(null);
+        imageProductImageView.setImage(null);
+        textureLabel.setText("");
+        imageLabel.setText("");
+    }
+
+    private Boolean checkValueText() {
+        boolean bool = true;
+
+        if (colorColorPicker.getValue() == null) {
+            colorLabel.setText("Please select color");
+            bool = false;
+        } else {
+            colorLabel.setText("");
+        }
+        if (sizeBoxSplitMenuButton.getText().isEmpty()) {
+            sizeBoxLabel.setText("Please select size");
+            bool = false;
+        } else {
+            sizeBoxLabel.setText("");
+        }
+        if (materialSplitMenuButton.getText().isEmpty()) {
+            materialLabel.setText("Please select material");
+            bool = false;
+        } else {
+            materialLabel.setText("");
+        }
+        if (urlImage == null) {
+            imageLabel.setText("Please enter image");
+            bool = false;
+        } else {
+            imageLabel.setText("");
+        }
+        if (urlTexture == null) {
+            textureLabel.setText("Please select texture");
+            bool = false;
+        } else {
+            textureLabel.setText("");
+        }
+        return bool;
+    }
+
+    private Boolean checkConnect() {
+        return ServiceFactory.ConnectService().connect().equals("OK");
+    }
+
+    @Override
+    public void setData(String orderId) {
+        this.orderId = orderId;
+    }
+
+    @FXML
+    private Label orderNameLabel;
+    @FXML
+    private Button updateButton;
+
+    @Override
+    public void reloadWindow() {
+        if (checkConnect()) {
+            Order order = ServiceFactory.OrderServices().loadById(orderId);
+            orderNameLabel.setText(order.getOrderName());
+            clearSelectOrder();
+            saveButton.setDisable(false);
+            updateButton.setDisable(true);
+            List<Product> list = ServiceFactory.ProductServices().loadAll();
+            for (Product product : list) {
+                if (product.getOrderId().equals(orderId)) {
+                    saveButton.setDisable(true);
+                    updateButton.setDisable(false);
+                    dimensionTextField.setText(product.getDimensions());
+                    sizeBoxProductLabel.setText(product.getSizeBox());
+                    materialProductLabel.setText(product.getMaterial());
+                    colorProductLabel.setText(product.getColor());
+                    colorProductLabel.setTextFill(Paint.valueOf(product.getColor()));
+                    productIdLabel.setText(product.getId());
+                    if (!(product.getImage() == null)) {
+                        imageProductImageView.setImage(new Image(product.getImage()));
+                    }
+                    if (!(product.getTexture() == null)) {
+                        textureProductImageView.setImage(new Image(product.getTexture()));
+                    }
+                    break;
+                }
+            }
+        } else {
+            showCheckConnectWindow();
+        }
     }
 }

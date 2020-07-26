@@ -16,39 +16,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ControllerOrdersClientWindow implements DBWindow {
-    @FXML
-    private Button deleteButton;
-    @FXML
-    private Button orderProductButton;
-    @FXML
-    private Button updateButton;
-    @FXML
-    private Label startDateLabel;
-    @FXML
-    private TextField orderTermTextField;
-    @FXML
-    private Label endDateLabel;
-    @FXML
-    private Label orderNameLabel;
-    @FXML
-    private TextField sizeOrderTextField;
-    @FXML
-    private SplitMenuButton statusSplitMenuButton;
-    @FXML
-    private MenuItem waitMenuItem;
-    @FXML
-    private MenuItem startMenuItem;
-    @FXML
-    private MenuItem stopMenuItem;
-    @FXML
-    private MenuItem endMenuItem;
-    @FXML
-    private TextField stageTextField;
-    @FXML
-    private TableView<Order> tableOrdersClient;
-    private ObservableList<Order> observableList;
-    private String data;
-    private LocalDate startDate;
 
     @FXML
     private void showMainWindow() {
@@ -96,61 +63,23 @@ public class ControllerOrdersClientWindow implements DBWindow {
         checkConnect.createWindow();
     }
 
-    private Boolean checkConnect() {
-        return ServiceFactory.ConnectService().connect().equals("OK");
-    }
-
-    @Override
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    @Override
-    public void reloadWindow() {
-        if (checkConnect()) {
-            orderTermTextField.setDisable(true);
-            sizeOrderTextField.setDisable(true);
-            statusSplitMenuButton.setDisable(true);
-            stageTextField.setDisable(true);
-            orderProductButton.setDisable(true);
-            updateButton.setDisable(true);
-            deleteButton.setDisable(true);
-            Client client = ServiceFactory.ClientServices().loadById(data);
-            orderNameLabel.setText(client.getCompanyName());
-            List<Order> listOrder = ServiceFactory.OrderServices().loadAll();
-            observableList = tableOrdersClient.getItems();
-            observableList.clear();
-            for (Order order : listOrder) {
-                if (order.getClientId().equals(data)) {
-                    observableList.add(order);
-                }
-            }
-            clearSelectOrder();
-            tableOrdersClient.refresh();
-        } else {
-            showCheckConnectWindow();
-        }
-    }
-
     @FXML
-    private void checkStatusWait() {
-        statusSplitMenuButton.setText(waitMenuItem.getText());
-    }
-
+    private Button deleteButton;
     @FXML
-    private void checkStatusStart() {
-        statusSplitMenuButton.setText(startMenuItem.getText());
-    }
-
+    private Button orderProductButton;
     @FXML
-    private void checkStatusStop() {
-        statusSplitMenuButton.setText(stopMenuItem.getText());
-    }
-
+    private Button updateButton;
     @FXML
-    private void checkStatusEnd() {
-        statusSplitMenuButton.setText(endMenuItem.getText());
-    }
+    private Label startDateLabel;
+    @FXML
+    private TextField orderTermTextField;
+    @FXML
+    private Label endDateLabel;
+    @FXML
+    private TextField sizeOrderTextField;
+    @FXML
+    private TextField stageTextField;
+    private LocalDate startDate;
 
     @FXML
     private void selectOrder() {
@@ -174,6 +103,9 @@ public class ControllerOrdersClientWindow implements DBWindow {
     }
 
     @FXML
+    private Label orderNameLabel;
+
+    @FXML
     private void update() {
         if (checkConnect()) {
             Order order = tableOrdersClient.getSelectionModel().getSelectedItem();
@@ -192,15 +124,6 @@ public class ControllerOrdersClientWindow implements DBWindow {
         }
     }
 
-    private void clearSelectOrder() {
-        sizeOrderTextField.setText("");
-        statusSplitMenuButton.setText("");
-        stageTextField.setText("");
-        startDateLabel.setText("");
-        orderTermTextField.setText("");
-        endDateLabel.setText("");
-    }
-
     @FXML
     private void delete() {
         if (checkConnect()) {
@@ -214,6 +137,92 @@ public class ControllerOrdersClientWindow implements DBWindow {
                 }
                 ServiceFactory.OrderServices().delete(order.getId());
                 reloadWindow();
+            }
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    @FXML
+    private SplitMenuButton statusSplitMenuButton;
+    @FXML
+    private MenuItem waitMenuItem;
+
+    @FXML
+    private void checkStatusWait() {
+        statusSplitMenuButton.setText(waitMenuItem.getText());
+    }
+
+    @FXML
+    private MenuItem startMenuItem;
+
+    @FXML
+    private void checkStatusStart() {
+        statusSplitMenuButton.setText(startMenuItem.getText());
+    }
+
+    @FXML
+    private MenuItem stopMenuItem;
+
+    @FXML
+    private void checkStatusStop() {
+        statusSplitMenuButton.setText(stopMenuItem.getText());
+    }
+
+    @FXML
+    private MenuItem endMenuItem;
+
+    @FXML
+    private void checkStatusEnd() {
+        statusSplitMenuButton.setText(endMenuItem.getText());
+    }
+
+    private void clearSelectOrder() {
+        sizeOrderTextField.setText("");
+        statusSplitMenuButton.setText("");
+        stageTextField.setText("");
+        startDateLabel.setText("");
+        orderTermTextField.setText("");
+        endDateLabel.setText("");
+    }
+
+    private Boolean checkConnect() {
+        return ServiceFactory.ConnectService().connect().equals("OK");
+    }
+
+    private String data;
+
+    @Override
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    @FXML
+    private TableView<Order> tableOrdersClient;
+
+    @Override
+    public void reloadWindow() {
+        if (checkConnect()) {
+            orderTermTextField.setDisable(true);
+            sizeOrderTextField.setDisable(true);
+            statusSplitMenuButton.setDisable(true);
+            stageTextField.setDisable(true);
+            orderProductButton.setDisable(true);
+            updateButton.setDisable(true);
+            deleteButton.setDisable(true);
+            Client client = ServiceFactory.ClientServices().loadById(data);
+            orderNameLabel.setText(client.getCompanyName());
+            List<Order> listOrder = ServiceFactory.OrderServices().loadAll();
+            ObservableList<Order> observableList;
+            if(!(listOrder == null)) {
+                observableList = tableOrdersClient.getItems();
+                observableList.clear();
+                for (Order order : listOrder) {
+                    if (order.getClientId().equals(data)) {
+                        observableList.add(order);
+                    }
+                }
+                clearSelectOrder();
             }
         } else {
             showCheckConnectWindow();

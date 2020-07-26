@@ -2,8 +2,8 @@ package com.markevich.factory.gui.common;
 
 public enum WindowConfigs {
 
-    CheckConnectWindow("/com/markevich/factory/gui/fxml/check_connect_window.fxml", "Check connect window"),
-    StaffDayWindow("/com/markevich/factory/gui/fxml/staff_day.fxml", "Staff day window"),
+    CheckConnectWindow("/com/markevich/factory/gui/fxml/check_connect_window/check_connect_window.fxml", "Check connect window"),
+    StaffDayWindow("/com/markevich/factory/gui/fxml/staff_day/staff_day.fxml", "Staff day window"),
     StartWindow("/com/markevich/factory/gui/fxml/start/start_window.fxml", "Start window"),
     ClientAddWindow("/com/markevich/factory/gui/fxml/client/add_client_window.fxml", "Client add window"),
     ClientListWindow("/com/markevich/factory/gui/fxml/client/client_list_window.fxml", "Client list window"),
@@ -17,7 +17,7 @@ public enum WindowConfigs {
     MaterialsListWindow("/com/markevich/factory/gui/fxml/materials/materials_list_window.fxml", "Material list window"),
     MaterialAddWindow("/com/markevich/factory/gui/fxml/materials/add_material_window.fxml", "Material add window"),
     SupplierMaterialsWindow("/com/markevich/factory/gui/fxml/materials/supplier_materials_window.fxml", "Supplier materials window"),
-    AllDBWindow("/com/markevich/factory/gui/fxml/all_db_factory.fxml", "All data base window");
+    AllDBWindow("/com/markevich/factory/gui/fxml/all_db_factory/all_db_factory.fxml", "All data base window");
 
     private final String xmlUi;
 

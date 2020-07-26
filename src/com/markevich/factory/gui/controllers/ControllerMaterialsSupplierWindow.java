@@ -20,34 +20,6 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 public class ControllerMaterialsSupplierWindow implements DBWindow {
-    @FXML
-    private Button findImageButton;
-    @FXML
-    private ImageView imageImageView;
-    @FXML
-    private TextField sizeTextField;
-    @FXML
-    private TextField unitTextField;
-    @FXML
-    private TextField amountTextField;
-    @FXML
-    private SplitMenuButton materialNameSplitMenuButton;
-    @FXML
-    private TextField priceTextField;
-    @FXML
-    private Label unitLabel;
-    @FXML
-    private Label amountLabel;
-    @FXML
-    private Label priceLabel;
-    @FXML
-    private Label sizeLabel;
-    @FXML
-    private TableView<Material> tableSupplierMaterials;
-    private ObservableList<Material> observableList;
-    private String supplierId;
-    private String urlImage;
-    private FileChooser fileChooser;
 
     @FXML
     private void showMainWindow() {
@@ -83,6 +55,41 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
     }
 
     @FXML
+    private Button findImageButton;
+    @FXML
+    private ImageView imageImageView;
+    private String urlImage;
+    private FileChooser fileChooser;
+
+    @FXML
+    private void findImage() {
+        if (checkConnect()) {
+            Stage stage = new Stage();
+            fileChooser = new FileChooser();
+            File file;
+            try {
+                file = fileChooser.showOpenDialog(stage).getAbsoluteFile();
+                urlImage = file.toURI().toURL().toString();
+            } catch (MalformedURLException | NullPointerException exception) {
+                return;
+            }
+            Image image = new Image(urlImage);
+            imageImageView.setImage(image);
+        } else {
+            showCheckConnectWindow();
+        }
+    }
+
+    @FXML
+    private TextField sizeTextField;
+    @FXML
+    private TextField unitTextField;
+    @FXML
+    private TextField amountTextField;
+    @FXML
+    private TextField priceTextField;
+
+    @FXML
     private void selectMaterial() {
         Material material = tableSupplierMaterials.getSelectionModel().getSelectedItem();
         if (material != null) {
@@ -102,14 +109,14 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
         }
     }
 
-    private Boolean isNumber(String strNumber) {
-        try {
-            new BigDecimal(strNumber);
-        } catch (NumberFormatException | NullPointerException nfe) {
-            return false;
-        }
-        return true;
-    }
+    @FXML
+    private Label unitLabel;
+    @FXML
+    private Label amountLabel;
+    @FXML
+    private Label priceLabel;
+    @FXML
+    private Label sizeLabel;
 
     @FXML
     private void update() {
@@ -161,33 +168,7 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
     }
 
     @FXML
-    private void findImage() {
-        if (checkConnect()) {
-            Stage stage = new Stage();
-            fileChooser = new FileChooser();
-            File file;
-            try {
-                file = fileChooser.showOpenDialog(stage).getAbsoluteFile();
-                urlImage = file.toURI().toURL().toString();
-            } catch (MalformedURLException | NullPointerException exception) {
-                return;
-            }
-            Image image = new Image(urlImage);
-            imageImageView.setImage(image);
-        } else {
-            showCheckConnectWindow();
-        }
-    }
-
-    private void clearSelect() {
-        imageImageView.setImage(null);
-        materialNameSplitMenuButton.setText("");
-        priceTextField.setText("");
-        amountTextField.setText("");
-        unitTextField.setText("");
-        sizeTextField.setText("");
-        urlImage = null;
-    }
+    private SplitMenuButton materialNameSplitMenuButton;
 
     @FXML
     private void getLeatherMaterial() {
@@ -214,7 +195,6 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
         materialNameSplitMenuButton.setText("Wood");
     }
 
-
     @FXML
     private void delete() {
         if (checkConnect()) {
@@ -228,14 +208,38 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
         }
     }
 
+    private void clearSelect() {
+        imageImageView.setImage(null);
+        materialNameSplitMenuButton.setText("");
+        priceTextField.setText("");
+        amountTextField.setText("");
+        unitTextField.setText("");
+        sizeTextField.setText("");
+        urlImage = null;
+    }
+
+    private Boolean isNumber(String strNumber) {
+        try {
+            new BigDecimal(strNumber);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
+    }
+
     private Boolean checkConnect() {
         return ServiceFactory.ConnectService().connect().equals("OK");
     }
+
+    private String supplierId;
 
     @Override
     public void setData(String supplierId) {
         this.supplierId = supplierId;
     }
+
+    @FXML
+    private TableView<Material> tableSupplierMaterials;
 
     @Override
     public void reloadWindow() {
@@ -247,14 +251,17 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
             sizeTextField.setDisable(true);
             findImageButton.setDisable(true);
             List<Material> listMaterial = ServiceFactory.MaterialServices().loadAll();
-            observableList = tableSupplierMaterials.getItems();
-            observableList.clear();
-            for (Material material : listMaterial) {
-                if (material.getSupplierId().equals(supplierId)) {
-                    observableList.add(material);
+            ObservableList<Material> observableList;
+            if(!(listMaterial == null)) {
+                observableList = tableSupplierMaterials.getItems();
+                observableList.clear();
+                for (Material material : listMaterial) {
+                    if (material.getSupplierId().equals(supplierId)) {
+                        observableList.add(material);
+                    }
                 }
+                clearSelect();
             }
-            clearSelect();
         } else {
             showCheckConnectWindow();
         }
