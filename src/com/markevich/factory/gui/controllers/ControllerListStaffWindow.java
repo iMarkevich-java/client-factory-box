@@ -18,7 +18,6 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ControllerListStaffWindow implements DBWindow {

@@ -29,7 +29,6 @@ public class ControllerAllDBWindow implements DBWindow {
         checkConnect.createWindow();
     }
 
-    private List<Client> clientsList = null;
     @FXML
     private TextArea clientTextArea;
     @FXML
@@ -40,7 +39,7 @@ public class ControllerAllDBWindow implements DBWindow {
         if (checkConnect()) {
             clientTextArea.setText("");
             ObservableList<Client> observableList;
-            clientsList = ServiceFactory.ClientServices().loadAll();
+            List<Client> clientsList = ServiceFactory.ClientServices().loadAll();
             if (!(clientsList == null)) {
                 observableList = clientTableView.getItems();
                 observableList.clear();
@@ -100,7 +99,6 @@ public class ControllerAllDBWindow implements DBWindow {
 
     }
 
-    private List<Order> ordersList = null;
     @FXML
     private TextArea orderTextArea;
     @FXML
@@ -111,7 +109,7 @@ public class ControllerAllDBWindow implements DBWindow {
         if (checkConnect()) {
             orderTextArea.setText("");
             ObservableList<Order> observableList;
-            ordersList = ServiceFactory.OrderServices().loadAll();
+            List<Order> ordersList = ServiceFactory.OrderServices().loadAll();
             if (!(ordersList == null)) {
                 observableList = orderTableView.getItems();
                 observableList.clear();
@@ -130,7 +128,6 @@ public class ControllerAllDBWindow implements DBWindow {
         }
     }
 
-    private List<Material> materialsList = null;
     @FXML
     private TextArea materialTextArea;
     @FXML
@@ -144,7 +141,7 @@ public class ControllerAllDBWindow implements DBWindow {
             materialTextArea.setText("");
             materialImageView.setImage(null);
             ObservableList<Material> observableList;
-            materialsList = ServiceFactory.MaterialServices().loadAll();
+            List<Material> materialsList = ServiceFactory.MaterialServices().loadAll();
             if (!(materialsList == null)) {
                 observableList = materialsTableView.getItems();
                 observableList.clear();
@@ -164,7 +161,6 @@ public class ControllerAllDBWindow implements DBWindow {
         }
     }
 
-    private List<Product> productsList = null;
     @FXML
     private ImageView imageProductImageView;
     @FXML
@@ -181,7 +177,7 @@ public class ControllerAllDBWindow implements DBWindow {
             textureProductImageView.setImage(null);
             productTextArea.setText("");
             ObservableList<Product> observableList;
-            productsList = ServiceFactory.ProductServices().loadAll();
+            List<Product> productsList = ServiceFactory.ProductServices().loadAll();
             if (!(productsList == null)) {
                 observableList = productTableView.getItems();
                 observableList.clear();
@@ -202,7 +198,6 @@ public class ControllerAllDBWindow implements DBWindow {
         }
     }
 
-    private List<Supplier> supplierList = null;
     @FXML
     private TextArea supplierTextArea;
     @FXML
@@ -213,7 +208,7 @@ public class ControllerAllDBWindow implements DBWindow {
         if (checkConnect()) {
             supplierTextArea.setText("");
             ObservableList<Supplier> observableList;
-            supplierList = ServiceFactory.SupplierServices().loadAll();
+            List<Supplier> supplierList = ServiceFactory.SupplierServices().loadAll();
             if (!(supplierList == null)) {
                 observableList = supplierTableView.getItems();
                 observableList.clear();

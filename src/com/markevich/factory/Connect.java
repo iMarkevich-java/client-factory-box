@@ -36,8 +36,7 @@ public class Connect {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JSONWriter jsonWriter = new JSONWriter(outputStream);
-        return jsonWriter;
+        return new JSONWriter(outputStream);
     }
 
     public JSONTokener getJsonTokener() {
@@ -47,8 +46,7 @@ public class Connect {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JSONTokener jsonTokener = new JSONTokener(inputStream);
-        return jsonTokener;
+        return new JSONTokener(inputStream);
     }
 
     public void flush() {

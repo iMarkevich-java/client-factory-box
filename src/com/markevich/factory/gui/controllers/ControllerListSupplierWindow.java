@@ -142,11 +142,8 @@ public class ControllerListSupplierWindow implements DBWindow {
         return ServiceFactory.ConnectService().connect().equals("OK");
     }
 
-    private String data;
-
     @Override
     public void setData(String data) {
-        this.data = data;
     }
 
     @FXML

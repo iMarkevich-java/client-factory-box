@@ -14,7 +14,6 @@ public enum WindowConfigs {
     StaffListWindow("/com/markevich/factory/gui/fxml/staff/staff_list_window.fxml", "Staff list window"),
     SupplierListWindow("/com/markevich/factory/gui/fxml/supplier/supplier_list_window.fxml", "Supplier list window"),
     SupplierAddWindow("/com/markevich/factory/gui/fxml/supplier/add_supplier_window.fxml", "Supplier add window"),
-    MaterialsListWindow("/com/markevich/factory/gui/fxml/materials/materials_list_window.fxml", "Material list window"),
     MaterialAddWindow("/com/markevich/factory/gui/fxml/materials/add_material_window.fxml", "Material add window"),
     SupplierMaterialsWindow("/com/markevich/factory/gui/fxml/materials/supplier_materials_window.fxml", "Supplier materials window"),
     AllDBWindow("/com/markevich/factory/gui/fxml/all_db_factory/all_db_factory.fxml", "All data base window");

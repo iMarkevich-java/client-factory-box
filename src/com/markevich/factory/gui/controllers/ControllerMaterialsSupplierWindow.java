@@ -59,13 +59,12 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
     @FXML
     private ImageView imageImageView;
     private String urlImage;
-    private FileChooser fileChooser;
 
     @FXML
     private void findImage() {
         if (checkConnect()) {
             Stage stage = new Stage();
-            fileChooser = new FileChooser();
+            FileChooser fileChooser = new FileChooser();
             File file;
             try {
                 file = fileChooser.showOpenDialog(stage).getAbsoluteFile();

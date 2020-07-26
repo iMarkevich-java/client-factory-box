@@ -8,7 +8,10 @@ import com.markevich.factory.gui.common.WindowConfigs;
 import com.markevich.factory.service.ServiceFactory;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -19,8 +22,6 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 public class ControllerAddMaterialWindow implements DBWindow {
-
-    private FileChooser fileChooser;
 
     @FXML
     private void showMainWindow() {
@@ -54,7 +55,7 @@ public class ControllerAddMaterialWindow implements DBWindow {
     private void findImage() {
         if (checkConnect()) {
             Stage stage = new Stage();
-            fileChooser = new FileChooser();
+            FileChooser fileChooser = new FileChooser();
             File file;
             try {
                 file = fileChooser.showOpenDialog(stage).getAbsoluteFile();

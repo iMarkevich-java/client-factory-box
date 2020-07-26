@@ -79,7 +79,6 @@ public class ControllerOrdersClientWindow implements DBWindow {
     private TextField sizeOrderTextField;
     @FXML
     private TextField stageTextField;
-    private LocalDate startDate;
 
     @FXML
     private void selectOrder() {
@@ -97,7 +96,7 @@ public class ControllerOrdersClientWindow implements DBWindow {
             stageTextField.setText(order.getStage());
             startDateLabel.setText(order.getStartDate());
             orderTermTextField.setText(order.getOrderTerm());
-            startDate = order.getStartDateLocalDate();
+            LocalDate startDate = order.getStartDateLocalDate();
             endDateLabel.setText(startDate.plusDays(Long.parseLong(order.getOrderTerm())).toString());
         }
     }

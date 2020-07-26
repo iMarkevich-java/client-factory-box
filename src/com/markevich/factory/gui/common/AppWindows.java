@@ -51,9 +51,7 @@ public class AppWindows {
         WindowController windowController = getWindowByConfig(config);
         try {
             primaryStage.getIcons().add(new Image(getClass().getResource("/resources/icon/icon.jpg").toURI().toURL().toString()));
-        } catch (MalformedURLException e) {
-            throw new ExceptionFindIcon(getClass().getName());
-        } catch (URISyntaxException e) {
+        } catch (MalformedURLException | URISyntaxException e) {
             throw new ExceptionFindIcon(getClass().getName());
         }
         primaryStage.setScene(windowController.getScene());
