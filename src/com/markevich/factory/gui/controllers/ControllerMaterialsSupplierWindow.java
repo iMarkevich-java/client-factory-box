@@ -209,6 +209,10 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
     }
 
     private void clearSelect() {
+        sizeLabel.setText("");
+        unitLabel.setText("");
+        amountLabel.setText("");
+        priceLabel.setText("");
         imageImageView.setImage(null);
         materialNameSplitMenuButton.setText("");
         priceTextField.setText("");
