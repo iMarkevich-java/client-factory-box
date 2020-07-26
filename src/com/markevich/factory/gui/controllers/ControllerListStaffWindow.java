@@ -1,6 +1,7 @@
 package com.markevich.factory.gui.controllers;
 
 import businessObjectFactoryBox.Staff;
+import businessObjectFactoryBox.StaffDays;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
@@ -51,6 +52,7 @@ public class ControllerListStaffWindow implements DBWindow {
         if (checkConnect()) {
             Staff staff = tableAllStaff.getSelectionModel().getSelectedItem();
             if (!(staff == null)) {
+                ServiceFactory.StaffDayServices().delete(staff.getId());
                 ServiceFactory.StaffServices().delete(staff.getId());
                 reloadWindow();
             }

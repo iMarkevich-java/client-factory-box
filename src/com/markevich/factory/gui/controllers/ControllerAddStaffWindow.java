@@ -212,7 +212,7 @@ public class ControllerAddStaffWindow implements DBWindow {
         boolean bool = true;
 
         if (urlPhoto == null) {
-            photoLabel.setText("Please select date");
+            photoLabel.setText("Please select photo");
             bool = false;
         } else {
             photoLabel.setText("");

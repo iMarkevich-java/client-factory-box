@@ -6,13 +6,17 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.JSONWriter;
 
-public class DeleteStaffDay {
-    public void deleteStaffDays(String staffId) {
+public class DeleteDay {
+
+    protected DeleteDay() {
+    }
+
+    public void deleteDay(Day day) {
         Connect connect = new Connect();
         JSONWriter jsonWriter = connect.getJsonWriter();
         jsonWriter.object();
         buildHeadersSection(jsonWriter);
-        buildParameters(jsonWriter, staffId);
+        buildParameters(jsonWriter, day);
         jsonWriter.endObject();
         connect.flush();
         JSONTokener jsonTokener = connect.getJsonTokener();
@@ -27,15 +31,19 @@ public class DeleteStaffDay {
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("get-delete-staff-days");
+        jsonWriter.key("command-name").value("get-delete-staff-day");
         jsonWriter.endObject();
     }
 
-    private void buildParameters(JSONWriter jsonWriter, String staffId) {
+    private void buildParameters(JSONWriter jsonWriter, Day day) {
+        String dayStr = "";
+
+        dayStr = dayStr + day.getDay().toString() + "/" + day.getOrderName() + "/"
+                + day.getProductivity().toString() + "/" + day.getStaffId().toString() + "/";
 
         jsonWriter.key("parameters");
         jsonWriter.object();
-        jsonWriter.key("staff-id").value(staffId);
+        jsonWriter.key("days").value(dayStr);
         jsonWriter.endObject();
     }
 }

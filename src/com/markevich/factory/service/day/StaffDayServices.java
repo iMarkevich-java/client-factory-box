@@ -25,7 +25,6 @@ public class StaffDayServices implements Service<StaffDays> {
     public void save(StaffDays staffDay) {
         SaveStaffDay addStaffDay = new SaveStaffDay();
         addStaffDay.addStaffDay(staffDay);
-
     }
 
     @Override
@@ -36,11 +35,12 @@ public class StaffDayServices implements Service<StaffDays> {
 
     @Override
     public void delete(String id) {
-
+        DeleteStaffDay deleteStaffDay = new DeleteStaffDay();
+        deleteStaffDay.deleteStaffDays(id);
     }
 
     public void deleteDay(Day day) {
-        DeleteStaffDay deleteStaffDay = new DeleteStaffDay();
-        deleteStaffDay.deleteStaffDay(day);
+        DeleteDay deleteStaffDay = new DeleteDay();
+        deleteStaffDay.deleteDay(day);
     }
 }
