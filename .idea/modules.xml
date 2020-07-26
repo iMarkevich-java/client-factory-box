@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/factory-box.iml" filepath="$PROJECT_DIR$/factory-box.iml" />
+      <module fileurl="file://$PROJECT_DIR$/client-factory-box.iml" filepath="$PROJECT_DIR$/client-factory-box.iml" />
     </modules>
   </component>
 </project>
