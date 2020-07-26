@@ -74,8 +74,8 @@ public class ControllerStaffDayWindow implements DBWindow {
             }
             if (!(order == null)) {
                 order.deleteStage(day.getProductivity().toString());
+                ServiceFactory.OrderServices().update(order);
             }
-            ServiceFactory.OrderServices().update(order);
             reloadWindow();
         } else {
             showCheckConnectWindow();
@@ -170,14 +170,16 @@ public class ControllerStaffDayWindow implements DBWindow {
     @FXML
     private void setStaff() {
         if (checkConnect()) {
-            saveButton.setDisable(false);
-            deleteButton.setDisable(true);
             Staff staff = staffTableView.getSelectionModel().getSelectedItem();
-            staffNameLabel.setText(staff.getFirstName() + " " + staff.getLastName());
-            StaffDays staffDay = ServiceFactory.StaffDayServices().loadById(staff.getId());
-            observableListStaffDay = staffDayTableView.getItems();
-            observableListStaffDay.clear();
-            observableListStaffDay.addAll(staffDay.getListDay());
+            if(!(staff == null)) {
+                saveButton.setDisable(false);
+                deleteButton.setDisable(true);
+                staffNameLabel.setText(staff.getFirstName() + " " + staff.getLastName());
+                StaffDays staffDay = ServiceFactory.StaffDayServices().loadById(staff.getId());
+                observableListStaffDay = staffDayTableView.getItems();
+                observableListStaffDay.clear();
+                observableListStaffDay.addAll(staffDay.getListDay());
+            }
         } else {
             showCheckConnectWindow();
         }
@@ -186,10 +188,10 @@ public class ControllerStaffDayWindow implements DBWindow {
     @FXML
     private void setStaffDay() {
         if (checkConnect()) {
-            saveButton.setDisable(true);
-            deleteButton.setDisable(false);
             Day day = staffDayTableView.getSelectionModel().getSelectedItem();
             if (!(day == null)) {
+                saveButton.setDisable(true);
+                deleteButton.setDisable(false);
                 staffDayDatePicker.setValue(day.getDay());
                 productivityTextField.setText(day.getProductivity().toString());
                 Staff staff = ServiceFactory.StaffServices().loadById(day.getStaffId().toString());
@@ -204,8 +206,9 @@ public class ControllerStaffDayWindow implements DBWindow {
     @FXML
     private void setOrder() {
         Order order = orderTableView.getSelectionModel().getSelectedItem();
-        orderNameLabel.setText(order.getOrderName());
-
+        if(!(order == null)) {
+            orderNameLabel.setText(order.getOrderName());
+        }
     }
 
     private Boolean checkConnect() {
