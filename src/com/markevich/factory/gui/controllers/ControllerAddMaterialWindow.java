@@ -18,6 +18,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.util.List;
 
@@ -34,8 +35,8 @@ public class ControllerAddMaterialWindow implements DBWindow {
     private void showSupplierMaterialsWindow() {
         if (checkConnect()) {
             AppWindows appWindows = AppWindows.getInstance();
-            appWindows.showWindow(WindowConfigs.SupplierListWindow);
-            appWindows.reloadWindow(WindowConfigs.SupplierListWindow);
+            appWindows.showWindow(WindowConfigs.SupplierMaterialsWindow);
+            appWindows.reloadWindow(WindowConfigs.SupplierMaterialsWindow);
         } else {
             showCheckConnectWindow();
         }
@@ -171,13 +172,13 @@ public class ControllerAddMaterialWindow implements DBWindow {
         } else {
             materialLabel.setText("");
         }
-        if (priceTextField.getText().isEmpty()) {
+        if (!isNumber(priceTextField.getText())) {
             priceLabel.setText("Please enter price");
             bool = false;
         } else {
             priceLabel.setText("");
         }
-        if (amountTextField.getText().isEmpty()) {
+        if (!isNumber(amountTextField.getText())) {
             amountLabel.setText("Please enter amount");
             bool = false;
         } else {
@@ -202,6 +203,15 @@ public class ControllerAddMaterialWindow implements DBWindow {
             imageLabel.setText("");
         }
         return bool;
+    }
+
+    private Boolean isNumber(String strNumber) {
+        try {
+            new BigDecimal(strNumber);
+        } catch (NumberFormatException | NullPointerException nfe) {
+            return false;
+        }
+        return true;
     }
 
     private void clearSelect() {

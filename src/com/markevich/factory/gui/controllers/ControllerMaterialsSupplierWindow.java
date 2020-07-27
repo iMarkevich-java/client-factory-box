@@ -123,7 +123,7 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
             Material material = tableSupplierMaterials.getSelectionModel().getSelectedItem();
             if (!(material == null)) {
                 boolean bool = true;
-                if (isNumber(sizeTextField.getText())) {
+                if (sizeTextField.getText().isEmpty()) {
                     material.setSize(sizeTextField.getText());
                 } else {
                     sizeLabel.setText("Please enter size");
