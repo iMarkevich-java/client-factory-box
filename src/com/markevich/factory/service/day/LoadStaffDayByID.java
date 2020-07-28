@@ -3,6 +3,7 @@ package com.markevich.factory.service.day;
 import businessObjectFactoryBox.Day;
 import businessObjectFactoryBox.StaffDays;
 import com.markevich.factory.Connect;
+import com.markevich.factory.StatusMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -12,9 +13,7 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 
 public class LoadStaffDayByID {
-
-    protected LoadStaffDayByID() {
-    }
+    private final String command = "get-staff-day-by-id";
 
     public StaffDays loadStaffDayByID(String id) {
         Connect connect = new Connect();
@@ -28,8 +27,7 @@ public class LoadStaffDayByID {
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
         int statusCode = jsonObjectHeader.getInt("status-code");
-        String statusMessage = jsonObjectHeader.getString("status-message");
-        System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
+        StatusMessage.setStatusMessage(command  + " : " + jsonObjectHeader.getString("status-message"), statusCode);
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");
         StaffDays staffDay = new StaffDays();
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -68,7 +66,7 @@ public class LoadStaffDayByID {
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("get-staff-day-by-id");
+        jsonWriter.key("command-name").value(command);
         jsonWriter.endObject();
     }
 

@@ -2,6 +2,7 @@ package com.markevich.factory.gui.controllers;
 
 import businessObjectFactoryBox.User;
 import com.markevich.factory.ConnectDataUser;
+import com.markevich.factory.StatusMessage;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
@@ -9,10 +10,7 @@ import com.markevich.factory.gui.common.WindowConfigs;
 import com.markevich.factory.service.ServiceFactory;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class ControllerMainWindow implements DBWindow {
 
@@ -200,7 +198,11 @@ public class ControllerMainWindow implements DBWindow {
     public void setData(String data) {
     }
 
+    @FXML
+    private TextArea statusMessage;
+
     @Override
     public void reloadWindow() {
+        statusMessage.setText(StatusMessage.getStatusMessage());
     }
 }

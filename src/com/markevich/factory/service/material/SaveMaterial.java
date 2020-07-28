@@ -2,14 +2,13 @@ package com.markevich.factory.service.material;
 
 import businessObjectFactoryBox.Material;
 import com.markevich.factory.Connect;
+import com.markevich.factory.StatusMessage;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.JSONWriter;
 
 public class SaveMaterial {
-
-    protected SaveMaterial() {
-    }
+    private final String command = "save-material";
 
     public void saveMaterial(Material material) {
         Connect connect = new Connect();
@@ -23,15 +22,14 @@ public class SaveMaterial {
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
         int statusCode = jsonObjectHeader.getInt("status-code");
-        String statusMessage = jsonObjectHeader.getString("status-message");
-        System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
+        StatusMessage.setStatusMessage(command  + " : " + jsonObjectHeader.getString("status-message"), statusCode);
         connect.closeStream();
     }
 
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("save-material");
+        jsonWriter.key("command-name").value(command);
         jsonWriter.endObject();
     }
 

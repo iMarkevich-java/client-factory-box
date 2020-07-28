@@ -1,7 +1,9 @@
 package com.markevich.factory.exeptions;
 
+import com.markevich.factory.StatusMessage;
+
 public class ExceptionCloseSocket extends RuntimeException {
     public ExceptionCloseSocket(String className) {
-        System.out.println("Can't close socket " + className);
+        StatusMessage.setStatusMessage("Can't close socket " + className);
     }
 }

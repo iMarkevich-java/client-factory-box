@@ -1,11 +1,13 @@
 package com.markevich.factory.service.connectSocket;
 
 import com.markevich.factory.Connect;
+import com.markevich.factory.StatusMessage;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.JSONWriter;
 
 public class ConnectServer {
+    private final String command = "verification-connect";
 
     public ConnectServer() {
     }
@@ -24,7 +26,7 @@ public class ConnectServer {
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
         int statusCode = jsonObjectHeader.getInt("status-code");
         String statusMessage = jsonObjectHeader.getString("status-message");
-        System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
+        StatusMessage.setStatusMessage(command + " : " + statusMessage, statusCode);
         connect.closeStream();
         return statusMessage;
     }
@@ -32,7 +34,7 @@ public class ConnectServer {
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("verification-connect");
+        jsonWriter.key("command-name").value(command);
         jsonWriter.endObject();
     }
 

@@ -2,6 +2,7 @@ package com.markevich.factory.service.material;
 
 import businessObjectFactoryBox.Material;
 import com.markevich.factory.Connect;
+import com.markevich.factory.StatusMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -11,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoadAllMaterial {
-
-    protected LoadAllMaterial() {
-    }
+    private final String command = "get-all-material";
 
     public List<Material> loadAllMaterial() {
         Connect connect = new Connect();
@@ -28,8 +27,7 @@ public class LoadAllMaterial {
         List<Material> listMaterial = new ArrayList<>();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
         int statusCode = jsonObjectHeader.getInt("status-code");
-        String statusMessage = jsonObjectHeader.getString("status-message");
-        System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
+        StatusMessage.setStatusMessage(command  + " : " + jsonObjectHeader.getString("status-message"), statusCode);
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");
         for (int i = 0; i < jsonArray.length(); i++) {
             Material material = new Material();
@@ -51,7 +49,7 @@ public class LoadAllMaterial {
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("get-all-material");
+        jsonWriter.key("command-name").value(command);
         jsonWriter.endObject();
     }
 

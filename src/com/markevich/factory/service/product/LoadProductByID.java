@@ -2,12 +2,14 @@ package com.markevich.factory.service.product;
 
 import businessObjectFactoryBox.Product;
 import com.markevich.factory.Connect;
+import com.markevich.factory.StatusMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.JSONWriter;
 
 public class LoadProductByID {
+    private final String command = "get-product-by-id";
 
     protected LoadProductByID() {
     }
@@ -25,8 +27,7 @@ public class LoadProductByID {
         Product product = new Product();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
         int statusCode = jsonObjectHeader.getInt("status-code");
-        String statusMessage = jsonObjectHeader.getString("status-message");
-        System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
+        StatusMessage.setStatusMessage(command + " : " + jsonObjectHeader.getString("status-message"), statusCode);
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");
         JSONObject object = jsonArray.getJSONObject(0);
         product.setOrderId(object.getString("order-id"));
@@ -43,7 +44,7 @@ public class LoadProductByID {
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("get-product-by-id");
+        jsonWriter.key("command-name").value(command);
         jsonWriter.endObject();
     }
 

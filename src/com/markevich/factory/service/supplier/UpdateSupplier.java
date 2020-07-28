@@ -2,11 +2,13 @@ package com.markevich.factory.service.supplier;
 
 import businessObjectFactoryBox.Supplier;
 import com.markevich.factory.Connect;
+import com.markevich.factory.StatusMessage;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.JSONWriter;
 
 public class UpdateSupplier {
+    private final String command = "update-supplier";
 
     protected UpdateSupplier() {
     }
@@ -23,15 +25,14 @@ public class UpdateSupplier {
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
         int statusCode = jsonObjectHeader.getInt("status-code");
-        String statusMessage = jsonObjectHeader.getString("status-message");
-        System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
+        StatusMessage.setStatusMessage(command + " : " + jsonObjectHeader.getString("status-message"), statusCode);
         connect.closeStream();
     }
 
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("update-supplier");
+        jsonWriter.key("command-name").value(command);
         jsonWriter.endObject();
     }
 

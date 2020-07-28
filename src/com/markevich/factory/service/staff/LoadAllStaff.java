@@ -2,6 +2,7 @@ package com.markevich.factory.service.staff;
 
 import businessObjectFactoryBox.Staff;
 import com.markevich.factory.Connect;
+import com.markevich.factory.StatusMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoadAllStaff {
+    private final String command = "get-all-staff";
 
     public List<Staff> loadAllStaff() {
         Connect connect = new Connect();
@@ -25,8 +27,7 @@ public class LoadAllStaff {
         List<Staff> listStaff = new ArrayList<>();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
         int statusCode = jsonObjectHeader.getInt("status-code");
-        String statusMessage = jsonObjectHeader.getString("status-message");
-        System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
+        StatusMessage.setStatusMessage(command + " : " + jsonObjectHeader.getString("status-message"), statusCode);
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");
         for (int i = 0; i < jsonArray.length(); i++) {
             Staff staff = new Staff();
@@ -49,7 +50,7 @@ public class LoadAllStaff {
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("get-all-staff");
+        jsonWriter.key("command-name").value(command);
         jsonWriter.endObject();
     }
 

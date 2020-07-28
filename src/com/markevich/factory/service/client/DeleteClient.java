@@ -1,14 +1,13 @@
 package com.markevich.factory.service.client;
 
 import com.markevich.factory.Connect;
+import com.markevich.factory.StatusMessage;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.JSONWriter;
 
 public class DeleteClient {
-
-    protected DeleteClient() {
-    }
+    private final String command = "delete-client";
 
     public void deleteClient(String id) {
         Connect connect = new Connect();
@@ -22,15 +21,14 @@ public class DeleteClient {
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
         int statusCode = jsonObjectHeader.getInt("status-code");
-        String statusMessage = jsonObjectHeader.getString("status-message");
-        System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
+        StatusMessage.setStatusMessage(command + " : " + jsonObjectHeader.getString("status-message"), statusCode);
         connect.closeStream();
     }
 
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("delete-client");
+        jsonWriter.key("command-name").value(command);
         jsonWriter.endObject();
     }
 

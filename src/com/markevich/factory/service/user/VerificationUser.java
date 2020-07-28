@@ -3,11 +3,13 @@ package com.markevich.factory.service.user;
 import businessObjectFactoryBox.User;
 import com.markevich.factory.Connect;
 import com.markevich.factory.ConnectDataUser;
+import com.markevich.factory.StatusMessage;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.json.JSONWriter;
 
 public class VerificationUser {
+    private final String command = "verification-user";
 
     public VerificationUser() {
     }
@@ -28,16 +30,15 @@ public class VerificationUser {
         JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
         int statusCode = jsonObjectHeader.getInt("status-code");
-        String statusMessage = jsonObjectHeader.getString("status-message");
-        System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
+        StatusMessage.setStatusMessage(command + " : " + jsonObjectHeader.getString("status-message"), statusCode);
         connect.closeStream();
-        return statusMessage;
+        return jsonObjectHeader.getString("status-message");
     }
 
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("verification-user");
+        jsonWriter.key("command-name").value(command);
         jsonWriter.endObject();
     }
 

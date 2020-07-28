@@ -2,6 +2,7 @@ package com.markevich.factory.service.order;
 
 import businessObjectFactoryBox.Order;
 import com.markevich.factory.Connect;
+import com.markevich.factory.StatusMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -11,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoadAllOrder {
-
-    public LoadAllOrder() {
-    }
+    private final String command = "get-all-order";
 
     public List<Order> loadAllOrder() {
         Connect connect = new Connect();
@@ -28,9 +27,7 @@ public class LoadAllOrder {
         List<Order> listOrder = new ArrayList<>();
         JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
         int statusCode = jsonObjectHeader.getInt("status-code");
-        String statusMessage = jsonObjectHeader.getString("status-message");
-        System.out.println("Status code: " + statusCode + "\nStatus massage: " + statusMessage);
-
+        StatusMessage.setStatusMessage(command  + " : " + jsonObjectHeader.getString("status-message"), statusCode);
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");
         for (int i = 0; i < jsonArray.length(); i++) {
             Order order = new Order();
@@ -52,7 +49,7 @@ public class LoadAllOrder {
     private void buildHeadersSection(JSONWriter jsonWriter) {
         jsonWriter.key("headers");
         jsonWriter.object();
-        jsonWriter.key("command-name").value("get-all-order");
+        jsonWriter.key("command-name").value(command);
         jsonWriter.endObject();
     }
 
