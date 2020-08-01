@@ -22,7 +22,7 @@ public class Connect {
             try {
                 socketForStream = new Socket(ConnectDataUser.getIp(), ConnectDataUser.getPort());
             } catch (IOException ioException) {
-                ioException.printStackTrace();
+                StatusMessage.setStatusMessage("Server not find", 500);
             }
             return socketForStream;
         }
