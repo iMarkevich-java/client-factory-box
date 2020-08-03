@@ -1,52 +1,27 @@
 package com.markevich.factory.service.order;
 
 import businessObjectFactoryBox.Order;
-import com.markevich.factory.Connect;
-import com.markevich.factory.StatusMessage;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.json.JSONWriter;
+import com.markevich.factory.DataExchange;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpdateOrder {
-    private final String command = "update-order";
-
-    protected UpdateOrder() {
-    }
-
     public void updateOrder(Order order) {
-        Connect connect = new Connect();
-        JSONWriter jsonWriter = connect.getJsonWriter();
-        jsonWriter.object();
-        buildHeadersSection(jsonWriter);
-        buildParameters(jsonWriter, order);
-        jsonWriter.endObject();
-        connect.flush();
-        JSONTokener jsonTokener = connect.getJsonTokener();
-        JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
-        JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        int statusCode = jsonObjectHeader.getInt("status-code");
-        StatusMessage.setStatusMessage(command  + " : " + jsonObjectHeader.getString("status-message"), statusCode);
+        DataExchange connect = new DataExchange();
+        connect.setCommand("update-order");
+        Map<String, String> map = new HashMap<>();
+        map.put("id", order.getId());
+        map.put("size-order", order.getSizeOrder());
+        map.put("stage", order.getStage());
+        map.put("status", order.getStatus());
+        map.put("client-id", order.getClientId());
+        map.put("order-name", order.getOrderName());
+        map.put("order-term", order.getOrderTerm());
+        map.put("start-date", order.getStartDate());
+        connect.setMap(map);
+        connect.writer();
+        connect.read();
         connect.closeStream();
-    }
-
-    private void buildHeadersSection(JSONWriter jsonWriter) {
-        jsonWriter.key("headers");
-        jsonWriter.object();
-        jsonWriter.key("command-name").value(command);
-        jsonWriter.endObject();
-    }
-
-    private void buildParameters(JSONWriter jsonWriter, Order order) {
-        jsonWriter.key("parameters");
-        jsonWriter.object();
-        jsonWriter.key("id").value(order.getId());
-        jsonWriter.key("size-order").value(order.getSizeOrder());
-        jsonWriter.key("stage").value(order.getStage());
-        jsonWriter.key("status").value(order.getStatus());
-        jsonWriter.key("client-id").value(order.getClientId());
-        jsonWriter.key("order-name").value(order.getOrderName());
-        jsonWriter.key("order-term").value(order.getOrderTerm());
-        jsonWriter.key("start-date").value(order.getStartDate());
-        jsonWriter.endObject();
     }
 }

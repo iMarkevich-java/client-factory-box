@@ -2,12 +2,9 @@ package com.markevich.factory.service.day;
 
 import businessObjectFactoryBox.Day;
 import businessObjectFactoryBox.StaffDays;
-import com.markevich.factory.Connect;
-import com.markevich.factory.StatusMessage;
+import com.markevich.factory.DataExchange;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.json.JSONWriter;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
@@ -15,23 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoadAllStaffDay {
-    private final String command = "get-all-staff-day";
-
     public List<StaffDays> loadAllStaffDay() {
-        Connect connect = new Connect();
-        JSONWriter jsonWriter = connect.getJsonWriter();
-        jsonWriter.object();
-        buildHeadersSection(jsonWriter);
-        buildParameters(jsonWriter);
-        jsonWriter.endObject();
-        connect.flush();
-        JSONTokener jsonTokener = connect.getJsonTokener();
-        JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
-        List<StaffDays> listStaffDay = new ArrayList<>();
-        JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        int statusCode = jsonObjectHeader.getInt("status-code");
-        StatusMessage.setStatusMessage(command  + " : " + jsonObjectHeader.getString("status-message"), statusCode);
+        DataExchange connect = new DataExchange();
+        connect.setCommand("get-all-staff-day");
+        connect.writer();
+        JSONObject jsonObject = connect.read();
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");
+        List<StaffDays> listStaffDay = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             StaffDays staffDay = new StaffDays();
             JSONObject object = jsonArray.getJSONObject(i);
@@ -65,20 +52,6 @@ public class LoadAllStaffDay {
         }
         connect.closeStream();
         return listStaffDay;
-    }
-
-    private void buildHeadersSection(JSONWriter jsonWriter) {
-        jsonWriter.key("headers");
-        jsonWriter.object();
-        jsonWriter.key("command-name").value(command);
-        jsonWriter.endObject();
-    }
-
-    private void buildParameters(JSONWriter jsonWriter) {
-        jsonWriter.key("parameters");
-        jsonWriter.object();
-        jsonWriter.key("staff-day-list").value("");
-        jsonWriter.endObject();
     }
 }
 

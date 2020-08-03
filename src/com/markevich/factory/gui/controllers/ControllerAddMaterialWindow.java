@@ -25,6 +25,35 @@ import java.util.List;
 public class ControllerAddMaterialWindow implements DBWindow {
 
     @FXML
+    public TableView<Material> tableSupplierMaterials;
+    @FXML
+    private ImageView imageImageView;
+    private String urlImage;
+    private String supplierId;
+    @FXML
+    private TextField priceTextField;
+    @FXML
+    private TextField amountTextField;
+    @FXML
+    private TextField unitTextField;
+    @FXML
+    private TextField sizeTextField;
+    @FXML
+    private SplitMenuButton materialNameSplitMenuButton;
+    @FXML
+    private Label priceLabel;
+    @FXML
+    private Label amountLabel;
+    @FXML
+    private Label unitLabel;
+    @FXML
+    private Label sizeLabel;
+    @FXML
+    private Label imageLabel;
+    @FXML
+    private Label materialLabel;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -49,10 +78,6 @@ public class ControllerAddMaterialWindow implements DBWindow {
     }
 
     @FXML
-    private ImageView imageImageView;
-    private String urlImage;
-
-    @FXML
     private void findImage() {
         if (checkConnect()) {
             Stage stage = new Stage();
@@ -71,18 +96,6 @@ public class ControllerAddMaterialWindow implements DBWindow {
         }
 
     }
-
-    private String supplierId;
-    @FXML
-    private TextField priceTextField;
-    @FXML
-    private TextField amountTextField;
-    @FXML
-    private TextField unitTextField;
-    @FXML
-    private TextField sizeTextField;
-    @FXML
-    private SplitMenuButton materialNameSplitMenuButton;
 
     @FXML
     private void save() {
@@ -149,19 +162,6 @@ public class ControllerAddMaterialWindow implements DBWindow {
             showCheckConnectWindow();
         }
     }
-
-    @FXML
-    private Label priceLabel;
-    @FXML
-    private Label amountLabel;
-    @FXML
-    private Label unitLabel;
-    @FXML
-    private Label sizeLabel;
-    @FXML
-    private Label imageLabel;
-    @FXML
-    private Label materialLabel;
 
     private Boolean checkValueText() {
         boolean bool = true;
@@ -238,9 +238,6 @@ public class ControllerAddMaterialWindow implements DBWindow {
     public void setData(String supplierId) {
         this.supplierId = supplierId;
     }
-
-    @FXML
-    public TableView<Material> tableSupplierMaterials;
 
     @Override
     public void reloadWindow() {

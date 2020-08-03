@@ -18,6 +18,25 @@ import java.util.List;
 public class ControllerAddClientWindow implements DBWindow {
 
     @FXML
+    private TextField companyNameTextField;
+    @FXML
+    private TextArea legalDataTextField;
+    @FXML
+    private TextArea addressTextField;
+    @FXML
+    private TextField managerTextField;
+    @FXML
+    private Label companyNameLabel;
+    @FXML
+    private Label legalDataLabel;
+    @FXML
+    private Label addressLabel;
+    @FXML
+    private Label managerLabel;
+    @FXML
+    private TableView<Client> tableAllClient;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -42,15 +61,6 @@ public class ControllerAddClientWindow implements DBWindow {
     }
 
     @FXML
-    private TextField companyNameTextField;
-    @FXML
-    private TextArea legalDataTextField;
-    @FXML
-    private TextArea addressTextField;
-    @FXML
-    private TextField managerTextField;
-
-    @FXML
     private void save() {
         if (checkConnect()) {
             Client client = new Client();
@@ -67,15 +77,6 @@ public class ControllerAddClientWindow implements DBWindow {
             showCheckConnectWindow();
         }
     }
-
-    @FXML
-    private Label companyNameLabel;
-    @FXML
-    private Label legalDataLabel;
-    @FXML
-    private Label addressLabel;
-    @FXML
-    private Label managerLabel;
 
     private void clearSelectClient() {
         companyNameTextField.setText("");
@@ -122,9 +123,6 @@ public class ControllerAddClientWindow implements DBWindow {
         return ServiceFactory.ConnectService().connect().equals("OK");
     }
 
-    @FXML
-    private TableView<Client> tableAllClient;
-
     @Override
     public void setData(String data) {
     }
@@ -132,7 +130,7 @@ public class ControllerAddClientWindow implements DBWindow {
     @Override
     public void reloadWindow() {
         List<Client> listClient = ServiceFactory.ClientServices().loadAll();
-        if(!(listClient == null)) {
+        if (!(listClient == null)) {
             ObservableList<Client> observableList;
             observableList = tableAllClient.getItems();
             observableList.clear();

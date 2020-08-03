@@ -18,6 +18,38 @@ import java.util.List;
 public class ControllerOrdersClientWindow implements DBWindow {
 
     @FXML
+    private Button deleteButton;
+    @FXML
+    private Button orderProductButton;
+    @FXML
+    private Button updateButton;
+    @FXML
+    private Label startDateLabel;
+    @FXML
+    private TextField orderTermTextField;
+    @FXML
+    private Label endDateLabel;
+    @FXML
+    private TextField sizeOrderTextField;
+    @FXML
+    private TextField stageTextField;
+    @FXML
+    private Label orderNameLabel;
+    @FXML
+    private SplitMenuButton statusSplitMenuButton;
+    @FXML
+    private MenuItem waitMenuItem;
+    @FXML
+    private MenuItem startMenuItem;
+    @FXML
+    private MenuItem stopMenuItem;
+    @FXML
+    private MenuItem endMenuItem;
+    private String data;
+    @FXML
+    private TableView<Order> tableOrdersClient;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -64,23 +96,6 @@ public class ControllerOrdersClientWindow implements DBWindow {
     }
 
     @FXML
-    private Button deleteButton;
-    @FXML
-    private Button orderProductButton;
-    @FXML
-    private Button updateButton;
-    @FXML
-    private Label startDateLabel;
-    @FXML
-    private TextField orderTermTextField;
-    @FXML
-    private Label endDateLabel;
-    @FXML
-    private TextField sizeOrderTextField;
-    @FXML
-    private TextField stageTextField;
-
-    @FXML
     private void selectOrder() {
         Order order = tableOrdersClient.getSelectionModel().getSelectedItem();
         if (order != null) {
@@ -100,9 +115,6 @@ public class ControllerOrdersClientWindow implements DBWindow {
             endDateLabel.setText(startDate.plusDays(Long.parseLong(order.getOrderTerm())).toString());
         }
     }
-
-    @FXML
-    private Label orderNameLabel;
 
     @FXML
     private void update() {
@@ -143,17 +155,9 @@ public class ControllerOrdersClientWindow implements DBWindow {
     }
 
     @FXML
-    private SplitMenuButton statusSplitMenuButton;
-    @FXML
-    private MenuItem waitMenuItem;
-
-    @FXML
     private void checkStatusWait() {
         statusSplitMenuButton.setText(waitMenuItem.getText());
     }
-
-    @FXML
-    private MenuItem startMenuItem;
 
     @FXML
     private void checkStatusStart() {
@@ -161,15 +165,9 @@ public class ControllerOrdersClientWindow implements DBWindow {
     }
 
     @FXML
-    private MenuItem stopMenuItem;
-
-    @FXML
     private void checkStatusStop() {
         statusSplitMenuButton.setText(stopMenuItem.getText());
     }
-
-    @FXML
-    private MenuItem endMenuItem;
 
     @FXML
     private void checkStatusEnd() {
@@ -189,15 +187,10 @@ public class ControllerOrdersClientWindow implements DBWindow {
         return ServiceFactory.ConnectService().connect().equals("OK");
     }
 
-    private String data;
-
     @Override
     public void setData(String data) {
         this.data = data;
     }
-
-    @FXML
-    private TableView<Order> tableOrdersClient;
 
     @Override
     public void reloadWindow() {
@@ -213,7 +206,7 @@ public class ControllerOrdersClientWindow implements DBWindow {
             orderNameLabel.setText(client.getCompanyName());
             List<Order> listOrder = ServiceFactory.OrderServices().loadAll();
             ObservableList<Order> observableList;
-            if(!(listOrder == null)) {
+            if (!(listOrder == null)) {
                 observableList = tableOrdersClient.getItems();
                 observableList.clear();
                 for (Order order : listOrder) {

@@ -19,6 +19,25 @@ import java.util.List;
 public class ControllerAddSupplierWindow implements DBWindow {
 
     @FXML
+    private TextField companyNameTextField;
+    @FXML
+    private TextArea legalDataTextField;
+    @FXML
+    private TextArea addressTextField;
+    @FXML
+    private TextField managerTextField;
+    @FXML
+    private Label companyNameLabel;
+    @FXML
+    private Label legalDataLabel;
+    @FXML
+    private Label addressLabel;
+    @FXML
+    private Label managerLabel;
+    @FXML
+    private TableView<Supplier> tableAllClient;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -42,15 +61,6 @@ public class ControllerAddSupplierWindow implements DBWindow {
     }
 
     @FXML
-    private TextField companyNameTextField;
-    @FXML
-    private TextArea legalDataTextField;
-    @FXML
-    private TextArea addressTextField;
-    @FXML
-    private TextField managerTextField;
-
-    @FXML
     private void save() {
         if (checkConnect()) {
             Supplier supplier = new Supplier();
@@ -71,15 +81,6 @@ public class ControllerAddSupplierWindow implements DBWindow {
     private Boolean checkConnect() {
         return ServiceFactory.ConnectService().connect().equals("OK");
     }
-
-    @FXML
-    private Label companyNameLabel;
-    @FXML
-    private Label legalDataLabel;
-    @FXML
-    private Label addressLabel;
-    @FXML
-    private Label managerLabel;
 
     private void clearSelectSupplier() {
         companyNameLabel.setText("");
@@ -129,9 +130,6 @@ public class ControllerAddSupplierWindow implements DBWindow {
     @Override
     public void setData(String data) {
     }
-
-    @FXML
-    private TableView<Supplier> tableAllClient;
 
     @Override
     public void reloadWindow() {

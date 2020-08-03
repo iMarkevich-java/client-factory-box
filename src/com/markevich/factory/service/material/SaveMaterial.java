@@ -1,49 +1,27 @@
 package com.markevich.factory.service.material;
 
 import businessObjectFactoryBox.Material;
-import com.markevich.factory.Connect;
-import com.markevich.factory.StatusMessage;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.json.JSONWriter;
+import com.markevich.factory.DataExchange;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SaveMaterial {
-    private final String command = "save-material";
-
     public void saveMaterial(Material material) {
-        Connect connect = new Connect();
-        JSONWriter jsonWriter = connect.getJsonWriter();
-        jsonWriter.object();
-        buildHeadersSection(jsonWriter);
-        buildParameters(jsonWriter, material);
-        jsonWriter.endObject();
-        connect.flush();
-        JSONTokener jsonTokener = connect.getJsonTokener();
-        JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
-        JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        int statusCode = jsonObjectHeader.getInt("status-code");
-        StatusMessage.setStatusMessage(command  + " : " + jsonObjectHeader.getString("status-message"), statusCode);
+        DataExchange connect = new DataExchange();
+        connect.setCommand("save-material");
+        Map<String, String> map = new HashMap<>();
+        map.put("id", material.getId());
+        map.put("supplier-id", material.getSupplierId());
+        map.put("material-name", material.getMaterialName());
+        map.put("price", material.getPrice());
+        map.put("amount", material.getAmount());
+        map.put("unit", material.getUnit());
+        map.put("size", material.getSize());
+        map.put("path-image", material.getPathImage());
+        connect.setMap(map);
+        connect.writer();
+        connect.read();
         connect.closeStream();
-    }
-
-    private void buildHeadersSection(JSONWriter jsonWriter) {
-        jsonWriter.key("headers");
-        jsonWriter.object();
-        jsonWriter.key("command-name").value(command);
-        jsonWriter.endObject();
-    }
-
-    private void buildParameters(JSONWriter jsonWriter, Material material) {
-        jsonWriter.key("parameters");
-        jsonWriter.object();
-        jsonWriter.key("id").value(material.getId());
-        jsonWriter.key("supplier-id").value(material.getSupplierId());
-        jsonWriter.key("material-name").value(material.getMaterialName());
-        jsonWriter.key("price").value(material.getPrice());
-        jsonWriter.key("amount").value(material.getAmount());
-        jsonWriter.key("unit").value(material.getUnit());
-        jsonWriter.key("size").value(material.getSize());
-        jsonWriter.key("path-image").value(material.getPathImage());
-        jsonWriter.endObject();
     }
 }

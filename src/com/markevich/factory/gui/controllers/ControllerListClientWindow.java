@@ -10,14 +10,36 @@ import com.markevich.factory.gui.common.WindowConfigs;
 import com.markevich.factory.service.ServiceFactory;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.util.List;
 
 public class ControllerListClientWindow implements DBWindow {
+
+    @FXML
+    private Button updateButton;
+    @FXML
+    private Button ordersClientButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private TextField companyNameTextField;
+    @FXML
+    private TextArea legalDataTextField;
+    @FXML
+    private TextArea addressTextField;
+    @FXML
+    private TextField managerTextField;
+    @FXML
+    private Label companyNameLabel;
+    @FXML
+    private Label addressLabel;
+    @FXML
+    private Label managerLabel;
+    @FXML
+    private Label legalDataLabel;
+    @FXML
+    private TableView<Client> tableAllClient;
 
     @FXML
     private void showMainWindow() {
@@ -58,21 +80,6 @@ public class ControllerListClientWindow implements DBWindow {
     }
 
     @FXML
-    private Button updateButton;
-    @FXML
-    private Button ordersClientButton;
-    @FXML
-    private Button deleteButton;
-    @FXML
-    private TextField companyNameTextField;
-    @FXML
-    private TextArea legalDataTextField;
-    @FXML
-    private TextArea addressTextField;
-    @FXML
-    private TextField managerTextField;
-
-    @FXML
     private void selectClient() {
         Client client = tableAllClient.getSelectionModel().getSelectedItem();
         if (!(client == null)) {
@@ -94,24 +101,16 @@ public class ControllerListClientWindow implements DBWindow {
     @FXML
     private void update() {
         if (checkConnect()) {
-            Client client = tableAllClient.getSelectionModel().getSelectedItem();
-            if (!(client == null)) {
-                if (!(companyNameTextField.getText().isEmpty())) {
+            if (checkValueText()) {
+                Client client = tableAllClient.getSelectionModel().getSelectedItem();
+                if (!(client == null)) {
                     client.setCompanyName(companyNameTextField.getText());
-                }
-                if (!(addressTextField.getText().isEmpty())) {
                     client.setAddress(addressTextField.getText());
-
-                }
-                if (!(managerTextField.getText().isEmpty())) {
                     client.setManager(managerTextField.getText());
-
-                }
-                if (!(legalDataTextField.getText().isEmpty())) {
                     client.setLegalData(legalDataTextField.getText());
+                    ServiceFactory.ClientServices().update(client);
+                    reloadWindow();
                 }
-                ServiceFactory.ClientServices().update(client);
-                reloadWindow();
             }
         } else {
             showCheckConnectWindow();
@@ -151,6 +150,36 @@ public class ControllerListClientWindow implements DBWindow {
         }
     }
 
+    private Boolean checkValueText() {
+        boolean bool = true;
+
+        if (companyNameTextField.getText().isEmpty()) {
+            companyNameLabel.setText("Please enter text");
+            bool = false;
+        } else {
+            companyNameLabel.setText("");
+        }
+        if (addressTextField.getText().isEmpty()) {
+            addressLabel.setText("Please enter text");
+            bool = false;
+        } else {
+            addressLabel.setText("");
+        }
+        if (managerTextField.getText().isEmpty()) {
+            managerLabel.setText("Please enter text");
+            bool = false;
+        } else {
+            managerLabel.setText("");
+        }
+        if (legalDataTextField.getText().isEmpty()) {
+            legalDataLabel.setText("Please enter text");
+            bool = false;
+        } else {
+            legalDataLabel.setText("");
+        }
+        return bool;
+    }
+
     private Boolean checkConnect() {
         return ServiceFactory.ConnectService().connect().equals("OK");
     }
@@ -158,9 +187,6 @@ public class ControllerListClientWindow implements DBWindow {
     @Override
     public void setData(String data) {
     }
-
-    @FXML
-    private TableView<Client> tableAllClient;
 
     @Override
     public void reloadWindow() {
@@ -174,7 +200,7 @@ public class ControllerListClientWindow implements DBWindow {
             managerTextField.setDisable(true);
             ObservableList<Client> observableList;
             List<Client> listClient = ServiceFactory.ClientServices().loadAll();
-            if(!(listClient == null)) {
+            if (!(listClient == null)) {
                 observableList = tableAllClient.getItems();
                 observableList.clear();
                 clearSelectClient();

@@ -1,34 +1,21 @@
 package com.markevich.factory.service.staff;
 
 import businessObjectFactoryBox.Staff;
-import com.markevich.factory.Connect;
-import com.markevich.factory.StatusMessage;
+import com.markevich.factory.DataExchange;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.json.JSONWriter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LoadAllStaff {
-    private final String command = "get-all-staff";
-
     public List<Staff> loadAllStaff() {
-        Connect connect = new Connect();
-        JSONWriter jsonWriter = connect.getJsonWriter();
-        jsonWriter.object();
-        buildHeadersSection(jsonWriter);
-        buildParameters(jsonWriter);
-        jsonWriter.endObject();
-        connect.flush();
-        JSONTokener jsonTokener = connect.getJsonTokener();
-        JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
-        List<Staff> listStaff = new ArrayList<>();
-        JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        int statusCode = jsonObjectHeader.getInt("status-code");
-        StatusMessage.setStatusMessage(command + " : " + jsonObjectHeader.getString("status-message"), statusCode);
+        DataExchange connect = new DataExchange();
+        connect.setCommand("get-all-staff");
+        connect.writer();
+        JSONObject jsonObject = connect.read();
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");
+        List<Staff> listStaff = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             Staff staff = new Staff();
             JSONObject object = jsonArray.getJSONObject(i);
@@ -45,19 +32,5 @@ public class LoadAllStaff {
         }
         connect.closeStream();
         return listStaff;
-    }
-
-    private void buildHeadersSection(JSONWriter jsonWriter) {
-        jsonWriter.key("headers");
-        jsonWriter.object();
-        jsonWriter.key("command-name").value(command);
-        jsonWriter.endObject();
-    }
-
-    private void buildParameters(JSONWriter jsonWriter) {
-        jsonWriter.key("parameters");
-        jsonWriter.object();
-        jsonWriter.key("client-list").value("all");
-        jsonWriter.endObject();
     }
 }

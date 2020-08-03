@@ -7,7 +7,6 @@ import java.util.List;
 
 public class MaterialServices implements Service<Material> {
 
-
     @Override
     public List<Material> loadAll() {
         LoadAllMaterial loadAllMaterial = new LoadAllMaterial();

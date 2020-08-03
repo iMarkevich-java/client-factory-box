@@ -23,6 +23,58 @@ import java.util.List;
 public class ControllerAddStaffWindow implements DBWindow {
 
     @FXML
+    private ImageView photoImageView;
+    private String urlPhoto;
+    @FXML
+    private TextField lastNameTextField;
+    @FXML
+    private DatePicker dateOfBirthDatePicker;
+    @FXML
+    private TextField salaryTextField;
+    @FXML
+    private SplitMenuButton departmentSplitMenuButton;
+    @FXML
+    private TextArea addressTextField;
+    @FXML
+    private MenuItem manufacturingMenuItem;
+    @FXML
+    private MenuItem accountingMenuItem;
+    @FXML
+    private MenuItem technicalMenuItem;
+    @FXML
+    private MenuItem marketingMenuItem;
+    @FXML
+    private SplitMenuButton positionSplitMenuButton;
+    @FXML
+    private MenuItem directorMenuItem;
+    @FXML
+    private MenuItem accountantMenuItem;
+    @FXML
+    private MenuItem workerMenuItem;
+    @FXML
+    private MenuItem managerMenuItem;
+    @FXML
+    private Label photoLabel;
+    @FXML
+    private Label lastNameLabel;
+    @FXML
+    private TextField firstNameTextField;
+    @FXML
+    private Label firstNameLabel;
+    @FXML
+    private Label positionLabel;
+    @FXML
+    private Label datePickerLabel;
+    @FXML
+    private Label salaryLabel;
+    @FXML
+    private Label departmentLabel;
+    @FXML
+    private Label addressLabel;
+    @FXML
+    private TableView<Staff> tableAllStaff;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -46,10 +98,6 @@ public class ControllerAddStaffWindow implements DBWindow {
     }
 
     @FXML
-    private ImageView photoImageView;
-    private String urlPhoto;
-
-    @FXML
     private void findPhoto() {
         if (checkConnect()) {
             Stage stage = new Stage();
@@ -68,17 +116,6 @@ public class ControllerAddStaffWindow implements DBWindow {
         }
 
     }
-
-    @FXML
-    private TextField lastNameTextField;
-    @FXML
-    private DatePicker dateOfBirthDatePicker;
-    @FXML
-    private TextField salaryTextField;
-    @FXML
-    private SplitMenuButton departmentSplitMenuButton;
-    @FXML
-    private TextArea addressTextField;
 
     @FXML
     private void save() {
@@ -103,15 +140,9 @@ public class ControllerAddStaffWindow implements DBWindow {
     }
 
     @FXML
-    private MenuItem manufacturingMenuItem;
-
-    @FXML
     private void setManufacturing() {
         departmentSplitMenuButton.setText(manufacturingMenuItem.getText());
     }
-
-    @FXML
-    private MenuItem accountingMenuItem;
 
     @FXML
     private void setAccounting() {
@@ -119,15 +150,9 @@ public class ControllerAddStaffWindow implements DBWindow {
     }
 
     @FXML
-    private MenuItem technicalMenuItem;
-
-    @FXML
     private void setTechnical() {
         departmentSplitMenuButton.setText(technicalMenuItem.getText());
     }
-
-    @FXML
-    private MenuItem marketingMenuItem;
 
     @FXML
     private void setMarketing() {
@@ -135,18 +160,9 @@ public class ControllerAddStaffWindow implements DBWindow {
     }
 
     @FXML
-    private SplitMenuButton positionSplitMenuButton;
-
-    @FXML
-    private MenuItem directorMenuItem;
-
-    @FXML
     private void setDirector() {
         positionSplitMenuButton.setText(directorMenuItem.getText());
     }
-
-    @FXML
-    private MenuItem accountantMenuItem;
 
     @FXML
     private void setAccountant() {
@@ -154,40 +170,14 @@ public class ControllerAddStaffWindow implements DBWindow {
     }
 
     @FXML
-    private MenuItem workerMenuItem;
-
-    @FXML
     private void setWorker() {
         positionSplitMenuButton.setText(workerMenuItem.getText());
     }
 
     @FXML
-    private MenuItem managerMenuItem;
-
-    @FXML
     private void setManager() {
         positionSplitMenuButton.setText(managerMenuItem.getText());
     }
-
-    @FXML
-    private Label photoLabel;
-    @FXML
-    private Label lastNameLabel;
-    @FXML
-    private TextField firstNameTextField;
-    @FXML
-    private Label firstNameLabel;
-    @FXML
-    private Label positionLabel;
-    @FXML
-    private Label datePickerLabel;
-    @FXML
-    private Label salaryLabel;
-    @FXML
-    private Label departmentLabel;
-    @FXML
-    private Label addressLabel;
-
 
     private void clearSelectStaff() {
         photoImageView.setImage(null);
@@ -279,9 +269,6 @@ public class ControllerAddStaffWindow implements DBWindow {
     public void setData(String data) {
 
     }
-
-    @FXML
-    private TableView<Staff> tableAllStaff;
 
     @Override
     public void reloadWindow() {

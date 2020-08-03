@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<GridPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="1080.0" maxWidth="1920.0" minHeight="600.0" minWidth="800.0"
-          prefHeight="768.0"
+<GridPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="1080.0" maxWidth="1920.0" minHeight="600.0" minWidth="800.0" prefHeight="768.0"
           prefWidth="1020.0" xmlns="http://javafx.com/javafx/11.0.1"
           fx:controller="com.markevich.factory.gui.controllers.ControllerListClientWindow">
     <columnConstraints>
@@ -27,18 +26,17 @@
         </rowConstraints>
         <AnchorPane prefHeight="200.0" prefWidth="200.0">
             <TableView fx:id="tableAllClient" fixedCellSize="0.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                       minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectClient"
-                       prefHeight="431.0" prefWidth="509.0" AnchorPane.bottomAnchor="0.0"
-                       AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                       minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#selectClient" prefHeight="431.0"
+                       prefWidth="509.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                       AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <columns>
-                    <TableColumn maxWidth="266.4000762104988" minWidth="225.0"
-                                 prefWidth="255.1999939084053" text="Company name">
+                    <TableColumn maxWidth="266.4000762104988" minWidth="225.0" prefWidth="255.1999939084053"
+                                 text="Company name">
                         <cellValueFactory>
                             <PropertyValueFactory property="companyName"/>
                         </cellValueFactory>
                     </TableColumn>
-                    <TableColumn maxWidth="279.2000213623047" minWidth="211.0"
-                                 prefWidth="252.0" text="manager">
+                    <TableColumn maxWidth="279.2000213623047" minWidth="211.0" prefWidth="252.0" text="manager">
                         <cellValueFactory>
                             <PropertyValueFactory property="manager"/>
                         </cellValueFactory>
@@ -53,12 +51,12 @@
             <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                       AnchorPane.topAnchor="0.0">
                 <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0"
-                                       percentWidth="0.0" prefWidth="150.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0"
-                                       percentWidth="0.0" prefWidth="200.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="160.0" minWidth="160.0"
-                                       percentWidth="0.0" prefWidth="160.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" percentWidth="0.0"
+                                       prefWidth="150.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" percentWidth="0.0"
+                                       prefWidth="200.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="160.0" minWidth="160.0" percentWidth="0.0"
+                                       prefWidth="160.0"/>
                 </columnConstraints>
                 <rowConstraints>
                     <RowConstraints maxHeight="40.0" minHeight="40.0" percentHeight="0.0" prefHeight="40.0"
@@ -69,12 +67,12 @@
                                     vgrow="SOMETIMES"/>
                     <RowConstraints maxHeight="10.0" minHeight="10.0" percentHeight="0.0" prefHeight="10.0"
                                     vgrow="SOMETIMES"/>
-                    <RowConstraints maxHeight="130.0" minHeight="130.0" percentHeight="0.0"
-                                    prefHeight="130.0" vgrow="SOMETIMES"/>
+                    <RowConstraints maxHeight="130.0" minHeight="130.0" percentHeight="0.0" prefHeight="130.0"
+                                    vgrow="SOMETIMES"/>
                     <RowConstraints maxHeight="10.0" minHeight="10.0" percentHeight="0.0" prefHeight="10.0"
                                     vgrow="SOMETIMES"/>
-                    <RowConstraints maxHeight="130.0" minHeight="130.0" percentHeight="0.0"
-                                    prefHeight="130.0" vgrow="SOMETIMES"/>
+                    <RowConstraints maxHeight="130.0" minHeight="130.0" percentHeight="0.0" prefHeight="130.0"
+                                    vgrow="SOMETIMES"/>
                     <RowConstraints maxHeight="40.0" minHeight="40.0" percentHeight="0.0" prefHeight="40.0"
                                     vgrow="SOMETIMES"/>
                     <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES"/>
@@ -89,8 +87,7 @@
                     <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES"/>
                     <RowConstraints vgrow="SOMETIMES"/>
                 </rowConstraints>
-                <Label text="Legal data" GridPane.halignment="RIGHT" GridPane.rowIndex="6"
-                       GridPane.valignment="TOP">
+                <Label text="Legal data" GridPane.halignment="RIGHT" GridPane.rowIndex="6" GridPane.valignment="TOP">
                     <GridPane.margin>
                         <Insets right="20.0" top="5.0"/>
                     </GridPane.margin>
@@ -106,8 +103,7 @@
                         <Font name="Arial Bold Italic" size="18.0"/>
                     </font>
                 </Label>
-                <Label text="Address" GridPane.halignment="RIGHT" GridPane.rowIndex="4"
-                       GridPane.valignment="TOP">
+                <Label text="Address" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                     <GridPane.margin>
                         <Insets right="20.0"/>
                     </GridPane.margin>
@@ -124,100 +120,108 @@
                     </font>
                 </Label>
                 <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-                    <TextField fx:id="companyNameTextField" alignment="CENTER" layoutX="33.0"
-                               layoutY="8.0" AnchorPane.bottomAnchor="0.0"
-                               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    <TextField fx:id="companyNameTextField" alignment="CENTER" layoutX="33.0" layoutY="8.0"
+                               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                                AnchorPane.topAnchor="0.0">
                         <font>
                             <Font name="Arial" size="14.0"/>
                         </font>
                     </TextField>
                 </AnchorPane>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
-                            GridPane.rowIndex="2">
-                    <TextField fx:id="managerTextField" alignment="CENTER" layoutX="68.0"
-                               layoutY="11.0" AnchorPane.bottomAnchor="0.0"
-                               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <TextField fx:id="managerTextField" alignment="CENTER" layoutX="68.0" layoutY="11.0"
+                               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                                AnchorPane.topAnchor="0.0">
                         <font>
                             <Font name="Arial" size="14.0"/>
                         </font>
                     </TextField>
                 </AnchorPane>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
-                            GridPane.rowIndex="4">
-                    <TextArea fx:id="addressTextField" layoutX="14.0" layoutY="-28.0"
-                              prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
-                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                              AnchorPane.topAnchor="0.0"/>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <TextArea fx:id="addressTextField" layoutX="14.0" layoutY="-28.0" prefHeight="200.0"
+                              prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                 </AnchorPane>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
-                            GridPane.rowIndex="6">
-                    <TextArea fx:id="legalDataTextField" layoutX="34.0" layoutY="1.0"
-                              prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
-                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                              AnchorPane.topAnchor="0.0"/>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                    <TextArea fx:id="legalDataTextField" layoutX="34.0" layoutY="1.0" prefHeight="200.0"
+                              prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                 </AnchorPane>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
-                            GridPane.rowIndex="8">
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
                     <Button layoutX="3.0" layoutY="-10.0" maxHeight="-Infinity" maxWidth="-Infinity"
                             minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-                            onAction="#showAddClientWindow" prefHeight="30.0" prefWidth="85.0"
-                            text="Add client" AnchorPane.bottomAnchor="0.0"
-                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                            onAction="#showAddClientWindow" prefHeight="30.0" prefWidth="85.0" text="Add client"
+                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                             AnchorPane.topAnchor="0.0">
                         <font>
                             <Font name="Arial Bold Italic" size="18.0"/>
                         </font>
                     </Button>
                 </AnchorPane>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
-                            GridPane.rowIndex="10">
-                    <Button fx:id="ordersClientButton" disable="true" maxHeight="-Infinity"
-                            minHeight="-Infinity" mnemonicParsing="false"
-                            onAction="#showOrdersClientWindow" prefHeight="30.0"
-                            text="Orders client" AnchorPane.bottomAnchor="0.0"
-                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                    <Button fx:id="ordersClientButton" disable="true" maxHeight="-Infinity" minHeight="-Infinity"
+                            mnemonicParsing="false" onAction="#showOrdersClientWindow" prefHeight="30.0"
+                            text="Orders client" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <font>
+                            <Font name="Arial Bold Italic" size="18.0"/>
+                        </font>
+                    </Button>
+                </AnchorPane>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="12">
+                    <Button fx:id="updateButton" disable="true" layoutX="91.0" layoutY="21.0" maxHeight="-Infinity"
+                            maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                            onAction="#update" prefHeight="30.0" prefWidth="60.0" text="Edit"
+                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                             AnchorPane.topAnchor="0.0">
                         <font>
                             <Font name="Arial Bold Italic" size="18.0"/>
                         </font>
                     </Button>
                 </AnchorPane>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
-                            GridPane.rowIndex="12">
-                    <Button fx:id="updateButton" disable="true" layoutX="91.0" layoutY="21.0"
-                            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                            minWidth="-Infinity" mnemonicParsing="false" onAction="#update"
-                            prefHeight="30.0" prefWidth="60.0" text="Edit"
-                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="14">
+                    <Button fx:id="deleteButton" disable="true" layoutX="54.0" layoutY="5.0" maxHeight="-Infinity"
+                            maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                            onAction="#delete" prefHeight="30.0" prefWidth="65.0" text="Delete"
+                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                            AnchorPane.topAnchor="0.0">
                         <font>
                             <Font name="Arial Bold Italic" size="18.0"/>
                         </font>
                     </Button>
                 </AnchorPane>
-                <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
-                            GridPane.rowIndex="14">
-                    <Button fx:id="deleteButton" disable="true" layoutX="54.0" layoutY="5.0"
-                            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                            minWidth="-Infinity" mnemonicParsing="false" onAction="#delete"
-                            prefHeight="30.0" prefWidth="65.0" text="Delete"
-                            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                        <font>
-                            <Font name="Arial Bold Italic" size="18.0"/>
-                        </font>
-                    </Button>
-                </AnchorPane>
+                <Label fx:id="companyNameLabel" prefHeight="18.0" prefWidth="165.0" textFill="RED"
+                       GridPane.columnIndex="2">
+                    <GridPane.margin>
+                        <Insets left="5.0"/>
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="managerLabel" prefHeight="18.0" prefWidth="284.0" textFill="RED" GridPane.columnIndex="2"
+                       GridPane.rowIndex="2">
+                    <GridPane.margin>
+                        <Insets left="5.0"/>
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="addressLabel" prefHeight="18.0" prefWidth="216.0" textFill="RED" GridPane.columnIndex="2"
+                       GridPane.rowIndex="4" GridPane.valignment="TOP">
+                    <GridPane.margin>
+                        <Insets left="5.0"/>
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="legalDataLabel" prefHeight="18.0" prefWidth="224.0" textFill="RED"
+                       GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.valignment="TOP">
+                    <GridPane.margin>
+                        <Insets left="5.0"/>
+                    </GridPane.margin>
+                </Label>
             </GridPane>
         </AnchorPane>
     </GridPane>
     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-        <Button cacheShape="false" centerShape="false" focusTraversable="false"
-                maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                mnemonicParsing="false" onAction="#showMainWindow" prefHeight="26.0" prefWidth="116.0"
-                scaleShape="false" text="Main" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+        <Button cacheShape="false" centerShape="false" focusTraversable="false" maxHeight="-Infinity"
+                maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                onAction="#showMainWindow" prefHeight="26.0" prefWidth="116.0" scaleShape="false" text="Main"
+                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0"/>
     </AnchorPane>
 </GridPane>

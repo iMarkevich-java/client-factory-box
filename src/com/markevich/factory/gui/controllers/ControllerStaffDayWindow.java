@@ -19,6 +19,34 @@ import java.util.List;
 public class ControllerStaffDayWindow implements DBWindow {
 
     @FXML
+    private TextField productivityTextField;
+    @FXML
+    private TableView<Staff> staffTableView;
+    @FXML
+    private TableView<Order> orderTableView;
+    @FXML
+    private Label orderNameLabel;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Label staffNameLabel;
+    private ObservableList<Day> observableListStaffDay;
+    @FXML
+    private TableView<Day> staffDayTableView;
+    @FXML
+    private Label productivityLabel;
+    @FXML
+    private Label staffLabel;
+    @FXML
+    private Label orderLabel;
+    @FXML
+    private DatePicker staffDayDatePicker;
+    @FXML
+    private Label dateLabel;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -29,15 +57,6 @@ public class ControllerStaffDayWindow implements DBWindow {
         CheckConnect checkConnect = new CheckConnect();
         checkConnect.createWindow();
     }
-
-    @FXML
-    private TextField productivityTextField;
-    @FXML
-    private TableView<Staff> staffTableView;
-    @FXML
-    private TableView<Order> orderTableView;
-    @FXML
-    private Label orderNameLabel;
 
     @FXML
     private void save() {
@@ -82,16 +101,6 @@ public class ControllerStaffDayWindow implements DBWindow {
             showCheckConnectWindow();
         }
     }
-
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Button deleteButton;
-    @FXML
-    private Label staffNameLabel;
-    private ObservableList<Day> observableListStaffDay;
-    @FXML
-    private TableView<Day> staffDayTableView;
 
     @FXML
     private void setStaff() {
@@ -168,17 +177,6 @@ public class ControllerStaffDayWindow implements DBWindow {
         }
         return true;
     }
-
-    @FXML
-    private Label productivityLabel;
-    @FXML
-    private Label staffLabel;
-    @FXML
-    private Label orderLabel;
-    @FXML
-    private DatePicker staffDayDatePicker;
-    @FXML
-    private Label dateLabel;
 
     private Boolean checkValueText() {
         boolean bool = true;

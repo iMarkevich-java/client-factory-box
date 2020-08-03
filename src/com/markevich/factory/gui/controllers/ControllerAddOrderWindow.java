@@ -18,6 +18,40 @@ import java.util.List;
 public class ControllerAddOrderWindow implements DBWindow {
 
     @FXML
+    TableView<Order> tableAllOrder;
+    @FXML
+    private DatePicker dateDatePicker;
+    @FXML
+    private Label clientNameLabel;
+    @FXML
+    private TextField sizeOrderTextField;
+    @FXML
+    private TextField orderTermTextField;
+    @FXML
+    private SplitMenuButton statusSplitMenuButton;
+    @FXML
+    private TextField stageTextField;
+    @FXML
+    private MenuItem waitMenuItem;
+    @FXML
+    private MenuItem startMenuItem;
+    @FXML
+    private MenuItem stopMenuItem;
+    @FXML
+    private MenuItem endMenuItem;
+    @FXML
+    private Label dateLabel;
+    @FXML
+    private Label sizeOrderLabel;
+    @FXML
+    private Label orderTermLabel;
+    @FXML
+    private Label statusLabel;
+    @FXML
+    private Label stageLabel;
+    private String data;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -41,19 +75,6 @@ public class ControllerAddOrderWindow implements DBWindow {
         checkConnect.createWindow();
     }
 
-    @FXML
-    private DatePicker dateDatePicker;
-    @FXML
-    private Label clientNameLabel;
-    @FXML
-    private TextField sizeOrderTextField;
-    @FXML
-    private TextField orderTermTextField;
-    @FXML
-    private SplitMenuButton statusSplitMenuButton;
-    @FXML
-    private TextField stageTextField;
-
     public void save() {
         if (checkConnect()) {
             Order order = new Order();
@@ -75,15 +96,9 @@ public class ControllerAddOrderWindow implements DBWindow {
     }
 
     @FXML
-    private MenuItem waitMenuItem;
-
-    @FXML
     private void checkStatusWait() {
         statusSplitMenuButton.setText(waitMenuItem.getText());
     }
-
-    @FXML
-    private MenuItem startMenuItem;
 
     @FXML
     private void checkStatusStart() {
@@ -91,15 +106,9 @@ public class ControllerAddOrderWindow implements DBWindow {
     }
 
     @FXML
-    private MenuItem stopMenuItem;
-
-    @FXML
     private void checkStatusStop() {
         statusSplitMenuButton.setText(stopMenuItem.getText());
     }
-
-    @FXML
-    private MenuItem endMenuItem;
 
     @FXML
     private void checkStatusEnd() {
@@ -118,17 +127,6 @@ public class ControllerAddOrderWindow implements DBWindow {
     private Boolean checkConnect() {
         return ServiceFactory.ConnectService().connect().equals("OK");
     }
-
-    @FXML
-    private Label dateLabel;
-    @FXML
-    private Label sizeOrderLabel;
-    @FXML
-    private Label orderTermLabel;
-    @FXML
-    private Label statusLabel;
-    @FXML
-    private Label stageLabel;
 
     private void clearSelectOrder() {
         statusSplitMenuButton.setText("");
@@ -182,15 +180,10 @@ public class ControllerAddOrderWindow implements DBWindow {
         return bool;
     }
 
-    private String data;
-
     @Override
     public void setData(String data) {
         this.data = data;
     }
-
-    @FXML
-    TableView<Order> tableAllOrder;
 
     @Override
     public void reloadWindow() {

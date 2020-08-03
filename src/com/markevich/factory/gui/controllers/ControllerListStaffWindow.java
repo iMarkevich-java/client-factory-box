@@ -1,7 +1,6 @@
 package com.markevich.factory.gui.controllers;
 
 import businessObjectFactoryBox.Staff;
-import businessObjectFactoryBox.StaffDays;
 import com.markevich.factory.gui.common.AppWindows;
 import com.markevich.factory.gui.common.CheckConnect;
 import com.markevich.factory.gui.common.DBWindow;
@@ -22,6 +21,60 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class ControllerListStaffWindow implements DBWindow {
+
+    @FXML
+    private Button photoButton;
+    @FXML
+    private ImageView photoImageView;
+    private String urlPhoto;
+    @FXML
+    private TextField lastNameTextField;
+    @FXML
+    private TextField firstNameTextField;
+    @FXML
+    private SplitMenuButton positionSplitMenuButton;
+    @FXML
+    private DatePicker dateOfBirthDatePicker;
+    @FXML
+    private TextField salaryTextField;
+    @FXML
+    private TextArea addressTextField;
+    @FXML
+    private Label salaryLabel;
+    @FXML
+    private SplitMenuButton departmentSplitMenuButton;
+    @FXML
+    private MenuItem manufacturingMenuItem;
+    @FXML
+    private MenuItem accountingMenuItem;
+    @FXML
+    private MenuItem technicalMenuItem;
+    @FXML
+    private MenuItem marketingMenuItem;
+    @FXML
+    private MenuItem directorMenuItem;
+    @FXML
+    private MenuItem accountantMenuItem;
+    @FXML
+    private MenuItem workerMenuItem;
+    @FXML
+    private MenuItem managerMenuItem;
+    @FXML
+    private Label photoLabel;
+    @FXML
+    private Label lastNameLabel;
+    @FXML
+    private Label firstNameLabel;
+    @FXML
+    private Label positionLabel;
+    @FXML
+    private Label datePickerLabel;
+    @FXML
+    private Label departmentLabel;
+    @FXML
+    private Label addressLabel;
+    @FXML
+    private TableView<Staff> tableAllStaff;
 
     @FXML
     private void showMainWindow() {
@@ -63,12 +116,6 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
-    private Button photoButton;
-    @FXML
-    private ImageView photoImageView;
-    private String urlPhoto;
-
-    @FXML
     private void findPhoto() {
         if (checkConnect()) {
             Stage stage = new Stage();
@@ -88,22 +135,16 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
-    private TextField lastNameTextField;
+    private Button updateButton;
     @FXML
-    private TextField firstNameTextField;
-    @FXML
-    private SplitMenuButton positionSplitMenuButton;
-    @FXML
-    private DatePicker dateOfBirthDatePicker;
-    @FXML
-    private TextField salaryTextField;
-    @FXML
-    private TextArea addressTextField;
+    private Button deleteButton;
 
     @FXML
     public void selectStaff() {
         Staff staff = tableAllStaff.getSelectionModel().getSelectedItem();
-        if (staff != null) {
+        if (!(staff == null)) {
+            updateButton.setDisable(false);
+            deleteButton.setDisable(false);
             photoButton.setDisable(false);
             lastNameTextField.setDisable(false);
             firstNameTextField.setDisable(false);
@@ -123,9 +164,6 @@ public class ControllerListStaffWindow implements DBWindow {
             addressTextField.setText(staff.getAddress());
         }
     }
-
-    @FXML
-    private Label salaryLabel;
 
     @FXML
     private void update() {
@@ -169,17 +207,9 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
-    private SplitMenuButton departmentSplitMenuButton;
-    @FXML
-    private MenuItem manufacturingMenuItem;
-
-    @FXML
     private void setManufacturing() {
         departmentSplitMenuButton.setText(manufacturingMenuItem.getText());
     }
-
-    @FXML
-    private MenuItem accountingMenuItem;
 
     @FXML
     private void setAccounting() {
@@ -187,15 +217,9 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
-    private MenuItem technicalMenuItem;
-
-    @FXML
     private void setTechnical() {
         departmentSplitMenuButton.setText(technicalMenuItem.getText());
     }
-
-    @FXML
-    private MenuItem marketingMenuItem;
 
     @FXML
     private void setMarketing() {
@@ -203,15 +227,9 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
-    private MenuItem directorMenuItem;
-
-    @FXML
     private void setDirector() {
         positionSplitMenuButton.setText(directorMenuItem.getText());
     }
-
-    @FXML
-    private MenuItem accountantMenuItem;
 
     @FXML
     private void setAccountant() {
@@ -219,35 +237,14 @@ public class ControllerListStaffWindow implements DBWindow {
     }
 
     @FXML
-    private MenuItem workerMenuItem;
-
-    @FXML
     private void setWorker() {
         positionSplitMenuButton.setText(workerMenuItem.getText());
     }
 
     @FXML
-    private MenuItem managerMenuItem;
-
-    @FXML
     private void setManager() {
         positionSplitMenuButton.setText(managerMenuItem.getText());
     }
-
-    @FXML
-    private Label photoLabel;
-    @FXML
-    private Label lastNameLabel;
-    @FXML
-    private Label firstNameLabel;
-    @FXML
-    private Label positionLabel;
-    @FXML
-    private Label datePickerLabel;
-    @FXML
-    private Label departmentLabel;
-    @FXML
-    private Label addressLabel;
 
     private void clearSelectStaff() {
         urlPhoto = null;
@@ -287,12 +284,11 @@ public class ControllerListStaffWindow implements DBWindow {
 
     }
 
-    @FXML
-    private TableView<Staff> tableAllStaff;
-
     @Override
     public void reloadWindow() {
         if (checkConnect()) {
+            updateButton.setDisable(true);
+            deleteButton.setDisable(true);
             photoButton.setDisable(true);
             lastNameTextField.setDisable(true);
             firstNameTextField.setDisable(true);
@@ -303,7 +299,7 @@ public class ControllerListStaffWindow implements DBWindow {
             addressTextField.setDisable(true);
             List<Staff> listStaff = ServiceFactory.StaffServices().loadAll();
             ObservableList<Staff> observableList;
-            if(!(listStaff == null)) {
+            if (!(listStaff == null)) {
                 observableList = tableAllStaff.getItems();
                 observableList.clear();
                 clearSelectStaff();

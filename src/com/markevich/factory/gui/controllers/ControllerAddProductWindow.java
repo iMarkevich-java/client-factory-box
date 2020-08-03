@@ -25,6 +25,51 @@ import java.util.List;
 public class ControllerAddProductWindow implements DBWindow {
 
     @FXML
+    private SplitMenuButton sizeBoxSplitMenuButton;
+    @FXML
+    private SplitMenuButton materialSplitMenuButton;
+    @FXML
+    private ColorPicker colorColorPicker;
+    private String orderId;
+    private String urlImage;
+    private String urlTexture;
+    private FileChooser fileChooser;
+    @FXML
+    private Label productIdLabel;
+    @FXML
+    private ImageView imageImageView;
+    @FXML
+    private ImageView textureImageView;
+    @FXML
+    private ImageView textureProductImageView;
+    @FXML
+    private ImageView imageProductImageView;
+    @FXML
+    private Label sizeBoxLabel;
+    @FXML
+    private Label imageLabel;
+    @FXML
+    private Label textureLabel;
+    @FXML
+    private Label sizeBoxProductLabel;
+    @FXML
+    private Label dimensionTextField;
+    @FXML
+    private Label colorLabel;
+    @FXML
+    private Label colorProductLabel;
+    @FXML
+    private Label materialLabel;
+    @FXML
+    private Label materialProductLabel;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Label orderNameLabel;
+    @FXML
+    private Button updateButton;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -48,17 +93,6 @@ public class ControllerAddProductWindow implements DBWindow {
     }
 
     @FXML
-    private SplitMenuButton sizeBoxSplitMenuButton;
-    @FXML
-    private SplitMenuButton materialSplitMenuButton;
-    @FXML
-    private ColorPicker colorColorPicker;
-    private String orderId;
-    private String urlImage;
-    private String urlTexture;
-    private FileChooser fileChooser;
-
-    @FXML
     private void save() {
         if (checkConnect()) {
             if (checkValueText()) {
@@ -77,9 +111,6 @@ public class ControllerAddProductWindow implements DBWindow {
             showCheckConnectWindow();
         }
     }
-
-    @FXML
-    private Label productIdLabel;
 
     @FXML
     private void update() {
@@ -111,9 +142,6 @@ public class ControllerAddProductWindow implements DBWindow {
     }
 
     @FXML
-    private ImageView imageImageView;
-
-    @FXML
     private void findImage() {
         if (checkConnect()) {
             Stage stage = new Stage();
@@ -131,9 +159,6 @@ public class ControllerAddProductWindow implements DBWindow {
             showCheckConnectWindow();
         }
     }
-
-    @FXML
-    private ImageView textureImageView;
 
     @FXML
     private void findTexture() {
@@ -193,31 +218,6 @@ public class ControllerAddProductWindow implements DBWindow {
     private void getWoodMaterial() {
         materialSplitMenuButton.setText("wod");
     }
-
-    @FXML
-    private ImageView textureProductImageView;
-    @FXML
-    private ImageView imageProductImageView;
-    @FXML
-    private Label sizeBoxLabel;
-    @FXML
-    private Label imageLabel;
-    @FXML
-    private Label textureLabel;
-    @FXML
-    private Label sizeBoxProductLabel;
-    @FXML
-    private Label dimensionTextField;
-    @FXML
-    private Label colorLabel;
-    @FXML
-    private Label colorProductLabel;
-    @FXML
-    private Label materialLabel;
-    @FXML
-    private Label materialProductLabel;
-    @FXML
-    private Button saveButton;
 
     private void clearSelectOrder() {
         colorColorPicker.setValue(null);
@@ -284,11 +284,6 @@ public class ControllerAddProductWindow implements DBWindow {
     public void setData(String orderId) {
         this.orderId = orderId;
     }
-
-    @FXML
-    private Label orderNameLabel;
-    @FXML
-    private Button updateButton;
 
     @Override
     public void reloadWindow() {

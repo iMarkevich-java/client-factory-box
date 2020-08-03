@@ -1,50 +1,25 @@
 package com.markevich.factory.service.supplier;
 
 import businessObjectFactoryBox.Supplier;
-import com.markevich.factory.Connect;
-import com.markevich.factory.StatusMessage;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.json.JSONWriter;
+import com.markevich.factory.DataExchange;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SaveSupplier {
-    private final String command = "save-supplier";
-
-    protected SaveSupplier() {
-    }
-
     public void saveSupplier(Supplier supplier) {
-        Connect connect = new Connect();
-        JSONWriter jsonWriter = connect.getJsonWriter();
-        jsonWriter.object();
-        buildHeadersSection(jsonWriter);
-        buildParameters(jsonWriter, supplier);
-        jsonWriter.endObject();
-        connect.flush();
-        JSONTokener jsonTokener = connect.getJsonTokener();
-        JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
-        JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        int statusCode = jsonObjectHeader.getInt("status-code");
-        StatusMessage.setStatusMessage(command + " : " + jsonObjectHeader.getString("status-message"), statusCode);
+        DataExchange connect = new DataExchange();
+        connect.setCommand("save-supplier");
+        Map<String, String> map = new HashMap<>();
+        map.put("id", supplier.getId());
+        map.put("address", supplier.getAddress());
+        map.put("company-name", supplier.getCompanyName());
+        map.put("legal-data", supplier.getLegalData());
+        map.put("manager", supplier.getManager());
+        connect.setMap(map);
+        connect.writer();
+        connect.read();
         connect.closeStream();
-    }
-
-    private void buildHeadersSection(JSONWriter jsonWriter) {
-        jsonWriter.key("headers");
-        jsonWriter.object();
-        jsonWriter.key("command-name").value(command);
-        jsonWriter.endObject();
-    }
-
-    private void buildParameters(JSONWriter jsonWriter, Supplier supplier) {
-        jsonWriter.key("parameters");
-        jsonWriter.object();
-        jsonWriter.key("id").value(supplier.getId());
-        jsonWriter.key("address").value(supplier.getAddress());
-        jsonWriter.key("company-name").value(supplier.getCompanyName());
-        jsonWriter.key("legal-data").value(supplier.getLegalData());
-        jsonWriter.key("manager").value(supplier.getManager());
-        jsonWriter.endObject();
     }
 }
 

@@ -18,6 +18,41 @@ import java.util.List;
 public class ControllerAllDBWindow implements DBWindow {
 
     @FXML
+    private TextArea clientTextArea;
+    @FXML
+    private TableView<Client> clientTableView;
+    @FXML
+    private TextArea staffTextArea;
+    @FXML
+    private ImageView staffPhotoImageView;
+    @FXML
+    private TableView<Staff> staffTableView;
+    @FXML
+    private TableView<Day> staffDayTable;
+    @FXML
+    private TextArea orderTextArea;
+    @FXML
+    private TableView<Order> orderTableView;
+    @FXML
+    private TextArea materialTextArea;
+    @FXML
+    private ImageView materialImageView;
+    @FXML
+    private TableView<Material> materialsTableView;
+    @FXML
+    private ImageView imageProductImageView;
+    @FXML
+    private TextArea productTextArea;
+    @FXML
+    private ImageView textureProductImageView;
+    @FXML
+    private TableView<Product> productTableView;
+    @FXML
+    private TextArea supplierTextArea;
+    @FXML
+    private TableView<Supplier> supplierTableView;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -28,11 +63,6 @@ public class ControllerAllDBWindow implements DBWindow {
         CheckConnect checkConnect = new CheckConnect();
         checkConnect.createWindow();
     }
-
-    @FXML
-    private TextArea clientTextArea;
-    @FXML
-    private TableView<Client> clientTableView;
 
     @FXML
     private void clientChange() {
@@ -58,22 +88,20 @@ public class ControllerAllDBWindow implements DBWindow {
         }
     }
 
-    @FXML
-    private TextArea staffTextArea;
-    @FXML
-    private ImageView staffPhotoImageView;
-    @FXML
-    private TableView<Staff> staffTableView;
+    ObservableList<Day> observableListDay;
 
     @FXML
     private void staffChange() {
         if (checkConnect()) {
             staffTextArea.setText("");
             staffPhotoImageView.setImage(null);
+            if(!(observableListDay == null)) {
+                observableListDay.clear();
+            }
             ObservableList<Staff> observableList;
-            List<Staff> staffList = ServiceFactory.StaffServices().loadAll();
             observableList = staffTableView.getItems();
             observableList.clear();
+            List<Staff> staffList = ServiceFactory.StaffServices().loadAll();
             observableList.addAll(staffList);
         } else {
             showCheckConnectWindow();
@@ -81,28 +109,23 @@ public class ControllerAllDBWindow implements DBWindow {
     }
 
     @FXML
-    private TableView<Day> staffDayTable;
-
-    @FXML
     private void setStaff() {
-        Staff staff = staffTableView.getSelectionModel().getSelectedItem();
-        if (!(staff == null)) {
-            staffTextArea.setText(staff.toString());
-            staffPhotoImageView.setImage(new Image(staff.getPathPhoto()));
-            StaffDays staffDays = ServiceFactory.StaffDayServices().loadById(staff.getId());
-            if (!(staffDays == null)) {
-                ObservableList<Day> observableListDay = staffDayTable.getItems();
-                observableListDay.clear();
-                observableListDay.addAll(staffDays.getListDay());
+        if(checkConnect()) {
+            Staff staff = staffTableView.getSelectionModel().getSelectedItem();
+            if (!(staff == null)) {
+                staffTextArea.setText(staff.toString());
+                staffPhotoImageView.setImage(new Image(staff.getPathPhoto()));
+                StaffDays staffDays = ServiceFactory.StaffDayServices().loadById(staff.getId());
+                if (!(staffDays == null)) {
+                    observableListDay = staffDayTable.getItems();
+                    observableListDay.clear();
+                    observableListDay.addAll(staffDays.getListDay());
+                }
             }
+        }else {
+            showCheckConnectWindow();
         }
-
     }
-
-    @FXML
-    private TextArea orderTextArea;
-    @FXML
-    private TableView<Order> orderTableView;
 
     @FXML
     private void ordersChange() {
@@ -127,13 +150,6 @@ public class ControllerAllDBWindow implements DBWindow {
             orderTextArea.setText(order.toString());
         }
     }
-
-    @FXML
-    private TextArea materialTextArea;
-    @FXML
-    private ImageView materialImageView;
-    @FXML
-    private TableView<Material> materialsTableView;
 
     @FXML
     private void materialsChange() {
@@ -162,15 +178,6 @@ public class ControllerAllDBWindow implements DBWindow {
     }
 
     @FXML
-    private ImageView imageProductImageView;
-    @FXML
-    private TextArea productTextArea;
-    @FXML
-    private ImageView textureProductImageView;
-    @FXML
-    private TableView<Product> productTableView;
-
-    @FXML
     private void productChange() {
         if (checkConnect()) {
             imageProductImageView.setImage(null);
@@ -197,11 +204,6 @@ public class ControllerAllDBWindow implements DBWindow {
             textureProductImageView.setImage(new Image(product.getTexture()));
         }
     }
-
-    @FXML
-    private TextArea supplierTextArea;
-    @FXML
-    private TableView<Supplier> supplierTableView;
 
     @FXML
     private void supplierChange() {

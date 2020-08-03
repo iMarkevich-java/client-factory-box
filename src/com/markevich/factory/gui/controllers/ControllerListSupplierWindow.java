@@ -19,6 +19,23 @@ import java.util.List;
 public class ControllerListSupplierWindow implements DBWindow {
 
     @FXML
+    private Button updateSupplierButton;
+    @FXML
+    private Button deleteSupplierButton;
+    @FXML
+    private Button supplierMaterialsButton;
+    @FXML
+    private TextField companyNameTextField;
+    @FXML
+    private TextArea legalDataTextField;
+    @FXML
+    private TextArea addressTextField;
+    @FXML
+    private TextField managerTextField;
+    @FXML
+    private TableView<Supplier> tableAllSupplier;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -55,21 +72,6 @@ public class ControllerListSupplierWindow implements DBWindow {
         CheckConnect checkConnect = new CheckConnect();
         checkConnect.createWindow();
     }
-
-    @FXML
-    private Button updateSupplierButton;
-    @FXML
-    private Button deleteSupplierButton;
-    @FXML
-    private Button supplierMaterialsButton;
-    @FXML
-    private TextField companyNameTextField;
-    @FXML
-    private TextArea legalDataTextField;
-    @FXML
-    private TextArea addressTextField;
-    @FXML
-    private TextField managerTextField;
 
     public void selectClient() {
         Supplier supplier = tableAllSupplier.getSelectionModel().getSelectedItem();
@@ -146,9 +148,6 @@ public class ControllerListSupplierWindow implements DBWindow {
     public void setData(String data) {
     }
 
-    @FXML
-    private TableView<Supplier> tableAllSupplier;
-
     @Override
     public void reloadWindow() {
         if (checkConnect()) {
@@ -161,7 +160,7 @@ public class ControllerListSupplierWindow implements DBWindow {
             managerTextField.setDisable(true);
             List<Supplier> listSupplier = ServiceFactory.SupplierServices().loadAll();
             ObservableList<Supplier> observableList;
-            if(!(listSupplier == null)) {
+            if (!(listSupplier == null)) {
                 observableList = tableAllSupplier.getItems();
                 observableList.clear();
                 clearSelectClient();

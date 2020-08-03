@@ -22,6 +22,33 @@ import java.util.List;
 public class ControllerMaterialsSupplierWindow implements DBWindow {
 
     @FXML
+    private Button findImageButton;
+    @FXML
+    private ImageView imageImageView;
+    private String urlImage;
+    @FXML
+    private TextField sizeTextField;
+    @FXML
+    private TextField unitTextField;
+    @FXML
+    private TextField amountTextField;
+    @FXML
+    private TextField priceTextField;
+    @FXML
+    private Label unitLabel;
+    @FXML
+    private Label amountLabel;
+    @FXML
+    private Label priceLabel;
+    @FXML
+    private Label sizeLabel;
+    @FXML
+    private SplitMenuButton materialNameSplitMenuButton;
+    private String supplierId;
+    @FXML
+    private TableView<Material> tableSupplierMaterials;
+
+    @FXML
     private void showMainWindow() {
         AppWindows appWindows = AppWindows.getInstance();
         appWindows.showWindow(WindowConfigs.StartWindow);
@@ -55,12 +82,6 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
     }
 
     @FXML
-    private Button findImageButton;
-    @FXML
-    private ImageView imageImageView;
-    private String urlImage;
-
-    @FXML
     private void findImage() {
         if (checkConnect()) {
             Stage stage = new Stage();
@@ -78,15 +99,6 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
             showCheckConnectWindow();
         }
     }
-
-    @FXML
-    private TextField sizeTextField;
-    @FXML
-    private TextField unitTextField;
-    @FXML
-    private TextField amountTextField;
-    @FXML
-    private TextField priceTextField;
 
     @FXML
     private void selectMaterial() {
@@ -109,57 +121,19 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
     }
 
     @FXML
-    private Label unitLabel;
-    @FXML
-    private Label amountLabel;
-    @FXML
-    private Label priceLabel;
-    @FXML
-    private Label sizeLabel;
-
-    @FXML
     private void update() {
         if (checkConnect()) {
             Material material = tableSupplierMaterials.getSelectionModel().getSelectedItem();
-            if (!(material == null)) {
-                boolean bool = true;
-                if (sizeTextField.getText().isEmpty()) {
+            if (!(material == null) && checkValueText()) {
                     material.setSize(sizeTextField.getText());
-                } else {
-                    sizeLabel.setText("Please enter size");
-                    bool = false;
-                }
-                if (!unitTextField.getText().isEmpty()) {
                     material.setUnit(unitTextField.getText());
-                } else {
-                    unitLabel.setText("Please enter unit");
-                    bool = false;
-                }
-                if (isNumber(amountTextField.getText())) {
                     material.setAmount(amountTextField.getText());
-                } else {
-                    amountLabel.setText("Please enter number");
-                    bool = false;
-                }
-                if (isNumber(priceTextField.getText())) {
                     material.setPrice(priceTextField.getText());
-                } else {
-                    priceLabel.setText("Please enter number");
-                    bool = false;
-                }
-                if (!(materialNameSplitMenuButton.getText().isEmpty())) {
                     material.setMaterialName(materialNameSplitMenuButton.getText());
-                }
-                if (!(supplierId == null)) {
                     material.setSupplierId(supplierId);
-                }
-                if (!(urlImage == null)) {
                     material.setPathImage(urlImage);
-                }
-                if (bool) {
                     ServiceFactory.MaterialServices().update(material);
                     reloadWindow();
-                }
             }
         } else {
             showCheckConnectWindow();
@@ -167,7 +141,53 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
     }
 
     @FXML
-    private SplitMenuButton materialNameSplitMenuButton;
+    private Label materialNameLabel;
+    @FXML
+    private Label imageLabel;
+
+    private Boolean checkValueText() {
+        boolean bool = true;
+
+        if (sizeTextField.getText().isEmpty()) {
+            sizeLabel.setText("Please enter size");
+            bool = false;
+        } else {
+            sizeLabel.setText("");
+        }
+        if (unitTextField.getText().isEmpty()) {
+            unitLabel.setText("Please enter unit");
+            bool = false;
+        } else {
+            unitLabel.setText("");
+        }
+        if (!isNumber(amountTextField.getText())) {
+            amountLabel.setText("Please enter number");
+            bool = false;
+        } else {
+            amountLabel.setText("");
+        }
+        if (!isNumber(priceTextField.getText())) {
+            priceLabel.setText("Please enter number");
+            bool = false;
+        } else {
+            priceLabel.setText("");
+        }
+        if (materialNameSplitMenuButton.getText().isEmpty()) {
+            materialNameLabel.setText("Please enter number");
+            bool = false;
+        }else {
+            materialNameLabel.setText("");
+        }
+        if (supplierId == null) {
+            bool = false;
+        }
+        if (urlImage == null) {
+            imageLabel.setText("Please enter image");
+        }else {
+            imageLabel.setText("");
+        }
+        return bool;
+    }
 
     @FXML
     private void getLeatherMaterial() {
@@ -218,6 +238,8 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
         amountTextField.setText("");
         unitTextField.setText("");
         sizeTextField.setText("");
+        materialNameLabel.setText("");
+        imageLabel.setText("");
         urlImage = null;
     }
 
@@ -234,15 +256,10 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
         return ServiceFactory.ConnectService().connect().equals("OK");
     }
 
-    private String supplierId;
-
     @Override
     public void setData(String supplierId) {
         this.supplierId = supplierId;
     }
-
-    @FXML
-    private TableView<Material> tableSupplierMaterials;
 
     @Override
     public void reloadWindow() {
@@ -255,7 +272,7 @@ public class ControllerMaterialsSupplierWindow implements DBWindow {
             findImageButton.setDisable(true);
             List<Material> listMaterial = ServiceFactory.MaterialServices().loadAll();
             ObservableList<Material> observableList;
-            if(!(listMaterial == null)) {
+            if (!(listMaterial == null)) {
                 observableList = tableSupplierMaterials.getItems();
                 observableList.clear();
                 for (Material material : listMaterial) {

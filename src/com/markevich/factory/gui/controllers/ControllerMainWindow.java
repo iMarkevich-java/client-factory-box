@@ -14,6 +14,33 @@ import javafx.scene.control.*;
 
 public class ControllerMainWindow implements DBWindow {
 
+    @FXML
+    private Button allDataButton;
+    @FXML
+    private Button staffButton;
+    @FXML
+    private Button supplierButton;
+    @FXML
+    private Button clientButton;
+    @FXML
+    private Button staffDayButton;
+    @FXML
+    private Button enterUserButton;
+    @FXML
+    private TextField nameUserTextField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private Button connectButton;
+    @FXML
+    private TextField ipTextField;
+    @FXML
+    private TextField portTextField;
+    @FXML
+    private CheckBox localhostCheckBox;
+    @FXML
+    private TextArea statusMessage;
+
     public void showStaffDayWindow() {
         if (checkConnect()) {
             AppWindows appWindows = AppWindows.getInstance();
@@ -70,63 +97,43 @@ public class ControllerMainWindow implements DBWindow {
     }
 
     @FXML
-    private Button allDataButton;
-    @FXML
-    private Button staffButton;
-    @FXML
-    private Button supplierButton;
-    @FXML
-    private Button clientButton;
-    @FXML
-    private Button staffDayButton;
-    @FXML
-    private Button enterUserButton;
-    @FXML
-    private TextField nameUserTextField;
-    @FXML
-    private PasswordField passwordField;
-
-    @FXML
     private void enter() {
-        if (enterUserButton.getText().equals("Enter")) {
-            if (!(nameUserTextField.getText().isEmpty() || passwordField.getText().isEmpty())) {
-                User user = new User();
-                user.setName(nameUserTextField.getText());
-                user.setPassword(passwordField.getText());
-                String message = ServiceFactory.UserServices().verification(user);
-                if (message.equals("Authorized")) {
-                    enterUserButton.setText("Exit");
-                    nameUserTextField.setDisable(true);
-                    passwordField.setDisable(true);
-                    allDataButton.setDisable(false);
-                    staffButton.setDisable(false);
-                    clientButton.setDisable(false);
-                    supplierButton.setDisable(false);
-                    staffDayButton.setDisable(false);
-                    reloadWindow();
+        if (checkConnect()) {
+            if (enterUserButton.getText().equals("Enter")) {
+                if (!(nameUserTextField.getText().isEmpty() || passwordField.getText().isEmpty())) {
+                    User user = new User();
+                    user.setName(nameUserTextField.getText());
+                    user.setPassword(passwordField.getText());
+                    String message = ServiceFactory.UserServices().verification(user);
+                    if (message.equals("Authorized")) {
+                        enterUserButton.setText("Exit");
+                        nameUserTextField.setDisable(true);
+                        passwordField.setDisable(true);
+                        allDataButton.setDisable(false);
+                        staffButton.setDisable(false);
+                        clientButton.setDisable(false);
+                        supplierButton.setDisable(false);
+                        staffDayButton.setDisable(false);
+                        reloadWindow();
+                    }
                 }
+            } else {
+                nameUserTextField.setText("");
+                passwordField.setText("");
+                enterUserButton.setText("Enter");
+                nameUserTextField.setDisable(false);
+                passwordField.setDisable(false);
+                allDataButton.setDisable(true);
+                staffButton.setDisable(true);
+                clientButton.setDisable(true);
+                supplierButton.setDisable(true);
+                staffDayButton.setDisable(true);
+                reloadWindow();
             }
-        } else {
-            nameUserTextField.setText("");
-            passwordField.setText("");
-            enterUserButton.setText("Enter");
-            nameUserTextField.setDisable(false);
-            passwordField.setDisable(false);
-            allDataButton.setDisable(true);
-            staffButton.setDisable(true);
-            clientButton.setDisable(true);
-            supplierButton.setDisable(true);
-            staffDayButton.setDisable(true);
-            reloadWindow();
+        }else {
+            showCheckConnectWindow();
         }
     }
-
-    @FXML
-    private Button connectButton;
-    @FXML
-    private TextField ipTextField;
-    @FXML
-    private TextField portTextField;
 
     @FXML
     private void connect() {
@@ -145,15 +152,19 @@ public class ControllerMainWindow implements DBWindow {
             } else {
                 return;
             }
-            if (ServiceFactory.ConnectService().connect().equals("OK")) {
-                connectButton.setText("DISCONNECT");
-                localhostCheckBox.setDisable(true);
-                ipTextField.setDisable(true);
-                portTextField.setDisable(true);
-                enterUserButton.setDisable(false);
-                nameUserTextField.setDisable(false);
-                passwordField.setDisable(false);
-                reloadWindow();
+            if (checkConnect()) {
+                if (ServiceFactory.ConnectService().connect().equals("OK")) {
+                    connectButton.setText("DISCONNECT");
+                    localhostCheckBox.setDisable(true);
+                    ipTextField.setDisable(true);
+                    portTextField.setDisable(true);
+                    enterUserButton.setDisable(false);
+                    nameUserTextField.setDisable(false);
+                    passwordField.setDisable(false);
+                    reloadWindow();
+                }
+            } else {
+                showCheckConnectWindow();
             }
         } else {
             ConnectDataUser.setIp(null);
@@ -179,11 +190,7 @@ public class ControllerMainWindow implements DBWindow {
             staffDayButton.setDisable(true);
             reloadWindow();
         }
-
     }
-
-    @FXML
-    private CheckBox localhostCheckBox;
 
     private Boolean checkConnect() {
         return ServiceFactory.ConnectService().connect().equals("OK");
@@ -197,9 +204,6 @@ public class ControllerMainWindow implements DBWindow {
     @Override
     public void setData(String data) {
     }
-
-    @FXML
-    private TextArea statusMessage;
 
     @Override
     public void reloadWindow() {

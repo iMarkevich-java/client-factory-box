@@ -1,32 +1,22 @@
 package com.markevich.factory.service.staff;
 
 import businessObjectFactoryBox.Staff;
-import com.markevich.factory.Connect;
-import com.markevich.factory.StatusMessage;
+import com.markevich.factory.DataExchange;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.json.JSONWriter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoadStaffByID {
-    private final String command = "get-staff-by-id";
-
-    public LoadStaffByID() {
-    }
-
     public Staff loadStaffByID(String id) {
-        Connect connect = new Connect();
-        JSONWriter jsonWriter = connect.getJsonWriter();
-        jsonWriter.object();
-        buildHeadersSection(jsonWriter);
-        buildParameters(jsonWriter, id);
-        jsonWriter.endObject();
-        connect.flush();
-        JSONTokener jsonTokener = connect.getJsonTokener();
-        JSONObject jsonObject = (JSONObject) jsonTokener.nextValue();
-        JSONObject jsonObjectHeader = jsonObject.getJSONObject("headers");
-        int statusCode = jsonObjectHeader.getInt("status-code");
-        StatusMessage.setStatusMessage(command + " : " + jsonObjectHeader.getString("status-message"), statusCode);
+        DataExchange connect = new DataExchange();
+        connect.setCommand("get-staff-by-id");
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        connect.setMap(map);
+        connect.writer();
+        JSONObject jsonObject = connect.read();
         JSONArray jsonArray = jsonObject.getJSONArray("response-data");
         Staff staff = new Staff();
         JSONObject object = jsonArray.getJSONObject(0);
@@ -41,19 +31,5 @@ public class LoadStaffByID {
         staff.setPathPhoto(object.getString("path-photo"));
         connect.closeStream();
         return staff;
-    }
-
-    private void buildHeadersSection(JSONWriter jsonWriter) {
-        jsonWriter.key("headers");
-        jsonWriter.object();
-        jsonWriter.key("command-name").value(command);
-        jsonWriter.endObject();
-    }
-
-    private void buildParameters(JSONWriter jsonWriter, String id) {
-        jsonWriter.key("parameters");
-        jsonWriter.object();
-        jsonWriter.key("id").value(id);
-        jsonWriter.endObject();
     }
 }
